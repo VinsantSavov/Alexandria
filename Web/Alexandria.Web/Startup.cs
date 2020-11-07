@@ -61,11 +61,9 @@
 
             services.AddSingleton(this.configuration);
 
-            // Data repositories
-
             // Application services
-            services.AddTransient<AlexandriaDbContext>();
-            /*services.AddTransient<IMapper, Mapper>();
+
+            // services.AddTransient<IMapper, Mapper>();
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IAuthorsService, AuthorsService>();
             services.AddTransient<IAwardsService, AwardsService>();
@@ -74,7 +72,7 @@
             services.AddTransient<IEditionLanguagesService, EditionLanguagesService>();
             services.AddTransient<IGenresService, GenresService>();
             services.AddTransient<IReviewsService, ReviewsService>();
-            services.AddTransient<ITagsService, TagsService>();*/
+            services.AddTransient<ITagsService, TagsService>();
             services.AddTransient<IUsersService, UsersService>();
         }
 
