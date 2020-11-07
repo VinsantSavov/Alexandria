@@ -1,0 +1,37 @@
+﻿namespace Alexandria.Services.Books
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    public interface IBooksService
+    {
+        Task CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink);
+
+        Task<TModel> GetBookByIdAsync<TModel>(int id);
+
+        Task<TModel> GetBookByTitleAsync<TModel>(string title);
+
+        Task DeleteByIdAsync(int id);
+
+        Task EditBookAsync(int id, string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink);
+
+        Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId);
+
+        Task<IEnumerable<TModel>> GetLatestBooksByGenreIdAsync<TModel>(int genreId, int count = 0);
+
+        Task<IEnumerable<TModel>> GetAllBooksByTagIdAsync<TModel>(int tagId);
+
+        Task<IEnumerable<TModel>> GetTopRatedBooksAsync<TModel>(int count = 0);
+
+        Task<IEnumerable<TModel>> GetBooksWithMostAwardsAsync<TModel>(int count = 0);
+
+        Task<IEnumerable<TModel>> GetBooksWithMostReviewsAsync<TModel>(int count = 0);
+
+        Task<IEnumerable<TModel>> GetLatestPublishedBooksAsync<TModel>(int count = 0);
+
+        Task<IEnumerable<TModel>> GetAllBooksByAuthorIdAsync<TModel>(int authorId);
+
+        Task<IEnumerable<TModel>> GetBooksByAuthorIdAsync<TModel>(int authorId, int count = 0);
+    }
+}
