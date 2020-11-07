@@ -9,7 +9,7 @@
             return this.View();
         }
 
-        public IActionResult AllBooks()
+        public IActionResult All()
         {
             return this.View();
         }

@@ -4,5 +4,9 @@
 
     public class GenresController : Controller
     {
+        public IActionResult Details()
+        {
+            return this.View();
+        }
     }
 }
