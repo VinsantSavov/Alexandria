@@ -8,6 +8,7 @@
     using Alexandria.Data;
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
+    using Alexandria.Services.Mapping;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,10 @@
         private readonly AlexandriaDbContext db;
         private readonly IMapper mapper;
 
-        public BooksService(AlexandriaDbContext db, IMapper mapper)
+        public BooksService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = mapper;
+            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink)

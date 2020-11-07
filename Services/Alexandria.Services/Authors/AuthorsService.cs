@@ -8,6 +8,7 @@
     using Alexandria.Data;
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
+    using Alexandria.Services.Mapping;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,10 @@
         private readonly AlexandriaDbContext db;
         private readonly IMapper mapper;
 
-        public AuthorsService(AlexandriaDbContext db, IMapper mapper)
+        public AuthorsService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = mapper;
+            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateAuthorAsync(string firstName, string profilePicture, string lastName, int countryId, string biography, DateTime bornOn)

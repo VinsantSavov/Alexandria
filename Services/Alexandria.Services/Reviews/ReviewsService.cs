@@ -9,6 +9,7 @@
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Common;
+    using Alexandria.Services.Mapping;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
@@ -18,10 +19,10 @@
         private readonly AlexandriaDbContext db;
         private readonly IMapper mapper;
 
-        public ReviewsService(AlexandriaDbContext db, IMapper mapper)
+        public ReviewsService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = mapper;
+            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateReviewAsync(string description, int? parentId, string authorId, int bookId, ReadingProgress readingProgress, bool? thisEdition)

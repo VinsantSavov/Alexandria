@@ -7,6 +7,7 @@
     using Alexandria.Data;
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
+    using Alexandria.Services.Mapping;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,10 @@
         private readonly AlexandriaDbContext db;
         private readonly IMapper mapper;
 
-        public TagsService(AlexandriaDbContext db, IMapper mapper)
+        public TagsService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = mapper;
+            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateTagAsync(string name)
