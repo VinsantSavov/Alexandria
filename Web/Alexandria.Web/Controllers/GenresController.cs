@@ -8,5 +8,15 @@
         {
             return this.View();
         }
+
+        public IActionResult NewReleases()
+        {
+            return this.View();
+        }
+
+        public IActionResult TopRated()
+        {
+            return this.View();
+        }
     }
 }
