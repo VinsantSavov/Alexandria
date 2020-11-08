@@ -37,6 +37,7 @@
     <ProjectReference Include="..\..\Services\Alexandria.Services.Messaging\Alexandria.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\Alexandria.Services\Alexandria.Services.csproj" />
     <ProjectReference Include="..\Alexandria.Web.Infrastructure\Alexandria.Web.Infrastructure.csproj" />
+    <ProjectReference Include="..\Alexandria.Web.InputModels\Alexandria.Web.InputModels.csproj" />
     <ProjectReference Include="..\Alexandria.Web.ViewModels\Alexandria.Web.ViewModels.csproj" />
   </ItemGroup>
 

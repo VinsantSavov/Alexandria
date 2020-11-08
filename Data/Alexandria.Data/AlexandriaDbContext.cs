@@ -6,7 +6,11 @@
 
     public class AlexandriaDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
-        public AlexandriaDbContext(DbContextOptions options)
+        public AlexandriaDbContext()
+        {
+        }
+
+        public AlexandriaDbContext(DbContextOptions<AlexandriaDbContext> options)
             : base(options)
         {
         }
@@ -40,6 +44,13 @@
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Alexandria;Integrated Security=True");
+
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

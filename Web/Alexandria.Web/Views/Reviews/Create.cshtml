@@ -1,5 +1,9 @@
-﻿<div class="container">
-    <div class="row">
+﻿@using Alexandria.Web.InputModels.Reviews
+@using Alexandria.Data.Models.Enums
+@model ReviewsCreateInputModel
+
+<div class="container">
+    <div class="row mb-5">
         <div class="col-md-1"></div>
         <div class="col-md-1">
             <img src="/images/img2.jpg" class="d-block w-100" alt="slide1">
@@ -10,11 +14,38 @@
             <hr />
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-md-1"></div>
         <div class="col-md-8">
             <form method="post">
+                <div asp-validation-summary="All" class="alert-danger"></div>
 
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control" rows="10" placeholder="Write your review"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label asp-for="ReadingProgress"></label>
+                        <select asp-for="ReadingProgress" asp-items="@Html.GetEnumSelectList<ReadingProgress>()" class="form-control"></select>
+                        <span asp-validation-for="ReadingProgress" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 form-group">
+                        <label asp-for="ThisEdition"></label>
+                        <select asp-for="ThisEdition" class="form-control">
+                            <option>True</option>
+                            <option>False</option>
+                        </select>
+                        <span asp-validation-for="ThisEdition" class="text-danger"></span>
+                    </div>
+                </div>
+
+                
+
+                <input type="submit" class="btn"/>
             </form>
         </div>
     </div>

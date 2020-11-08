@@ -25,7 +25,7 @@
             this.mapper = AutoMapperConfig.MapperInstance;
         }
 
-        public async Task CreateReviewAsync(string description, int? parentId, string authorId, int bookId, ReadingProgress readingProgress, bool? thisEdition)
+        public async Task CreateReviewAsync(string description, int? parentId, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition)
         {
             var review = new Review
             {

@@ -31,7 +31,7 @@
 
         public ReadingProgress ReadingProgress { get; set; }
 
-        public bool? ThisEdition { get; set; }
+        public bool ThisEdition { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
 
