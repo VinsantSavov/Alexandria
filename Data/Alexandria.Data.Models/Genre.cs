@@ -5,7 +5,7 @@
 
     using Alexandria.Data.Common.Models;
 
-    public class Genre : IDeletableEntity
+    public class Genre : IDeletableEntity, IAuditInfo
     {
         public Genre()
         {
@@ -17,6 +17,10 @@
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
 
         public bool IsDeleted { get; set; }
 

@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Books\" />
+    <Folder Include="Genres\" />
     <Folder Include="Settings\" />
   </ItemGroup>
 

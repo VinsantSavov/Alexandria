@@ -7,7 +7,7 @@
             </div>
             <div class="col-md-6">
                 <h4 class="font-weight-bold text-capitalize text-left">7 Day Self publish How to Write a Book</h4>
-                <p class="text-left">by <a class="text-dark" href="#"><em>Daniel Kaheman</em></a></p>
+                <p class="text-left">by <a class="text-dark" asp-controller="Authors" asp-action="Details"><em>Daniel Kaheman</em></a></p>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>
                 <p>t has survived not only fiveLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and</p><hr />
                 <h6 class="font-weight-bold">Get a copy</h6>
@@ -60,7 +60,9 @@
                         345555
                     </dd>
                 </dl><hr>
-                <button class="btn " asp-controller="Reviews" asp-action="Create">Create review</button>
+                <form method="post">
+                    <button class="btn " asp-controller="Reviews" asp-action="Create">Create review</button>
+                </form>
             </div>
             <div class="col-md-2">
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>

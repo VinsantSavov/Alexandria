@@ -1,0 +1,70 @@
+﻿@using Alexandria.Web.InputModels.Users
+@using Alexandria.Data.Models.Enums
+@model UsersRegisterInputModel
+
+<section class="static about-sec">
+    <div class="container">
+        <h1 class="text-center">My Account / Register</h1>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and scrambled it to make a type specimen book. It has survived not only fiveLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem </p>
+        <div class="form">
+            <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-3"></div>
+
+                    <div class="col-md-6 float-left">
+                        <div asp-validation-summary="All"></div>
+
+                        <div class="form-group">
+                            <label asp-for="Username"></label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Gender"></label>
+                            <select asp-for="Gender" asp-items="@Html.GetEnumSelectList<GenderType>()" class="form-control"></select>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ProfilePicture"></label>
+                            <input asp-for="ProfilePicture" />
+                            <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Biography"></label>
+                            <textarea asp-for="Biography" class="form-control" rows="5" placeholder="(optional)"></textarea>
+                            <span asp-validation-for="Biography" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Email"></label>
+                            <input asp-for="Email" class="form-control" placeholder="email@example.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Password"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword"></label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn">Sign up</button>
+                                <h5 class="mt-2">Already registered? <a asp-controller="Users" asp-action="Login" class="text-warning">Login here</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

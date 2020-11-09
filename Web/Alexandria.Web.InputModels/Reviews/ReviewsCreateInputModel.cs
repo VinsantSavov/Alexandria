@@ -1,8 +1,9 @@
-﻿using Alexandria.Data.Models.Enums;
-using System.ComponentModel.DataAnnotations;
-
-namespace Alexandria.Web.InputModels.Reviews
+﻿namespace Alexandria.Web.InputModels.Reviews
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Alexandria.Data.Models.Enums;
+
     public class ReviewsCreateInputModel
     {
         [Display(Name = "What did you think?")]

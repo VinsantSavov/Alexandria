@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,8 @@
             var seeders = new List<ISeeder>
                           {
                               new RolesSeeder(),
+                              new TagsSeeder(),
+                              new GenresSeeder(),
                           };
 
             foreach (var seeder in seeders)

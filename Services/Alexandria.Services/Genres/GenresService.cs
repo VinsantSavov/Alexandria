@@ -29,6 +29,7 @@
             {
                 Name = name,
                 Description = description,
+                CreatedOn = DateTime.UtcNow,
             };
 
             await this.db.Genres.AddAsync(genre);
