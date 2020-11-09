@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Alexandria.Web.InputModels.Users
+﻿namespace Alexandria.Web.InputModels.Users
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class UsersLoginInputModel
     {
         public string Username { get; set; }

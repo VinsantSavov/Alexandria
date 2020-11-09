@@ -1,8 +1,9 @@
 ﻿namespace Alexandria.Web.InputModels.Users
 {
+    using System.ComponentModel.DataAnnotations;
+
     using Alexandria.Data.Models.Enums;
     using Microsoft.AspNetCore.Http;
-    using System.ComponentModel.DataAnnotations;
 
     public class UsersRegisterInputModel
     {
