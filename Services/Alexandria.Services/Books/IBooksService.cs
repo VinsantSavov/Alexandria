@@ -18,6 +18,10 @@
 
         Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId);
 
+        Task<IEnumerable<TModel>> NewRealesedBooksByGenreId<TModel>(int genreId, int count = 0);
+
+        Task<IEnumerable<TModel>> TopRatedBooksByGenreId<TModel>(int genreId, int count = 0);
+
         Task<IEnumerable<TModel>> GetLatestBooksByGenreIdAsync<TModel>(int genreId, int count = 0);
 
         Task<IEnumerable<TModel>> GetAllBooksByTagIdAsync<TModel>(int tagId);

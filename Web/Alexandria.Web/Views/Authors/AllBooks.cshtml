@@ -1,11 +1,4 @@
-﻿<style>
-    .img-fluid {
-        display: block;
-        max-width: 100%;
-        height: auto;
-    }
-</style>
-<section class="product-sec">
+﻿<section class="product-sec">
     <div class="container">
         <div class="row">
             <div class="col-1"></div>
@@ -23,61 +16,80 @@
                     </div>
                 </div>
                 <hr />
-                <div class="row d-flex mb-0">
-                    <div class="col-md-2">
-                        <img src="/images/img2.jpg" class="h-50" alt="slide1">
-                    </div>
-                    <div class="col-md-2">
-                        <p class="text-left font-weight-bold">Title</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Average rating - 6.6</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Ratings - 334</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Reviews - 444</p>
-                    </div>
-                </div>
-                <hr />
-                <hr />
-                <div class="row d-flex mb-0">
-                    <div class="col-md-2">
-                        <img src="/images/img2.jpg" class="h-50" alt="slide1">
-                    </div>
-                    <div class="col-md-2">
-                        <p class="text-left font-weight-bold">Title</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Average rating - 6.6</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Ratings - 334</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Reviews - 444</p>
-                    </div>
-                </div>
-                <hr />
-                <div class="row">
-                    <div class="col-md-2">
-                        <img src="/images/img2.jpg" class="h-50" alt="slide1">
-                    </div>
-                    <div class="col-md-2">
-                        <p class="text-left font-weight-bold">Title</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Average rating - 6.6</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Ratings - 334</p>
-                    </div>
-                    <div class="col-md-2">
-                        <p class="font-italic">Reviews - 444</p>
-                    </div>
-                </div>
-                <hr />
+                <ul class="list-unstyled">
+                    <li class="media my-5">
+                        <img class="mr-3" src="/images/img2.jpg" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1">Title</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        Genres:
+                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
+                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
+                                    </p>
+                                    <p>Tags: tag, tag, tag</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Avg.Rating: 555</p>
+                                    <p>Reviews: 444</p>
+                                </div>
+                            </div>
+                            <p>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                <a asp-controller="Books" asp-action="Details" class="text-warning font-italic">Read More</a>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="media my-5">
+                        <img class="mr-3" src="/images/img2.jpg" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1">Title</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        Genres:
+                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
+                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
+                                    </p>
+                                    <p>Tags: tag, tag, tag</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Avg.Rating: 555</p>
+                                    <p>Reviews: 444</p>
+                                </div>
+                            </div>
+                            <p>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                <a asp-controller="Books" asp-action="Details" class="text-warning font-italic">Read More</a>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="media">
+                        <img class="mr-3" src="/images/img2.jpg" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1">Title</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        Genres:
+                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
+                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
+                                    </p>
+                                    <p>Tags: tag, tag, tag</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Avg.Rating: 555</p>
+                                    <p>Reviews: 444</p>
+                                </div>
+                            </div>
+                            <p>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                <a asp-controller="Books" asp-action="Details" class="text-warning font-italic">Read More</a>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
