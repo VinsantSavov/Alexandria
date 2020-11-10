@@ -2,7 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class GenresDetailsViewModel
+    using Alexandria.Data.Models;
+    using Alexandria.Services.Mapping;
+
+    public class GenresDetailsViewModel : IMapFrom<Genre>
     {
         public int Id { get; set; }
 

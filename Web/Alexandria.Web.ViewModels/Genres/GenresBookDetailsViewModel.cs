@@ -1,8 +1,13 @@
 ﻿namespace Alexandria.Web.ViewModels.Genres
 {
     using System.Collections.Generic;
+    using System.Linq;
 
-    public class GenresBookDetailsViewModel
+    using Alexandria.Data.Models;
+    using Alexandria.Services.Mapping;
+    using AutoMapper;
+
+    public class GenresBookDetailsViewModel : IMapFrom<Book>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -10,6 +15,16 @@
 
         public string Author { get; set; }
 
+        public string PictureURL { get; set; }
+
         public IEnumerable<string> Tags { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Book, GenresBookDetailsViewModel>()
+                         .ForMember(
+                            dest => dest.Tags,
+                            b => b.MapFrom(src => src.Tags.Select(t => t.Tag.Name)));
+        }
     }
 }
