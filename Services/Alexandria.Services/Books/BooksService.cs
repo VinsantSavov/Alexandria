@@ -9,19 +9,15 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class BooksService : IBooksService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public BooksService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink)
@@ -85,7 +81,7 @@
         public async Task<TModel> GetBookByIdAsync<TModel>(int id)
         {
             var book = await this.db.Books.Where(b => b.Id == id && !b.IsDeleted)
-                                    .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                    .To<TModel>()
                                     .FirstOrDefaultAsync();
 
             if (book == null)
@@ -105,7 +101,7 @@
                 books = books.Where(b => b.Title.Contains(title));
             }
 
-            return await books.ProjectTo<TModel>(this.mapper.ConfigurationProvider).FirstOrDefaultAsync();
+            return await books.To<TModel>().FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId)
@@ -116,7 +112,7 @@
                                                               .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
                                      .ThenBy(b => b.Title)
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .ToListAsync();
 
             return books;
@@ -158,7 +154,7 @@
                                                               .Average(r => r.Rate))
                                      .ThenBy(b => b.Title)
                                      .Take(count)
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .ToListAsync();
 
             return books;
@@ -171,7 +167,7 @@
                                      .OrderByDescending(b => b.Ratings
                                                               .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .ToListAsync();
 
             return books;
@@ -187,7 +183,7 @@
                                                              .Average(r => r.Rate))
                                      .ThenBy(b => b.Title)
                                      .Take(count)
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .ToListAsync();
 
             return books;
@@ -202,7 +198,7 @@
                                                               .Average(r => r.Rate))
                                      .ThenByDescending(b => b.Reviews.Count)
                                      .ThenBy(b => b.Title)
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .ToListAsync();
 
             return books;
@@ -215,7 +211,7 @@
                                      .OrderByDescending(b => b.Ratings
                                                               .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .Take(count)
                                      .ToListAsync();
 
@@ -229,7 +225,7 @@
                                      .OrderByDescending(b => b.Awards.Count)
                                      .ThenBy(b => b.Title)
                                      .Take(count)
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .ToListAsync();
 
             return books;
@@ -242,7 +238,7 @@
                                      .OrderByDescending(b => b.Reviews.Count)
                                      .ThenBy(b => b.Title)
                                      .Take(count)
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .ToListAsync();
 
             return books;
@@ -252,7 +248,7 @@
         {
             var books = await this.db.Books.AsNoTracking()
                                      .Where(b => !b.IsDeleted)
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .Take(count)
                                      .ToListAsync();
 

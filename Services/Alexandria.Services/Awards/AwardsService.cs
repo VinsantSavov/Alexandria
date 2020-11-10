@@ -9,19 +9,15 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class AwardsService : IAwardsService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public AwardsService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateAwardAsync(string name)
@@ -54,7 +50,7 @@
             var awards = await this.db.Awards.AsNoTracking()
                                        .Where(a => !a.IsDeleted)
                                        .OrderBy(a => a.Name)
-                                       .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                       .To<TModel>()
                                        .ToListAsync();
 
             return awards;

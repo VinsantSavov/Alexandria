@@ -6,19 +6,15 @@
     using Alexandria.Data;
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class CountriesService : ICountriesService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public CountriesService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateCountryAsync(string name)
@@ -35,7 +31,7 @@
         public async Task<TModel> GetCountryByIdAsync<TModel>(int countryId)
         {
             var country = await this.db.Countries.Where(c => c.Id == countryId)
-                                           .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                           .To<TModel>()
                                            .FirstOrDefaultAsync();
 
             return country;

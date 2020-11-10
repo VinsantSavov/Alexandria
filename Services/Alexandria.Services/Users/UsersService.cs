@@ -8,19 +8,15 @@
     using Alexandria.Data;
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class UsersService : IUsersService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public UsersService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task DeleteUserAsync(string id)
@@ -45,7 +41,7 @@
         {
             var users = await this.db.Users.AsNoTracking()
                                      .Where(u => !u.IsDeleted)
-                                     .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                     .To<TModel>()
                                      .ToListAsync();
 
             return users;
@@ -54,7 +50,7 @@
         public async Task<TModel> GetUserByIdAsync<TModel>(string id)
         {
             var user = await this.db.Users.Where(u => u.Id == id && !u.IsDeleted)
-                                    .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                    .To<TModel>()
                                     .FirstOrDefaultAsync();
 
             return user;

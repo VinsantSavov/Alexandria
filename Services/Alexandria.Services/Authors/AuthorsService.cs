@@ -9,19 +9,15 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class AuthorsService : IAuthorsService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public AuthorsService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateAuthorAsync(string firstName, string profilePicture, string lastName, int countryId, string biography, DateTime bornOn)
@@ -43,7 +39,7 @@
         public async Task<TModel> GetAuthorByIdAsync<TModel>(int id)
         {
             var author = await this.db.Authors.Where(a => a.Id == id && !a.IsDeleted)
-                                            .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                            .To<TModel>()
                                             .FirstOrDefaultAsync();
 
             return author;
@@ -85,7 +81,7 @@
                                          .Where(a => !a.IsDeleted)
                                          .OrderBy(a => a.FirstName)
                                          .ThenBy(a => a.LastName)
-                                         .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                         .To<TModel>()
                                          .ToListAsync();
 
             return authors;
@@ -101,7 +97,7 @@
                                          .ThenBy(a => a.FirstName)
                                          .ThenBy(a => a.LastName)
                                          .Take(count)
-                                         .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                         .To<TModel>()
                                          .ToListAsync();
 
             return authors;

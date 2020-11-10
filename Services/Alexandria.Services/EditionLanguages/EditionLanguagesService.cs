@@ -6,19 +6,15 @@
     using Alexandria.Data;
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class EditionLanguagesService : IEditionLanguagesService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public EditionLanguagesService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateEditionLanguageAsync(string name)
@@ -35,7 +31,7 @@
         public async Task<TModel> GetEditionLanguageByIdAsync<TModel>(int id)
         {
             var language = await this.db.EditionLanguages.Where(l => l.Id == id)
-                                                   .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                                   .To<TModel>()
                                                    .FirstOrDefaultAsync();
 
             return language;

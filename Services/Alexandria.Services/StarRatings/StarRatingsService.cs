@@ -9,19 +9,15 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class StarRatingsService : IStarRatingsService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public StarRatingsService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateRatingAsync(int rate, string userId, int bookId)
@@ -58,7 +54,7 @@
         {
             var ratings = await this.db.StarRatings.AsNoTracking()
                                              .Where(r => r.BookId == bookId && !r.IsDeleted)
-                                             .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                             .To<TModel>()
                                              .ToListAsync();
 
             return ratings;
@@ -68,7 +64,7 @@
         {
             var ratings = await this.db.StarRatings.AsNoTracking()
                                              .Where(r => r.UserId == userId && !r.IsDeleted)
-                                             .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                             .To<TModel>()
                                              .ToListAsync();
 
             return ratings;

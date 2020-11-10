@@ -10,19 +10,15 @@
     using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class ReviewsService : IReviewsService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public ReviewsService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateReviewAsync(string description, int? parentId, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition)
@@ -79,7 +75,7 @@
                                          .OrderBy(r => r.IsBestReview)
                                          .ThenByDescending(r => r.Likes)
                                          .ThenByDescending(r => r.CreatedOn)
-                                         .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                         .To<TModel>()
                                          .ToListAsync();
 
             return reviews;
@@ -92,7 +88,7 @@
                                          .OrderBy(r => r.IsBestReview)
                                          .ThenByDescending(r => r.Likes)
                                          .ThenByDescending(r => r.CreatedOn)
-                                         .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                         .To<TModel>()
                                          .ToListAsync();
 
             return reviews;
@@ -101,7 +97,7 @@
         public async Task<TModel> GetReviewByIdAsync<TModel>(int id)
         {
             var review = await this.db.Reviews.Where(r => r.Id == id && !r.IsDeleted)
-                                        .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                        .To<TModel>()
                                         .FirstOrDefaultAsync();
 
             if (review == null)

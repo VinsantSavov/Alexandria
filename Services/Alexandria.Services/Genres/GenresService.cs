@@ -8,19 +8,15 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class GenresService : IGenresService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public GenresService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateGenreAsync(string name, string description)
@@ -54,7 +50,7 @@
         public async Task<TModel> GetGenreByIdAsync<TModel>(int id)
         {
             var genre = await this.db.Genres.Where(g => g.Id == id && !g.IsDeleted)
-                                      .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                      .To<TModel>()
                                       .FirstOrDefaultAsync();
 
             return genre;

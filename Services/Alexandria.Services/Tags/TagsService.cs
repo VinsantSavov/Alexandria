@@ -8,19 +8,15 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.EntityFrameworkCore;
 
     public class TagsService : ITagsService
     {
         private readonly AlexandriaDbContext db;
-        private readonly IMapper mapper;
 
         public TagsService(AlexandriaDbContext db)
         {
             this.db = db;
-            this.mapper = AutoMapperConfig.MapperInstance;
         }
 
         public async Task CreateTagAsync(string name)
@@ -53,7 +49,7 @@
         public async Task<TModel> GetTagByIdAsync<TModel>(int id)
         {
             var tag = await this.db.Tags.Where(t => t.Id == id && !t.IsDeleted)
-                                  .ProjectTo<TModel>(this.mapper.ConfigurationProvider)
+                                  .To<TModel>()
                                   .FirstOrDefaultAsync();
 
             return tag;
