@@ -23,8 +23,4 @@
     <ProjectReference Include="..\..\Services\Alexandria.Services.Mapping\Alexandria.Services.Mapping.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Books\" />
-  </ItemGroup>
-
 </Project>
