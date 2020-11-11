@@ -5,7 +5,7 @@
 
     using Alexandria.Data.Common.Models;
 
-    public class Award : IDeletableEntity
+    public class Award : IDeletableEntity, IAuditInfo
     {
         public Award()
         {
@@ -15,6 +15,10 @@
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
 
         public bool IsDeleted { get; set; }
 

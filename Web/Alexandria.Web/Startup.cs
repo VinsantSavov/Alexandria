@@ -1,6 +1,5 @@
 ﻿namespace Alexandria.Web
 {
-    using System;
     using System.Reflection;
 
     using Alexandria.Data;
@@ -19,7 +18,7 @@
     using Alexandria.Services.Tags;
     using Alexandria.Services.Users;
     using Alexandria.Web.ViewModels;
-    using AutoMapper;
+    using AspNetCoreTemplate.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -44,8 +43,8 @@
             services.AddDbContext<AlexandriaDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
-            // services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-               // .AddRoles<ApplicationRole>().AddEntityFrameworkStores<AlexandriaDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
+               .AddRoles<ApplicationRole>().AddEntityFrameworkStores<AlexandriaDbContext>();
             services.Configure<CookiePolicyOptions>(
                 options =>
                     {
@@ -63,8 +62,6 @@
             services.AddSingleton(this.configuration);
 
             // Application services
-
-            // services.AddTransient<IMapper, Mapper>();
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IAuthorsService, AuthorsService>();
             services.AddTransient<IAwardsService, AwardsService>();
@@ -87,7 +84,7 @@
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<AlexandriaDbContext>();
                 dbContext.Database.Migrate();
-                // new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }
 
             if (env.IsDevelopment())

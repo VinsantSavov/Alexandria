@@ -98,7 +98,7 @@
 
             foreach (var tag in tags)
             {
-                await dbContext.AddAsync(new Tag
+                await dbContext.Tags.AddAsync(new Tag
                 {
                     Name = tag,
                     CreatedOn = DateTime.UtcNow,

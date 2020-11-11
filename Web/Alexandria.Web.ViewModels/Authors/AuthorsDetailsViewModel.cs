@@ -2,8 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
-    public class AuthorsDetailsViewModel
+    using Alexandria.Data.Models;
+    using Alexandria.Services.Mapping;
+    using AutoMapper;
+
+    public class AuthorsDetailsViewModel : IMapFrom<Author>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -28,5 +33,13 @@
         public int ReviewsCount { get; set; }
 
         public IEnumerable<AuthorsBookDetailsViewModel> TopRatedBooks { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Author, AuthorsDetailsViewModel>()
+                         .ForMember(
+                          dest => dest.AverageRating,
+                          a => a.MapFrom(src => src.Books.Average(b => b.Ratings.Sum(r => r.Rate))));
+        }
     }
 }

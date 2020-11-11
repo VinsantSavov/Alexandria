@@ -1,6 +1,9 @@
 ﻿namespace Alexandria.Web.ViewModels.Authors
 {
-    public class AuthorsBookDetailsViewModel
+    using Alexandria.Data.Models;
+    using Alexandria.Services.Mapping;
+
+    public class AuthorsBookDetailsViewModel : IMapFrom<Book>
     {
         public int Id { get; set; }
 

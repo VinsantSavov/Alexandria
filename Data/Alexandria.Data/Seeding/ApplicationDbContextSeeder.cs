@@ -29,6 +29,9 @@
                               new RolesSeeder(),
                               new TagsSeeder(),
                               new GenresSeeder(),
+                              new AwardsSeeder(),
+                              new CountriesSeeder(),
+                              new EditionLanguagesSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -8,11 +8,11 @@
 
         // Application user constants
         public const int UserProfilePictureLength = 500;
-        public const int UserBiographyMaxLength = 200;
+        public const int UserBiographyMaxLength = 1500;
 
         // Author constants
         public const int AuthorNamesMaxLength = 20;
-        public const int AuthorBiographyMaxLength = 300;
+        public const int AuthorBiographyMaxLength = 1500;
         public const int AuthorProfilePictureLength = 500;
 
         // Award constants
@@ -20,7 +20,7 @@
 
         // Book constants
         public const int BookTitleMaxLength = 100;
-        public const int BookSummaryMaxLength = 500;
+        public const int BookSummaryMaxLength = 2000;
         public const int BookPictureUrlMaxLength = 500;
         public const int BookAmazonLinkMaxLength = 500;
 
@@ -31,8 +31,8 @@
         public const int EditionLanguageLength = 15;
 
         // Genre constants
-        public const int GenreNameMaxLength = 20;
-        public const int GenreDescriptionMaxLength = 200;
+        public const int GenreNameMaxLength = 30;
+        public const int GenreDescriptionMaxLength = 1000;
 
         // Review constants
         public const int ReviewDescriptionMaxLength = 50000;
