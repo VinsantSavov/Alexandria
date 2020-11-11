@@ -5,10 +5,9 @@
 
     public class ReviewsController : Controller
     {
-        public int Create(int id)
+        public IActionResult Create(int id)
         {
-            return id;
-            // return this.View();
+            return this.View();
         }
 
         [HttpPost]

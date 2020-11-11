@@ -22,7 +22,6 @@
 
         public IActionResult All()
         {
-
             return this.View();
         }
 
