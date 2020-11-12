@@ -1,131 +1,25 @@
-﻿<div class="container">
+﻿@using Alexandria.Web.ViewModels.Genres
+@model GenresAllBooksViewModel
+
+<div class="container">
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-8">
-            <h4 class="font-weight-bold text-capitalize text-left mb-3">Genre name</h4>
-            <h5 class="font-weight-bold text-capitalize text-left">New releases</h5><hr />
+            <h4 class="font-weight-bold text-capitalize text-left mb-3">@Model.Name</h4>
+            <h5 class="font-weight-bold text-capitalize text-left">@ViewData["Subtitle"]</h5><hr />
             <section class="recent-book-sec mt-4 mb-3">
                 <div class="row">
-                    <div>
+                    @foreach (var book in Model.AllBooks)
+                    {
                         <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
+                             data-content="<dl><dt>Title:</dt><dd>@book.Title</dd><dt>Author:</dt><dd>@book.Author</dd><dt>Tags:</dt><dd>@string.Join(", ", book.Tags)</dd></dl>">
+                            <div style="width: 150px;">
+                                <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+                                    <img src="@book.PictureURL" alt="img">
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
-                             data-content="<dl><dt>Title:</dt><dd>Some Title</dd><dt>Author:</dt><dd>Author Name</dd><dt>Tags:</dt><dd>Tag, Tag, Tag</dd></dl>">
-                            <a asp-controller="Books" asp-action="Details">
-                                <img src="/images/img2.jpg" alt="img">
-                            </a>
-                        </div>
-                    </div>
+                    }
                 </div>
             </section>
         </div>

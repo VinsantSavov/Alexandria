@@ -24,7 +24,10 @@
             configuration.CreateMap<Book, GenresBookDetailsViewModel>()
                          .ForMember(
                             dest => dest.Tags,
-                            b => b.MapFrom(src => src.Tags.Select(t => t.Tag.Name)));
+                            b => b.MapFrom(src => src.Tags.Select(t => t.Tag.Name)))
+                         .ForMember(
+                            dest => dest.Author,
+                            b => b.MapFrom(src => src.Author.FirstName + " " + src.Author.LastName));
         }
     }
 }

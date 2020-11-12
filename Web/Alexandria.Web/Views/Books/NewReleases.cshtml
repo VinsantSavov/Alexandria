@@ -21,7 +21,7 @@
                                             Genres:
                                             @foreach (var genre in book.Genres)
                                             {
-                                                <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">@genre.Name</a>
+                                                <a asp-controller="Genres" asp-action="Details" asp-route-id="@genre.GenreId" class="text-dark font-italic">@genre.Name</a>
                                             }
                                         </p>
                                         <p>
@@ -36,7 +36,7 @@
                                 </div>
                                 <p>
                                     @book.ShortSummary
-                                    <a asp-controller="Books" asp-action="Details" class="text-warning font-italic">Read More</a>
+                                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="text-warning font-italic">Read More</a>
                                 </p>
                             </div>
                         </li>

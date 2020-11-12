@@ -118,8 +118,9 @@
             return books;
         }
 
-        public async Task<IEnumerable<TModel>> NewRealesedBooksByGenreId<TModel>(int genreId, int count = 0)
+        public async Task<IEnumerable<TModel>> NewRealesedBooksByGenreIdAsync<TModel>(int genreId, int count = 0)
         {
+            // thenBy rating?
             var books = await this.db.Books.AsNoTracking()
                                      .Where(b => b.Genres.Any(g => g.GenreId == genreId) && !b.IsDeleted)
                                      .OrderByDescending(b => b.PublishedOn)
@@ -130,29 +131,13 @@
             return books;
         }
 
-        public async Task<IEnumerable<TModel>> TopRatedBooksByGenreId<TModel>(int genreId, int count = 0)
+        public async Task<IEnumerable<TModel>> TopRatedBooksByGenreIdAsync<TModel>(int genreId, int count = 0)
         {
             var books = await this.db.Books.AsNoTracking()
                                      .Where(b => b.Genres.Any(g => g.GenreId == genreId) && !b.IsDeleted)
                                      .OrderByDescending(b => b.Ratings
                                                               .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
-                                     .Take(count)
-                                     .To<TModel>()
-                                     .ToListAsync();
-
-            return books;
-        }
-
-        public async Task<IEnumerable<TModel>> GetLatestBooksByGenreIdAsync<TModel>(int genreId, int count = 0)
-        {
-            var books = await this.db.Books.AsNoTracking()
-                                     .Where(b => b.Genres.Any(g => g.GenreId == genreId) && !b.IsDeleted)
-                                     .OrderByDescending(b => b.PublishedOn)
-                                     .ThenByDescending(b => b.Ratings
-                                                              .Where(r => !r.IsDeleted)
-                                                              .Average(r => r.Rate))
-                                     .ThenBy(b => b.Title)
                                      .Take(count)
                                      .To<TModel>()
                                      .ToListAsync();

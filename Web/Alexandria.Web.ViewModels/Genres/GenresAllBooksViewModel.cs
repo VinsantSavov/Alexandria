@@ -9,6 +9,6 @@
     {
         public string Name { get; set; }
 
-        public IEnumerable<GenresBookDetailsViewModel> Books { get; set; }
+        public IEnumerable<GenresBookDetailsViewModel> AllBooks { get; set; }
     }
 }
