@@ -16,21 +16,25 @@
 
         Task EditBookAsync(int id, string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink);
 
+        Task<int> GetBooksCountAsync();
+
+        Task<int> GetBooksCountByGenreIdAsync(int genreId);
+
         Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId);
 
-        Task<IEnumerable<TModel>> NewRealesedBooksByGenreIdAsync<TModel>(int genreId, int count = 0);
+        Task<IEnumerable<TModel>> NewRealesedBooksByGenreIdAsync<TModel>(int genreId, int? take = null, int skip = 0);
 
-        Task<IEnumerable<TModel>> TopRatedBooksByGenreIdAsync<TModel>(int genreId, int count = 0);
+        Task<IEnumerable<TModel>> TopRatedBooksByGenreIdAsync<TModel>(int genreId, int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetAllBooksByTagIdAsync<TModel>(int tagId);
 
-        Task<IEnumerable<TModel>> GetTopRatedBooksAsync<TModel>(int count = 0);
+        Task<IEnumerable<TModel>> GetTopRatedBooksAsync<TModel>(int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetBooksWithMostAwardsAsync<TModel>(int count = 0);
 
         Task<IEnumerable<TModel>> GetBooksWithMostReviewsAsync<TModel>(int count = 0);
 
-        Task<IEnumerable<TModel>> GetLatestPublishedBooksAsync<TModel>(int count = 0);
+        Task<IEnumerable<TModel>> GetLatestPublishedBooksAsync<TModel>(int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetAllBooksByAuthorIdAsync<TModel>(int authorId);
 

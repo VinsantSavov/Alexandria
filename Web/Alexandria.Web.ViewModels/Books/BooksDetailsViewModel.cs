@@ -1,0 +1,50 @@
+﻿namespace Alexandria.Web.ViewModels.Books
+{
+    using System;
+    using System.Collections.Generic;
+
+    using Alexandria.Data.Models;
+    using Alexandria.Services.Mapping;
+    using AutoMapper;
+
+    public class BooksDetailsViewModel : IMapFrom<Book>, IHaveCustomMappings
+    {
+        public int Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Author { get; set; }
+
+        public DateTime PublishedOn { get; set; }
+
+        public string Summary { get; set; }
+
+        public int Pages { get; set; }
+
+        public string PictureURL { get; set; }
+
+        public string AmazonLink { get; set; }
+
+        public string EditionLanguage { get; set; }
+
+        public int ReviewsCount { get; set; }
+
+        public int RatingsCount { get; set; }
+
+        public IEnumerable<BooksGenreViewModel> Genres { get; set; }
+
+        public IEnumerable<BooksTagViewModel> Tags { get; set; }
+
+        public IEnumerable<BooksLiteraryAwardViewModel> Awards { get; set; }
+
+        public IEnumerable<BooksReviewViewModel> Reviews { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Book, BooksDetailsViewModel>()
+                .ForMember(
+                bd => bd.Author,
+                b => b.MapFrom(src => src.Author.FirstName + " " + src.Author.LastName));
+        }
+    }
+}

@@ -1,12 +1,25 @@
 ﻿namespace Alexandria.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Alexandria.Services.Authors;
+    using Alexandria.Web.ViewModels.Authors;
     using Microsoft.AspNetCore.Mvc;
 
     public class AuthorsController : Controller
     {
-        public IActionResult Details()
+        private readonly IAuthorsService authorsService;
+
+        public AuthorsController(IAuthorsService authorsService)
         {
-            return this.View();
+            this.authorsService = authorsService;
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var author = await this.authorsService.GetAuthorByIdAsync<AuthorsDetailsViewModel>(id);
+
+            return this.View(author);
         }
 
         public IActionResult AllBooks()

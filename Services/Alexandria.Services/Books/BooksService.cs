@@ -118,31 +118,51 @@
             return books;
         }
 
-        public async Task<IEnumerable<TModel>> NewRealesedBooksByGenreIdAsync<TModel>(int genreId, int count = 0)
+        public async Task<int> GetBooksCountAsync()
         {
-            // thenBy rating?
-            var books = await this.db.Books.AsNoTracking()
-                                     .Where(b => b.Genres.Any(g => g.GenreId == genreId) && !b.IsDeleted)
-                                     .OrderByDescending(b => b.PublishedOn)
-                                     .Take(count)
-                                     .To<TModel>()
-                                     .ToListAsync();
-
-            return books;
+            return await this.db.Books.Where(b => !b.IsDeleted).CountAsync();
         }
 
-        public async Task<IEnumerable<TModel>> TopRatedBooksByGenreIdAsync<TModel>(int genreId, int count = 0)
+        public async Task<int> GetBooksCountByGenreIdAsync(int genreId)
         {
-            var books = await this.db.Books.AsNoTracking()
+            int count = await this.db.Books.Where(b => b.Genres.Any(g => g.GenreId == genreId) && !b.IsDeleted)
+                                           .CountAsync();
+
+            return count;
+        }
+
+        public async Task<IEnumerable<TModel>> NewRealesedBooksByGenreIdAsync<TModel>(int genreId, int? take = null, int skip = 0)
+        {
+            // thenBy rating?
+            var queryable = this.db.Books.AsNoTracking()
+                                         .Where(b => b.Genres
+                                                      .Any(g => g.GenreId == genreId) && !b.IsDeleted)
+                                         .OrderByDescending(b => b.PublishedOn)
+                                         .Skip(skip);
+
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<TModel>> TopRatedBooksByGenreIdAsync<TModel>(int genreId, int? take = null, int skip = 0)
+        {
+            var queryable = this.db.Books.AsNoTracking()
                                      .Where(b => b.Genres.Any(g => g.GenreId == genreId) && !b.IsDeleted)
                                      .OrderByDescending(b => b.Ratings
                                                               .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
-                                     .Take(count)
-                                     .To<TModel>()
-                                     .ToListAsync();
+                                     .Skip(skip);
 
-            return books;
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
         public async Task<IEnumerable<TModel>> GetAllBooksByTagIdAsync<TModel>(int tagId)
@@ -158,20 +178,23 @@
             return books;
         }
 
-        public async Task<IEnumerable<TModel>> GetLatestPublishedBooksAsync<TModel>(int count = 0)
+        public async Task<IEnumerable<TModel>> GetLatestPublishedBooksAsync<TModel>(int? take = null, int skip = 0)
         {
-            var books = await this.db.Books.AsNoTracking()
+            var queryable = this.db.Books.AsNoTracking()
                                      .Where(b => !b.IsDeleted)
                                      .OrderByDescending(b => b.PublishedOn)
                                      .ThenByDescending(b => b.Ratings
                                                              .Where(r => !r.IsDeleted)
                                                              .Average(r => r.Rate))
                                      .ThenBy(b => b.Title)
-                                     .Take(count)
-                                     .To<TModel>()
-                                     .ToListAsync();
+                                     .Skip(skip);
 
-            return books;
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
         public async Task<IEnumerable<TModel>> GetAllBooksByAuthorIdAsync<TModel>(int authorId)
@@ -229,15 +252,19 @@
             return books;
         }
 
-        public async Task<IEnumerable<TModel>> GetTopRatedBooksAsync<TModel>(int count = 0)
+        public async Task<IEnumerable<TModel>> GetTopRatedBooksAsync<TModel>(int? take = null, int skip = 0)
         {
-            var books = await this.db.Books.AsNoTracking()
+            var queryable = this.db.Books.AsNoTracking()
                                      .Where(b => !b.IsDeleted)
-                                     .To<TModel>()
-                                     .Take(count)
-                                     .ToListAsync();
+                                     .OrderByDescending(b => b.Ratings.Average(r => r.Rate))
+                                     .Skip(skip);
 
-            return books;
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
         private async Task<Book> GetByIdAsync(int id)

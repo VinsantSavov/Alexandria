@@ -17,6 +17,7 @@
     using Alexandria.Services.Reviews;
     using Alexandria.Services.Tags;
     using Alexandria.Services.Users;
+    using Alexandria.Web.InputModels.Reviews;
     using Alexandria.Web.ViewModels;
     using AspNetCoreTemplate.Data;
     using Microsoft.AspNetCore.Builder;

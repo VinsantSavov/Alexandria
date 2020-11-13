@@ -5,8 +5,10 @@
 
     public class AuthorsBookDetailsViewModel : IMapFrom<Book>
     {
-        public int Id { get; set; }
+        public int BookId { get; set; }
 
-        public string Title { get; set; }
+        public string BookPictureURL { get; set; }
+
+        public string BookTitle { get; set; }
     }
 }

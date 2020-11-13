@@ -1,4 +1,78 @@
-﻿<section class="product-sec">
+﻿@using Alexandria.Web.ViewModels.Authors
+@model AuthorsDetailsViewModel
+
+<section class="product-sec">
+    <div class="container">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-md-2">
+                <img src="@Model.ProfilePicture" class="d-block w-100" alt="slide1">
+            </div>
+            <div class="col-md-6">
+                <h4 class="font-weight-bold text-capitalize text-left pb-0">@Model.FullName</h4><hr class="mt-0">
+                <dl class="row">
+                    <dt class="col-sm-4" style="font-size: 13px">
+                        Born
+                    </dt>
+                    <dd class="col-md-8" style="font-size: 13px">
+                        @Model.BornOn
+                    </dd>
+                    <dt class="col-sm-4" style="font-size: 13px">
+                        Country
+                    </dt>
+                    <dd class="col-md-8" style="font-size: 13px">
+                        @Model.Country
+                    </dd>
+                    <dt class="col-sm-4" style="font-size: 13px">
+                        Books
+                    </dt>
+                    <dd class="col-md-8" style="font-size: 13px">
+                        @Model.BooksCount
+                    </dd>
+                    <dt class="col-sm-4" style="font-size: 13px">
+                        Avg. Rating
+                    </dt>
+                    <dd class="col-md-8" style="font-size: 13px">
+                        @Model.AverageRating
+                    </dd>
+                </dl>
+                <p>@Model.Biography</p>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <h5 class="text-center font-italic">@Model.FullName's top rated books</h5>
+    <p class="text-center font-italic mt-1">@Model.RatingsCount ratings / @Model.ReviewsCount reviews</p>
+    <hr />
+    <section class="recent-book-sec mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                @foreach (var book in Model.Books)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-4">
+                        <div class="item">
+                            <img src="@book.BookPictureURL" alt="img">
+                            <h3><a asp-controller="Books" asp-action="Details" asp-route-id="@book.BookId"><em>@book.BookTitle</em></a></h3>
+                        </div>
+                    </div>
+                }
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <a class="float-right" asp-controller="Authors" asp-action="AllBooks"><span class="text-capitalize text-dark font-italic">More books by Author...</span></a>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+@**@
+
+<section class="product-sec">
     <div class="container">
         <div class="row">
             <div class="col-1"></div>

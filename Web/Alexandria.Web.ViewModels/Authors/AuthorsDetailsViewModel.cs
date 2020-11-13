@@ -16,6 +16,8 @@
 
         public string LastName { get; set; }
 
+        public string FullName => this.FirstName + " " + this.LastName;
+
         public string ProfilePicture { get; set; }
 
         public string Country { get; set; }
@@ -32,7 +34,7 @@
 
         public int ReviewsCount { get; set; }
 
-        public IEnumerable<AuthorsBookDetailsViewModel> TopRatedBooks { get; set; }
+        public IEnumerable<AuthorsBookDetailsViewModel> Books { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

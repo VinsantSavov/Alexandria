@@ -1,4 +1,4 @@
-﻿namespace Alexandria.Web.InputModels.Reviews
+﻿namespace Alexandria.Web.ViewModels.Reviews
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -21,6 +21,8 @@
 
         [Display(Name = "What did you think?")]
         [DataType(DataType.MultilineText)]
+        [Required]
+        [MinLength(20)]
         public string Description { get; set; }
 
         [Display(Name = "What is your reading progress?")]

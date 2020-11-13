@@ -1,23 +1,43 @@
 ﻿namespace Alexandria.Web.Controllers
 {
-    using Alexandria.Data.Models.Enums;
+    using System.Threading.Tasks;
+
+    using Alexandria.Services.Books;
+    using Alexandria.Web.ViewModels.Reviews;
+    using Microsoft.AspNetCore.Components.Forms;
     using Microsoft.AspNetCore.Mvc;
 
     public class ReviewsController : Controller
     {
-        public IActionResult Create(int id)
+        private readonly IBooksService booksService;
+
+        public ReviewsController(IBooksService booksService)
         {
-            return this.View();
+            this.booksService = booksService;
+        }
+
+        public async Task<IActionResult> Create(int id)
+        {
+            var viewModel = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(4);
+
+            return this.View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(string description, ReadingProgress readingProgress, bool thisEdition)
+        public async Task<IActionResult> Create(ReviewsCreateInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
+                var bookInfo = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(input.Id);
+                input.PictureURL = bookInfo.PictureURL;
+                input.Title = bookInfo.Title;
+                input.Author = bookInfo.Author;
+                input.AuthorId = bookInfo.AuthorId;
+
+                return this.View(input);
             }
 
+            return this.Json(input);
             return this.RedirectToAction("Create");
         }
     }

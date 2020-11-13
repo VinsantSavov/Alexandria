@@ -1,5 +1,6 @@
 ﻿namespace Alexandria.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Alexandria.Services.Books;
@@ -9,6 +10,9 @@
 
     public class GenresController : Controller
     {
+        private const int BooksPerPage = 12;
+        private const int GenreBooks = 8;
+
         private readonly IGenresService genresService;
         private readonly IBooksService booksService;
 
@@ -27,13 +31,13 @@
                 // throw Exception
             }
 
-            genre.NewReleasedBooks = await this.booksService.NewRealesedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, 8);
-            genre.TopRatedBooks = await this.booksService.TopRatedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, 8);
+            genre.NewReleasedBooks = await this.booksService.NewRealesedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, GenreBooks);
+            genre.TopRatedBooks = await this.booksService.TopRatedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, GenreBooks);
 
             return this.View(genre);
         }
 
-        public async Task<IActionResult> NewReleases(int id)
+        public async Task<IActionResult> NewReleases(int id, int page = 1)
         {
             this.ViewData["Subtitle"] = "New Releases";
             var genre = await this.genresService.GetGenreByIdAsync<GenresAllBooksViewModel>(id);
@@ -43,12 +47,16 @@
                 // throw Exception
             }
 
-            genre.AllBooks = await this.booksService.NewRealesedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, 10);
+            int booksCount = await this.booksService.GetBooksCountByGenreIdAsync(id);
+
+            genre.AllBooks = await this.booksService.NewRealesedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, BooksPerPage, (page - 1) * BooksPerPage);
+            genre.PagesCount = (int)Math.Ceiling((double)booksCount / BooksPerPage);
+            genre.CurrentPage = page;
 
             return this.View(genre);
         }
 
-        public async Task<IActionResult> TopRated(int id)
+        public async Task<IActionResult> TopRated(int id, int page = 1)
         {
             this.ViewData["Subtitle"] = "Top Rated";
 
@@ -59,9 +67,13 @@
                 // throw exception
             }
 
-            genre.AllBooks = await this.booksService.TopRatedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, 10);
+            int booksCount = await this.booksService.GetBooksCountByGenreIdAsync(id);
 
-            return this.View("NewReleases", genre);
+            genre.AllBooks = await this.booksService.TopRatedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, BooksPerPage, (page - 1) * BooksPerPage);
+            genre.PagesCount = (int)Math.Ceiling((double)booksCount / BooksPerPage);
+            genre.CurrentPage = page;
+
+            return this.View(genre);
         }
     }
 }
