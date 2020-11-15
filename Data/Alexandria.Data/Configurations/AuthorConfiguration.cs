@@ -13,6 +13,10 @@
                   .HasMaxLength(GlobalConstants.AuthorNamesMaxLength)
                   .IsRequired();
 
+            author.Property(a => a.SecondName)
+                  .HasMaxLength(GlobalConstants.AuthorNamesMaxLength)
+                  .IsRequired(false);
+
             author.Property(a => a.LastName)
                   .HasMaxLength(GlobalConstants.AuthorNamesMaxLength)
                   .IsRequired();
