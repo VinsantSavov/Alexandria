@@ -16,6 +16,8 @@
 
         public string FirstName { get; set; }
 
+        public string SecondName { get; set; }
+
         public string LastName { get; set; }
 
         public string ProfilePicture { get; set; }
@@ -26,7 +28,7 @@
 
         public string Biography { get; set; }
 
-        public DateTime BornOn { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

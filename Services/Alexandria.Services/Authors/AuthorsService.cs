@@ -20,16 +20,17 @@
             this.db = db;
         }
 
-        public async Task CreateAuthorAsync(string firstName, string profilePicture, string lastName, int countryId, string biography, DateTime bornOn)
+        public async Task CreateAuthorAsync(string firstName, string secondName, string profilePicture, string lastName, int countryId, string biography, DateTime bornOn)
         {
             var author = new Author
             {
                 FirstName = firstName,
+                SecondName = secondName,
                 LastName = lastName,
                 ProfilePicture = profilePicture,
                 CountryId = countryId,
                 Biography = biography,
-                BornOn = bornOn,
+                DateOfBirth = bornOn,
             };
 
             await this.db.Authors.AddAsync(author);

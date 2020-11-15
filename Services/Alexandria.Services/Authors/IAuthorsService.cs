@@ -8,7 +8,7 @@
 
     public interface IAuthorsService
     {
-        Task CreateAuthorAsync(string firstName, string lastName, string profilePicture, int countryId, string biography, DateTime bornOn);
+        Task CreateAuthorAsync(string firstName, string secondName, string lastName, string profilePicture, int countryId, string biography, DateTime bornOn);
 
         Task<TModel> GetAuthorByIdAsync<TModel>(int id);
 
