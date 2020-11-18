@@ -15,6 +15,7 @@
     using Alexandria.Services.Mapping;
     using Alexandria.Services.Messaging;
     using Alexandria.Services.Reviews;
+    using Alexandria.Services.Scrapers;
     using Alexandria.Services.Tags;
     using Alexandria.Services.Users;
     using Alexandria.Web.InputModels.Reviews;
@@ -73,6 +74,7 @@
             services.AddTransient<IReviewsService, ReviewsService>();
             services.AddTransient<ITagsService, TagsService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IGoodReadsScraperService, GoodReadsScraperService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

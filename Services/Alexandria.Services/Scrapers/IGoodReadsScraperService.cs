@@ -1,7 +1,9 @@
 ﻿namespace Alexandria.Services.Scrapers
 {
+    using System.Threading.Tasks;
+
     public interface IGoodReadsScraperService
     {
-        void PopulateDatabaseWithBooks();
+        Task PopulateDatabaseWithBooks(int amount);
     }
 }
