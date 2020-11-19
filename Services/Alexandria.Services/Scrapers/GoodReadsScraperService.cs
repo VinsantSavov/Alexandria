@@ -62,7 +62,101 @@
                     continue;
                 }
 
-                var author = new Author
+                Author author = await this.GetAuthorAsync(bookModel, country);
+                Book book = await this.GetBookAsync(bookModel, language, author);
+
+                foreach (var award in bookModel.Awards)
+                {
+                    await this.AddAwardsAsync(book, award);
+                }
+
+                foreach (var genre in bookModel.Genres)
+                {
+                    await this.AddGenresAsync(book, genre);
+                }
+            }
+        }
+
+        private async Task AddGenresAsync(Book book, string genre)
+        {
+            var bookGenre = await this.db.Genres.FirstOrDefaultAsync(g => g.Name == genre);
+
+            if (bookGenre != null)
+            {
+                if (!this.db.BookGenres.Any(bg => bg.GenreId == bookGenre.Id && bg.BookId == book.Id))
+                {
+                    await this.db.BookGenres.AddAsync(new BookGenre
+                    {
+                        Book = book,
+                        Genre = bookGenre,
+                    });
+                    await this.db.SaveChangesAsync();
+                }
+            }
+        }
+
+        private async Task AddAwardsAsync(Book book, string award)
+        {
+            var bookAward = await this.db.Awards.FirstOrDefaultAsync(a => a.Name == award);
+
+            if (bookAward == null)
+            {
+                bookAward = new Award
+                {
+                    Name = award,
+                    CreatedOn = DateTime.UtcNow,
+                };
+
+                await this.db.Awards.AddAsync(bookAward);
+                await this.db.SaveChangesAsync();
+            }
+
+            if (!this.db.BookAwards.Any(ba => ba.BookId == book.Id && ba.AwardId == bookAward.Id))
+            {
+                await this.db.BookAwards.AddAsync(new BookAward
+                {
+                    Book = book,
+                    Award = bookAward,
+                });
+                await this.db.SaveChangesAsync();
+            }
+        }
+
+        private async Task<Book> GetBookAsync(GoodReadsDto bookModel, EditionLanguage language, Author author)
+        {
+            var book = await this.db.Books.FirstOrDefaultAsync(b => b.Title == bookModel.Title
+                                                          && b.PublishedOn == bookModel.PublishedOn);
+
+            if (book == null)
+            {
+                book = new Book
+                {
+                    Title = bookModel.Title,
+                    Summary = bookModel.Summary,
+                    PictureURL = bookModel.Image,
+                    Pages = bookModel.Pages,
+                    PublishedOn = bookModel.PublishedOn,
+                    EditionLanguage = language,
+                    Author = author,
+                    CreatedOn = DateTime.UtcNow,
+                };
+
+                await this.db.Books.AddAsync(book);
+                await this.db.SaveChangesAsync();
+            }
+
+            return book;
+        }
+
+        private async Task<Author> GetAuthorAsync(GoodReadsDto bookModel, Country country)
+        {
+            var author = await this.db.Authors.FirstOrDefaultAsync(a => a.FirstName == bookModel.AuthorFirstName
+                                                                       && a.LastName == bookModel.AuthorLastName
+                                                                       && a.DateOfBirth == bookModel.AuthorDateOfBirth);
+
+            if (author == null)
+            {
+                author = new Author
                 {
                     FirstName = bookModel.AuthorFirstName,
                     SecondName = bookModel.AuthorSecondName,
@@ -75,66 +169,9 @@
                 };
                 await this.db.Authors.AddAsync(author);
                 await this.db.SaveChangesAsync();
-
-                var book = new Book
-                {
-                    Title = bookModel.Title,
-                    Summary = bookModel.Summary,
-                    PictureURL = bookModel.Image,
-                    Pages = bookModel.Pages,
-                    PublishedOn = bookModel.PublishedOn,
-                    EditionLanguage = language,
-                    Author = author,
-                    CreatedOn = DateTime.UtcNow,
-                };
-                await this.db.Books.AddAsync(book);
-                await this.db.SaveChangesAsync();
-
-                foreach (var award in bookModel.Awards)
-                {
-                    var bookAward = await this.db.Awards.FirstOrDefaultAsync(a => a.Name == award);
-
-                    if (bookAward == null)
-                    {
-                        bookAward = new Award
-                        {
-                            Name = award,
-                            CreatedOn = DateTime.UtcNow,
-                        };
-
-                        await this.db.Awards.AddAsync(bookAward);
-                        await this.db.SaveChangesAsync();
-                    }
-
-                    if (!this.db.BookAwards.Any(ba => ba.BookId == book.Id && ba.AwardId == bookAward.Id))
-                    {
-                        await this.db.BookAwards.AddAsync(new BookAward
-                        {
-                            Book = book,
-                            Award = bookAward,
-                        });
-                        await this.db.SaveChangesAsync();
-                    }
-                }
-
-                foreach (var genre in bookModel.Genres)
-                {
-                    var bookGenre = await this.db.Genres.FirstOrDefaultAsync(g => g.Name == genre);
-
-                    if (bookGenre != null)
-                    {
-                        if (!this.db.BookGenres.Any(bg => bg.GenreId == bookGenre.Id && bg.BookId == book.Id))
-                        {
-                            await this.db.BookGenres.AddAsync(new BookGenre
-                            {
-                                Book = book,
-                                Genre = bookGenre,
-                            });
-                            await this.db.SaveChangesAsync();
-                        }
-                    }
-                }
             }
+
+            return author;
         }
 
         private GoodReadsDto GetBook(int i)

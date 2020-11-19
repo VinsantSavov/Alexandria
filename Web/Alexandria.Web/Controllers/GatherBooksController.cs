@@ -22,7 +22,7 @@
 
         public async Task<IActionResult> Add()
         {
-            await this.scraper.PopulateDatabaseWithBooks(100);
+            await this.scraper.PopulateDatabaseWithBooks(500);
 
             return this.View();
         }

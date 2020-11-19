@@ -7,7 +7,6 @@
 
     using Alexandria.Data;
     using Alexandria.Data.Models;
-    using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
 
@@ -26,17 +25,20 @@
 
             if (starRating != null)
             {
-                throw new ArgumentException(ExceptionMessages.ExistingRating);
+                starRating.Rate = rate;
+            }
+            else
+            {
+                starRating = new StarRating
+                {
+                    Rate = rate,
+                    UserId = userId,
+                    BookId = bookId,
+                };
+
+                await this.db.StarRatings.AddAsync(starRating);
             }
 
-            var rating = new StarRating
-            {
-                Rate = rate,
-                UserId = userId,
-                BookId = bookId,
-            };
-
-            await this.db.StarRatings.AddAsync(rating);
             await this.db.SaveChangesAsync();
         }
 
