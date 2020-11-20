@@ -26,6 +26,7 @@
             if (starRating != null)
             {
                 starRating.Rate = rate;
+                starRating.ModifiedOn = DateTime.UtcNow;
             }
             else
             {
@@ -34,6 +35,7 @@
                     Rate = rate,
                     UserId = userId,
                     BookId = bookId,
+                    CreatedOn = DateTime.UtcNow,
                 };
 
                 await this.db.StarRatings.AddAsync(starRating);
@@ -42,22 +44,10 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task DeleteRatingAsync(int id)
+        public async Task<int> GetAllRatesByBookIdAsync(int bookId)
         {
-            var rating = await this.db.StarRatings.FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted);
-
-            rating.IsDeleted = true;
-            rating.DeletedOn = DateTime.UtcNow;
-
-            await this.db.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<TModel>> GetAllRatesByBookIdAsync<TModel>(int bookId)
-        {
-            var ratings = await this.db.StarRatings.AsNoTracking()
-                                             .Where(r => r.BookId == bookId && !r.IsDeleted)
-                                             .To<TModel>()
-                                             .ToListAsync();
+            var ratings = await this.db.StarRatings.Where(r => r.BookId == bookId)
+                                                   .CountAsync();
 
             return ratings;
         }
@@ -65,7 +55,7 @@
         public async Task<IEnumerable<TModel>> GetAllRatesByUserIdAsync<TModel>(string userId)
         {
             var ratings = await this.db.StarRatings.AsNoTracking()
-                                             .Where(r => r.UserId == userId && !r.IsDeleted)
+                                             .Where(r => r.UserId == userId)
                                              .To<TModel>()
                                              .ToListAsync();
 

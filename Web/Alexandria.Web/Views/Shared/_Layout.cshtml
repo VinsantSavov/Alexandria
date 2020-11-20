@@ -6,6 +6,7 @@
     <title>Alexandria</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#03a6f3">
+    <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" asp-append-version="true" />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -173,6 +174,8 @@
     <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
     <script src="/js/custom.js"></script>
     <script>$("[data-toggle=popover]").popover();</script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 
 </html>
