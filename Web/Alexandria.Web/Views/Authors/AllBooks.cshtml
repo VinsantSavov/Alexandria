@@ -1,94 +1,54 @@
-﻿<section class="product-sec">
+﻿@using Alexandria.Web.ViewModels.Authors
+@model AuthorsAllBooksDetailsViewModel
+
+<section class="product-sec">
     <div class="container">
         <div class="row">
             <div class="col-1"></div>
             <div class="col-md-8">
-                <h4 class="text-left font-weight-bold">Books by Author Name</h4>
+                <h4 class="text-left font-weight-bold">Books by @Model.FullName</h4>
                 <div class="row mt-3">
                     <div class="col-md-2">
-                        <img src="/images/author.jpg" class="d-block w-100" alt="slide1">
+                        <img src="@Model.ProfilePicture" class="d-block w-100" alt="slide1">
                     </div>
                     <div class="col-md-6">
-                        <p class="text-left">Author Name</p>
-                        <p class="font-italic">Average rating - 6.6</p>
-                        <p class="font-italic">Ratings - 334</p>
-                        <p class="font-italic">Reviews - 444</p>
+                        <p class="text-left">@Model.FullName</p>
+                        <p class="font-italic">Average rating - @Model.AverageRating</p>
+                        <p class="font-italic">Ratings - @Model.RatingsCount</p>
+                        <p class="font-italic">Reviews - @Model.ReviewsCount</p>
                     </div>
                 </div>
                 <hr />
                 <ul class="list-unstyled">
-                    <li class="media my-5">
-                        <img class="mr-3" src="/images/img2.jpg" alt="Generic placeholder image">
-                        <div class="media-body">
-                            <h5 class="mt-0 mb-1">Title</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p>
-                                        Genres:
-                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
-                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
-                                    </p>
-                                    <p>Tags: tag, tag, tag</p>
+                    @foreach (var book in Model.Books)
+                    {
+                        <li class="media my-5">
+                            <img class="mr-3 w-25" src="@book.PictureURL" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-1">@book.Title</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>
+                                            Genres:
+                                            @foreach (var genre in book.Genres)
+                                            {
+                                                <a asp-controller="Genres" asp-action="Details" asp-route-id="@genre.GenreId" class="text-dark font-italic">@genre.GenreName</a>
+                                            }
+                                        </p>
+                                        <p>Tags: @string.Join(", ", book.Tags.Select(t => t.TagName))</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>Avg.Rating: @book.AverageRating</p>
+                                        <p>Reviews: @book.ReviewsCount</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <p>Avg.Rating: 555</p>
-                                    <p>Reviews: 444</p>
-                                </div>
+                                <p>
+                                    @book.ShortSummary
+                                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="text-warning font-italic">Read More</a>
+                                </p>
                             </div>
-                            <p>
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                <a asp-controller="Books" asp-action="Details" class="text-warning font-italic">Read More</a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="media my-5">
-                        <img class="mr-3" src="/images/img2.jpg" alt="Generic placeholder image">
-                        <div class="media-body">
-                            <h5 class="mt-0 mb-1">Title</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p>
-                                        Genres:
-                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
-                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
-                                    </p>
-                                    <p>Tags: tag, tag, tag</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Avg.Rating: 555</p>
-                                    <p>Reviews: 444</p>
-                                </div>
-                            </div>
-                            <p>
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                <a asp-controller="Books" asp-action="Details" class="text-warning font-italic">Read More</a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="media">
-                        <img class="mr-3" src="/images/img2.jpg" alt="Generic placeholder image">
-                        <div class="media-body">
-                            <h5 class="mt-0 mb-1">Title</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p>
-                                        Genres:
-                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
-                                        <a asp-controller="Genres" asp-action="Details" class="text-dark font-italic">Genre</a>
-                                    </p>
-                                    <p>Tags: tag, tag, tag</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Avg.Rating: 555</p>
-                                    <p>Reviews: 444</p>
-                                </div>
-                            </div>
-                            <p>
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                <a asp-controller="Books" asp-action="Details" class="text-warning font-italic">Read More</a>
-                            </p>
-                        </div>
-                    </li>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

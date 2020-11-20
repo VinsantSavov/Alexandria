@@ -22,9 +22,11 @@
             return this.View(author);
         }
 
-        public IActionResult AllBooks()
+        public async Task<IActionResult> AllBooks(int id)
         {
-            return this.View();
+            var author = await this.authorsService.GetAuthorByIdAsync<AuthorsAllBooksDetailsViewModel>(id);
+
+            return this.View(author);
         }
     }
 }

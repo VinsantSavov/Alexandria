@@ -1,13 +1,12 @@
 ﻿namespace Alexandria.Web.ViewModels.Authors
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
 
-    public class AuthorsDetailsViewModel : IMapFrom<Author>
+    public class AuthorsAllBooksDetailsViewModel : IMapFrom<Author>
     {
         public int Id { get; set; }
 
@@ -21,20 +20,12 @@
 
         public string ProfilePicture { get; set; }
 
-        public string CountryName { get; set; }
-
-        public string Biography { get; set; }
-
-        public DateTime DateOfBirth { get; set; }
-
-        public int BooksCount { get; set; }
-
         public double AverageRating => this.Books.Average(b => b.AverageRating);
 
         public int RatingsCount => this.Books.Sum(b => b.RatingsCount);
 
         public int ReviewsCount => this.Books.Sum(b => b.ReviewsCount);
 
-        public IEnumerable<AuthorsBookDetailsViewModel> Books { get; set; }
+        public IEnumerable<AuthorsAllBooksBookViewModel> Books { get; set; }
     }
 }
