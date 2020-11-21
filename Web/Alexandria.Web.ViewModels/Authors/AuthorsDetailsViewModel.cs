@@ -29,12 +29,12 @@
 
         public int BooksCount { get; set; }
 
-        public double AverageRating => this.Books.Average(b => b.AverageRating);
+        public double AverageRating => this.AllBooks.Average(b => b.AverageRating);
 
-        public int RatingsCount => this.Books.Sum(b => b.RatingsCount);
+        public int RatingsCount => this.AllBooks.Sum(b => b.RatingsCount);
 
-        public int ReviewsCount => this.Books.Sum(b => b.ReviewsCount);
+        public int ReviewsCount => this.AllBooks.Sum(b => b.ReviewsCount);
 
-        public IEnumerable<AuthorsBookDetailsViewModel> Books { get; set; }
+        public IEnumerable<AuthorsBookDetailsViewModel> AllBooks { get; set; }
     }
 }

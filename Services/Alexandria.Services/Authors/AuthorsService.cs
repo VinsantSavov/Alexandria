@@ -93,7 +93,6 @@
             var authors = await this.db.Authors.AsNoTracking()
                                          .Where(a => a.CountryId == countryId && !a.IsDeleted)
                                          .OrderByDescending(a => a.Books.Average(b => b.Ratings
-                                                                        .Where(r => !r.IsDeleted)
                                                                         .Average(r => r.Rate)))
                                          .ThenBy(a => a.FirstName)
                                          .ThenBy(a => a.LastName)

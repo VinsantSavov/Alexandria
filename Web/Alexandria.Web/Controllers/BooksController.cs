@@ -10,6 +10,7 @@
     public class BooksController : Controller
     {
         private const int BooksPerPage = 10;
+        private const string ControllerName = "Books";
 
         private readonly IBooksService booksService;
 
@@ -37,6 +38,8 @@
             viewModel.Books = await this.booksService.GetLatestPublishedBooksAsync<BooksSingleViewModel>(BooksPerPage, (page - 1) * BooksPerPage);
             viewModel.CurrentPage = page;
             viewModel.PagesCount = (int)Math.Ceiling((double)booksCount / BooksPerPage);
+            viewModel.ControllerName = ControllerName;
+            viewModel.ActionName = nameof(this.NewReleases);
 
             return this.View(viewModel);
         }
@@ -50,6 +53,8 @@
             viewModel.Books = await this.booksService.GetTopRatedBooksAsync<BooksSingleViewModel>(BooksPerPage, (page - 1) * BooksPerPage);
             viewModel.CurrentPage = page;
             viewModel.PagesCount = (int)Math.Ceiling((double)booksCount / BooksPerPage);
+            viewModel.ControllerName = ControllerName;
+            viewModel.ActionName = nameof(this.TopRated);
 
             return this.View(viewModel);
         }

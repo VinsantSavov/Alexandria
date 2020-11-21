@@ -2,12 +2,8 @@
 {
     using System.Collections.Generic;
 
-    public class BooksAllViewModel
+    public class BooksAllViewModel : PagingViewModel
     {
-        public int CurrentPage { get; set; }
-
-        public int PagesCount { get; set; }
-
         public IEnumerable<BooksSingleViewModel> Books { get; set; }
     }
 }

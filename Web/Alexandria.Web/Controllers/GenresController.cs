@@ -12,6 +12,7 @@
     {
         private const int BooksPerPage = 12;
         private const int GenreBooks = 8;
+        private const string ControllerName = "Genres";
 
         private readonly IGenresService genresService;
         private readonly IBooksService booksService;
@@ -49,9 +50,11 @@
 
             int booksCount = await this.booksService.GetBooksCountByGenreIdAsync(id);
 
-            genre.AllBooks = await this.booksService.NewRealesedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, BooksPerPage, (page - 1) * BooksPerPage);
+            genre.AllBooks = await this.booksService.NewRealesedBooksByGenreIdAsync<GenresBookDetailsViewModel>(genre.Id, BooksPerPage, (page - 1) * BooksPerPage);
             genre.PagesCount = (int)Math.Ceiling((double)booksCount / BooksPerPage);
             genre.CurrentPage = page;
+            genre.ControllerName = ControllerName;
+            genre.ActionName = nameof(this.NewReleases);
 
             return this.View(genre);
         }
@@ -72,6 +75,8 @@
             genre.AllBooks = await this.booksService.TopRatedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, BooksPerPage, (page - 1) * BooksPerPage);
             genre.PagesCount = (int)Math.Ceiling((double)booksCount / BooksPerPage);
             genre.CurrentPage = page;
+            genre.ControllerName = ControllerName;
+            genre.ActionName = nameof(this.NewReleases);
 
             return this.View(genre);
         }

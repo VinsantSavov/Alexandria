@@ -20,7 +20,7 @@
                 </div>
                 <hr />
                 <ul class="list-unstyled">
-                    @foreach (var book in Model.Books)
+                    @foreach (var book in Model.AllBooks)
                     {
                         <li class="media my-5">
                             <img class="mr-3 w-25" src="@book.PictureURL" alt="Generic placeholder image">
@@ -50,6 +50,7 @@
                         </li>
                     }
                 </ul>
+                <partial name="_PaginationPartialWithId" />
             </div>
         </div>
     </div>

@@ -39,5 +39,9 @@
 
         // Tag constants
         public const int TagNameMaxLength = 20;
+
+        // Star Rating Input Model constants
+        public const int RatingMinValue = 1;
+        public const int RatingMaxValue = 5;
     }
 }

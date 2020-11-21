@@ -26,14 +26,6 @@
             user.IsDeleted = true;
             user.DeletedOn = DateTime.UtcNow;
 
-            var ratings = await this.db.StarRatings.Where(r => r.UserId == id && !r.IsDeleted).ToListAsync();
-
-            foreach (var rating in ratings)
-            {
-                rating.IsDeleted = true;
-                rating.DeletedOn = DateTime.UtcNow;
-            }
-
             await this.db.SaveChangesAsync();
         }
 

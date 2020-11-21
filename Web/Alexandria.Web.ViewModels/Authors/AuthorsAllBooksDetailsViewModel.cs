@@ -6,10 +6,8 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
 
-    public class AuthorsAllBooksDetailsViewModel : IMapFrom<Author>
+    public class AuthorsAllBooksDetailsViewModel : PagingViewModel, IMapFrom<Author>
     {
-        public int Id { get; set; }
-
         public string FirstName { get; set; }
 
         public string SecondName { get; set; }
@@ -20,12 +18,12 @@
 
         public string ProfilePicture { get; set; }
 
-        public double AverageRating => this.Books.Average(b => b.AverageRating);
+        public double AverageRating => this.AllBooks.Average(b => b.AverageRating);
 
-        public int RatingsCount => this.Books.Sum(b => b.RatingsCount);
+        public int RatingsCount => this.AllBooks.Sum(b => b.RatingsCount);
 
-        public int ReviewsCount => this.Books.Sum(b => b.ReviewsCount);
+        public int ReviewsCount => this.AllBooks.Sum(b => b.ReviewsCount);
 
-        public IEnumerable<AuthorsAllBooksBookViewModel> Books { get; set; }
+        public IEnumerable<AuthorsAllBooksBookViewModel> AllBooks { get; set; }
     }
 }

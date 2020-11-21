@@ -18,6 +18,8 @@
 
         Task<int> GetBooksCountAsync();
 
+        Task<int> GetBooksCountByAuthorIdAsync(int authorId);
+
         Task<int> GetBooksCountByGenreIdAsync(int genreId);
 
         Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId);
@@ -36,8 +38,8 @@
 
         Task<IEnumerable<TModel>> GetLatestPublishedBooksAsync<TModel>(int? take = null, int skip = 0);
 
-        Task<IEnumerable<TModel>> GetAllBooksByAuthorIdAsync<TModel>(int authorId);
+        Task<IEnumerable<TModel>> GetAllBooksByAuthorIdAsync<TModel>(int authorId, int? take = null, int skip = 0);
 
-        Task<IEnumerable<TModel>> GetBooksByAuthorIdAsync<TModel>(int authorId, int count = 0);
+        Task<IEnumerable<TModel>> GetTopRatedBooksByAuthorIdAsync<TModel>(int authorId, int count = 0);
     }
 }

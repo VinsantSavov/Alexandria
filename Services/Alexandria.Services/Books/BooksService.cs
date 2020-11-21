@@ -50,14 +50,6 @@
             book.IsDeleted = true;
             book.DeletedOn = DateTime.UtcNow;
 
-            var ratings = await this.db.StarRatings.Where(r => r.BookId == id && !r.IsDeleted).ToListAsync();
-
-            foreach (var rating in ratings)
-            {
-                rating.IsDeleted = true;
-                rating.DeletedOn = DateTime.UtcNow;
-            }
-
             await this.db.SaveChangesAsync();
         }
 
@@ -109,7 +101,6 @@
             var books = await this.db.Books.AsNoTracking()
                                      .Where(b => b.Genres.Any(g => g.GenreId == genreId) && !b.IsDeleted)
                                      .OrderByDescending(b => b.Ratings
-                                                              .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
                                      .ThenBy(b => b.Title)
                                      .To<TModel>()
@@ -121,6 +112,14 @@
         public async Task<int> GetBooksCountAsync()
         {
             return await this.db.Books.Where(b => !b.IsDeleted).CountAsync();
+        }
+
+        public async Task<int> GetBooksCountByAuthorIdAsync(int authorId)
+        {
+            int count = await this.db.Books.Where(b => b.AuthorId == authorId && !b.IsDeleted)
+                                           .CountAsync();
+
+            return count;
         }
 
         public async Task<int> GetBooksCountByGenreIdAsync(int genreId)
@@ -153,7 +152,6 @@
             var queryable = this.db.Books.AsNoTracking()
                                      .Where(b => b.Genres.Any(g => g.GenreId == genreId) && !b.IsDeleted)
                                      .OrderByDescending(b => b.Ratings
-                                                              .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
                                      .Skip(skip);
 
@@ -170,7 +168,6 @@
             var books = await this.db.Books.AsNoTracking()
                                      .Where(b => b.Tags.Any(t => t.TagId == tagId) && !b.IsDeleted)
                                      .OrderByDescending(b => b.Ratings
-                                                              .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
                                      .To<TModel>()
                                      .ToListAsync();
@@ -184,7 +181,6 @@
                                      .Where(b => !b.IsDeleted)
                                      .OrderByDescending(b => b.PublishedOn)
                                      .ThenByDescending(b => b.Ratings
-                                                             .Where(r => !r.IsDeleted)
                                                              .Average(r => r.Rate))
                                      .ThenBy(b => b.Title)
                                      .Skip(skip);
@@ -197,27 +193,29 @@
             return await queryable.To<TModel>().ToListAsync();
         }
 
-        public async Task<IEnumerable<TModel>> GetAllBooksByAuthorIdAsync<TModel>(int authorId)
+        public async Task<IEnumerable<TModel>> GetAllBooksByAuthorIdAsync<TModel>(int authorId, int? take = null, int skip = 0)
         {
-            var books = await this.db.Books.AsNoTracking()
+            var queryable = this.db.Books.AsNoTracking()
                                      .Where(b => b.AuthorId == authorId && !b.IsDeleted)
                                      .OrderByDescending(b => b.Ratings
-                                                              .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
-                                     .ThenByDescending(b => b.Reviews.Count)
+                                     .ThenByDescending(b => b.PublishedOn)
                                      .ThenBy(b => b.Title)
-                                     .To<TModel>()
-                                     .ToListAsync();
+                                     .Skip(skip);
 
-            return books;
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
-        public async Task<IEnumerable<TModel>> GetBooksByAuthorIdAsync<TModel>(int authorId, int count = 0)
+        public async Task<IEnumerable<TModel>> GetTopRatedBooksByAuthorIdAsync<TModel>(int authorId, int count = 0)
         {
             var books = await this.db.Books.AsNoTracking()
                                      .Where(b => b.AuthorId == authorId && !b.IsDeleted)
                                      .OrderByDescending(b => b.Ratings
-                                                              .Where(r => !r.IsDeleted)
                                                               .Average(r => r.Rate))
                                      .To<TModel>()
                                      .Take(count)
