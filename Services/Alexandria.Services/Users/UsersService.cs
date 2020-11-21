@@ -48,6 +48,13 @@
             return user;
         }
 
+        public async Task<bool> IsUsernameUsedAsync(string username)
+        {
+            var isUsed = await this.db.Users.AnyAsync(u => u.UserName == username);
+
+            return isUsed;
+        }
+
         private async Task<ApplicationUser> GetByIdAsync(string id)
             => await this.db.Users.FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
     }

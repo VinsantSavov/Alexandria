@@ -10,5 +10,7 @@
         Task<TModel> GetUserByIdAsync<TModel>(string id);
 
         Task<IEnumerable<TModel>> GetAllUsersAsync<TModel>();
+
+        Task<bool> IsUsernameUsedAsync(string username);
     }
 }

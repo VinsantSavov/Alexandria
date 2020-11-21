@@ -43,5 +43,17 @@
         // Star Rating Input Model constants
         public const int RatingMinValue = 1;
         public const int RatingMaxValue = 5;
+
+        // User Register costants
+        public const string UserEmailDisplayName = "Email";
+        public const string UserPasswordDisplayName = "Password";
+        public const string UserConfirmPasswordDisplayName = "Confirm password";
+        public const int UserUsernameMaxLength = 25;
+        public const int UserUsernameMinLength = 4;
+        public const int UserPasswordMaxLength = 100;
+        public const int UserPasswordMinLength = 6;
+
+        // User Login constants
+        public const string UserLoginRememberMe = "Remember me?";
     }
 }
