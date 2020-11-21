@@ -13,24 +13,28 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using System.ComponentModel.DataAnnotations;
+    using Alexandria.Services.Users;
 
     using static Alexandria.Common.GlobalConstants;
-    using System.ComponentModel.DataAnnotations;
 
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUsersService usersService;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, 
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
+            IUsersService usersService,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+            this.usersService = usersService;
+            this._logger = logger;
         }
 
         [BindProperty]
@@ -46,8 +50,7 @@
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            public string Username { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -59,55 +62,79 @@
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!string.IsNullOrEmpty(ErrorMessage))
+            if (!string.IsNullOrEmpty(this.ErrorMessage))
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                this.ModelState.AddModelError(string.Empty, this.ErrorMessage);
             }
 
-            returnUrl ??= Url.Content("~/");
+            if (returnUrl == "/Identity/Account/Logout")
+            {
+                returnUrl = "/";
+            }
+            else
+            {
+                returnUrl = returnUrl ?? this.Url.Content("~/");
+            }
 
             // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            ReturnUrl = returnUrl;
+            this.ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            if (returnUrl == "/Identity/Account/Logout")
+            {
+                returnUrl = "/";
+            }
+            else
+            {
+                returnUrl = returnUrl ?? this.Url.Content("~/");
+            }
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
-            if (ModelState.IsValid)
+            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if (this.ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                var isDeleted = await this.usersService.IsUserDeletedAsync(Input.Username);
+                if (isDeleted)
+                {
+                    this.ModelState.AddModelError(string.Empty, "The username or password is incorrect.");
+                    return this.Page();
+                }
+
+                var result = await this._signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    this._logger.LogInformation("User logged in.");
+                    return this.LocalRedirect(returnUrl);
                 }
+
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return this.RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
+
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
+                    this._logger.LogWarning("User account locked out.");
+                    return this.RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return this.Page();
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return Page();
+            return this.Page();
         }
     }
 }

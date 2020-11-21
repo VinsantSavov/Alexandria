@@ -12,5 +12,7 @@
         Task<IEnumerable<TModel>> GetAllUsersAsync<TModel>();
 
         Task<bool> IsUsernameUsedAsync(string username);
+
+        Task<bool> IsUserDeletedAsync(string username);
     }
 }
