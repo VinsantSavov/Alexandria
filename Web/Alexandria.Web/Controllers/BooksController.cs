@@ -61,7 +61,9 @@
 
         public async Task<IActionResult> Test(int id)
         {
-            return this.View();
+            var book = await this.booksService.GetBookByIdAsync<BooksDetailsViewModel>(id);
+
+            return this.View(book);
         }
     }
 }

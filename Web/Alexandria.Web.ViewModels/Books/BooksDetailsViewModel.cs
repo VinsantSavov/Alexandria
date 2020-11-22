@@ -7,13 +7,13 @@
     using Alexandria.Services.Mapping;
     using AutoMapper;
 
-    public class BooksDetailsViewModel : IMapFrom<Book>, IHaveCustomMappings
+    public class BooksDetailsViewModel : IMapFrom<Book>
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
-        public string Author { get; set; }
+        public BooksAuthorViewModel Author { get; set; }
 
         public DateTime PublishedOn { get; set; }
 
@@ -25,7 +25,7 @@
 
         public string AmazonLink { get; set; }
 
-        public string EditionLanguage { get; set; }
+        public string EditionLanguageName { get; set; }
 
         public int ReviewsCount { get; set; }
 
@@ -38,13 +38,5 @@
         public IEnumerable<BooksLiteraryAwardViewModel> Awards { get; set; }
 
         public IEnumerable<BooksReviewViewModel> Reviews { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Book, BooksDetailsViewModel>()
-                .ForMember(
-                bd => bd.Author,
-                b => b.MapFrom(src => src.Author.FirstName + " " + src.Author.LastName));
-        }
     }
 }

@@ -1,10 +1,12 @@
-﻿
+﻿@using Alexandria.Web.ViewModels.Books
+@model BooksDetailsViewModel
+
 <section class="product-sec">
     <div class="container">
         <div class="row">
             <div class="col-1"></div>
             <div class="col-md-2">
-                <img src="/images/img2.jpg" class="d-block w-100" alt="slide1">
+                <img src="@Model.PictureURL" class="d-block w-100" alt="slide1">
                 <div class="align-center">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -14,11 +16,10 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <h4 class="font-weight-bold text-capitalize text-left">7 Day Self publish How to Write a Book</h4>
-                <p class="text-left">by <a class="text-dark" asp-controller="Authors" asp-action="Details"><em>Daniel Kaheman</em></a></p>
-                <p class="text-left font-italic" style="font-size: 13px">Published on: 11-11-2020</p>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>
-                <p>t has survived not only fiveLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and</p><hr />
+                <h4 class="font-weight-bold text-capitalize text-left">@Model.Title</h4>
+                <p class="text-left">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.Author.Id"><em>@Model.Author.FullName</em></a></p>
+                <p class="text-left font-italic" style="font-size: 13px">Published on: @Model.PublishedOn.ToShortDateString()</p>
+                <p>@Model.Summary</p><hr />
                 <h6 class="font-weight-bold">Get a copy</h6>
                 <div class="btn-sec">
                     <form>
@@ -30,43 +31,49 @@
                         Genres
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        Genre, Genre, Genre
+                        @foreach (var genre in Model.Genres)
+                        {
+
+                            <a class="text-dark" asp-controller="Genres" asp-action="Details" asp-route-id="@genre.GenreId">
+                                @genre.Name
+                            </a>
+                        }
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Tags
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        Tags, tags, tags, tags, tags, tags
+                        @string.Join(", ", Model.Tags.Select(t => t.Name))
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Pages
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        566
+                        @Model.Pages
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Edition Language
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        fgharhraharrrrrrrrrrr
+                        @Model.EditionLanguageName
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Literary Awards
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        hraaaaaaaaaaaaaaa aaaaaaaaaa
+                        @string.Join(", ", Model.Awards.Select(a => a.AwardName))
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Reviews Count
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        345555
+                        @Model.ReviewsCount
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Ratings Count
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        345555
+                        @Model.RatingsCount
                     </dd>
                 </dl><hr>
                 <form method="post">

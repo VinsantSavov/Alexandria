@@ -17,7 +17,7 @@
 
         public string LastName { get; set; }
 
-        public string FullName => this.SecondName == null ? this.FirstName + " " + this.LastName : this.FirstName + " " + this.SecondName + " " + this.LastName;
+        public string FullName => string.IsNullOrWhiteSpace(this.SecondName) ? this.FirstName + " " + this.LastName : this.FirstName + " " + this.SecondName + " " + this.LastName;
 
         public string ProfilePicture { get; set; }
 

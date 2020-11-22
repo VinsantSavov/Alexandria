@@ -31,7 +31,7 @@
         {
             configuration.CreateMap<Book, BooksSingleViewModel>().ForMember(
                 bm => bm.AverageRating,
-                src => src.MapFrom(b => b.Ratings.Average(r => r.Rate)));
+                src => src.MapFrom(b => b.Ratings.Count == 0 ? 0 : b.Ratings.Average(r => r.Rate)));
         }
     }
 }
