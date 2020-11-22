@@ -61,5 +61,12 @@
 
             return ratings;
         }
+
+        public async Task<double> GetAverageRatingByBookIdAsync(int bookId)
+        {
+            var average = await this.db.StarRatings.Where(r => r.BookId == bookId).AverageAsync(r => r.Rate);
+
+            return average;
+        }
     }
 }

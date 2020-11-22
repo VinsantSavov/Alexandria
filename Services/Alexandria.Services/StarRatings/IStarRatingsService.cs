@@ -10,5 +10,7 @@
         Task<IEnumerable<TModel>> GetAllRatesByUserIdAsync<TModel>(string userId);
 
         Task<int> GetAllRatesByBookIdAsync(int bookId);
+
+        Task<double> GetAverageRatingByBookIdAsync(int bookId);
     }
 }

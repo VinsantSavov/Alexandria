@@ -6,6 +6,7 @@
     using Alexandria.Services.StarRatings;
     using Alexandria.Web.InputModels.StarRatings;
     using Alexandria.Web.ViewModels.StarRatings;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -23,13 +24,15 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<StarRatingResponseModel>> Create(StarRatingInputModel input)
         {
             var userId = this.userManager.GetUserId(this.User);
             await this.ratingsService.CreateRatingAsync(input.Rate, userId, input.BookId);
             var ratings = await this.ratingsService.GetAllRatesByBookIdAsync(input.BookId);
+            var averageRating = await this.ratingsService.GetAverageRatingByBookIdAsync(input.BookId);
 
-            return new StarRatingResponseModel { RatingsCount = ratings };
+            return new StarRatingResponseModel { RatingsCount = ratings, AverageRating = averageRating };
         }
     }
 }

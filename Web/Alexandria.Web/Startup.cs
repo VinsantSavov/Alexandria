@@ -16,6 +16,7 @@
     using Alexandria.Services.Messaging;
     using Alexandria.Services.Reviews;
     using Alexandria.Services.Scrapers;
+    using Alexandria.Services.StarRatings;
     using Alexandria.Services.Tags;
     using Alexandria.Services.Users;
     using Alexandria.Web.InputModels.Reviews;
@@ -61,6 +62,10 @@
                     }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+            });
 
             services.AddSingleton(this.configuration);
 
@@ -76,6 +81,7 @@
             services.AddTransient<ITagsService, TagsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IGoodReadsScraperService, GoodReadsScraperService>();
+            services.AddTransient<IStarRatingsService, StarRatingsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
