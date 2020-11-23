@@ -57,7 +57,7 @@
                         </form>
                     }
                 </div>
-                @if (Model.AmazonLink != null && Model.CommunityReviews.Count() != 0)
+                @if (Model.AmazonLink != null || Model.CommunityReviews.Count() != 0)
                 {
                     <hr />
                 }
@@ -150,7 +150,7 @@
                                 </dl>
                                 <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
                                 <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @review.ReadingProgress</p>
-                                <p>@review.SanitizedDescription</p>
+                                <p>@Html.Raw(review.SanitizedDescription)</p>
                                 <p class="text-secondary font-italic">@review.Likes Likes</p>
                             </div>
                         }

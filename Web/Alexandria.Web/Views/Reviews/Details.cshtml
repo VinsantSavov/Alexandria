@@ -1,0 +1,91 @@
+﻿@using Alexandria.Web.ViewModels.Reviews
+@model ReviewsDetailsViewModel
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <h3 class="text-left mb-4"><span class="text-info">@Model.AuthorUsername's Review</span> for @Model.BookTitle</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            <img src="@Model.BookPictureURL" class="d-block w-75" alt="slide1">
+        </div>
+        <div class="col-md-4">
+            <h4 class="font-weight-bold text-capitalize text-left">
+                <a class="text-dark" asp-controller="Books" asp-action="Details" asp-route-id="@Model.BookId">
+                    @Model.BookTitle
+                </a>
+            </h4>
+            <p class="text-left mt-1">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.BookAuthorId"><em>@Model.BookAuthorFullName</em></a></p>
+            <p class="text-left font-italic mt-0 " style="font-size: 13px">Published on: @Model.BookPublishedOn.ToShortDateString()</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-left">@Model.AuthorUsername</p>
+                    <div class="col-md-2">
+                        <img src="@Model.AuthorProfilePicture" class="d-block" alt="slide1">
+                    </div>
+                </div>
+            </div>
+            <p>@Html.Raw(@Model.SanitizedDescription)</p>
+            <form>
+                <button class="btn " href="#">Like</button>
+            </form>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="far fa-calendar-alt"></i>
+                    Published On:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.CreatedOn
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="fas fa-bookmark"></i>
+                    Reading Progress:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.ReadingProgress
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="fas fa-book"></i>
+                    This Edition:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.ThisEdition
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="far fa-thumbs-up"></i>
+                    Likes:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.Likes
+                </dd>
+            </dl>
+            <hr />
+        </div>
+    </div>
+</div>
+<section>
+    <div class="container">
+        <h4 class="mb-4 text-center">Comments</h4>
+    </div>
+</section>
+
+@*<div class="col-md-2">
+        <img src="@review.AuthorProfilePicture" class="d-block w-100" alt="slide1">
+    </div>
+    <div class="col-md-10">
+        <dl class="row mb-0">
+            <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
+                @review.AuthorUsername
+            </dt>
+            <dd class="col-sm-6 text-secondary font-italic text-right">
+                @review.CreatedOn
+            </dd>
+        </dl>
+        <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
+        <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @review.ReadingProgress</p>
+        <p>@Html.Raw(review.SanitizedDescription)</p>
+        <p class="text-secondary font-italic">@review.Likes Likes</p>
+    </div>*@

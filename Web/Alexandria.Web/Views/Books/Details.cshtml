@@ -1,68 +1,118 @@
-﻿<section class="product-sec">
+﻿@using Alexandria.Web.ViewModels.Books
+@model BooksDetailsViewModel
+
+<section class="product-sec">
     <div class="container">
         <div class="row">
             <div class="col-1"></div>
             <div class="col-md-2">
-                <img src="/images/img2.jpg" class="d-block w-100" alt="slide1">
+                <img src="@Model.PictureURL" class="d-block w-100" alt="slide1">
+                <div class="align-center">
+                    <div class="rating">
+                        <span class="star" data-vote="5" vote="5"></span>
+                        <span class="star" data-vote="4" vote="4"></span>
+                        <span class="star" data-vote="3" vote="3"></span>
+                        <span class="star" data-vote="2" vote="2"></span>
+                        <span class="star" data-vote="1" vote="1"></span>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6">
-                <h4 class="font-weight-bold text-capitalize text-left">7 Day Self publish How to Write a Book</h4>
-                <p class="text-left">by <a class="text-dark" asp-controller="Authors" asp-action="Details"><em>Daniel Kaheman</em></a></p>
-                <p class="text-left font-italic" style="font-size: 13px">Published on: 11-11-2020</p>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>
-                <p>t has survived not only fiveLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and</p><hr />
-                <h6 class="font-weight-bold">Get a copy</h6>
-                <div class="btn-sec">
-                    <form>
-                        <button class="btn " asp-controller="Test" asp-action="Index">Amazon</button>
-                    </form>
-                </div><hr />
+                <h4 class="font-weight-bold text-capitalize text-left">@Model.Title</h4>
+                <p class="text-left">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.Author.Id"><em>@Model.Author.FullName</em></a></p>
+                <p class="text-left font-italic" style="font-size: 13px">Published on: @Model.PublishedOn.ToShortDateString()</p>
+                <p>
+                    <div class="rating d-inline-block">
+                        <ul class="custom-control-inline flex-row-reverse list-unstyled">
+                            @for (int i = 1; i <= Math.Ceiling(Model.AverageRating); i++)
+                            {
+                                <li><span class="star filled" rate="@i"></span></li>
+                            }
+                            @for (int i = (int)(Math.Ceiling(Model.AverageRating) + 1); i <= 5; i++)
+                            {
+                                <li><span class="star" rate="@i"></span></li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="d-inline-block font-italic" id="bookAverageRating">@Model.AverageRating.ToString("0.0")</div>
+                    <div class="d-inline-block font-italic"> / 5.0</div>
+                </p>
+                <p>@Model.Summary</p><hr />
+                @if (Model.AmazonLink != null)
+                {
+                    <h6 class="font-weight-bold">Get a copy</h6>
+                }
+                <div class="btn-sec form-inline">
+                    @if (Model.AmazonLink != null)
+                    {
+                        <form>
+                            <button class="btn " href="@Model.AmazonLink">Amazon</button>
+                        </form>
+                    }
+                    @if (Model.CommunityReviews.Count() != 0)
+                    {
+                        <form>
+                            <button class="btn black" asp-controller="Reviews" asp-action="All">All Reviews</button>
+                        </form>
+                    }
+                </div>
+                @if (Model.AmazonLink != null || Model.CommunityReviews.Count() != 0)
+                {
+                    <hr />
+                }
                 <dl class="row">
                     <dt class="col-sm-4" style="font-size: 13px">
                         Genres
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        Genre, Genre, Genre
+                        @foreach (var genre in Model.Genres)
+                        {
+
+                            <a class="text-dark" asp-controller="Genres" asp-action="Details" asp-route-id="@genre.GenreId">
+                                @genre.Name
+                            </a>
+                        }
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Tags
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        Tags, tags, tags, tags, tags, tags
+                        @string.Join(", ", Model.Tags.Select(t => t.Name))
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Pages
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        566
+                        @Model.Pages
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Edition Language
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        fgharhraharrrrrrrrrrr
+                        @Model.EditionLanguageName
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Literary Awards
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        hraaaaaaaaaaaaaaa aaaaaaaaaa
+                        @string.Join(", ", Model.Awards.Select(a => a.AwardName))
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Reviews Count
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        345555
+                        @Model.ReviewsCount
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Ratings Count
                     </dt>
-                    <dd class="col-md-8" style="font-size: 13px">
-                        345555
+                    <dd id="bookRatingsCount" class="col-md-8" style="font-size: 13px">
+                        @Model.RatingsCount
                     </dd>
                 </dl><hr>
                 <form method="post">
-                    <button class="btn " asp-controller="Reviews" asp-action="Create">Create review</button>
+                    <button class="btn " asp-controller="Reviews" asp-action="Create" asp-route-id="@Model.Id">Create review</button>
                 </form>
             </div>
             <div class="col-md-2">
@@ -74,64 +124,41 @@
 <section>
     <div class="container">
         <h4 class="mb-4 text-center">Community Reviews</h4>
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-2">
-                        <img src="/images/img2.jpg" class="d-block w-100" alt="slide1">
-                    </div>
-                    <div class="col-md-10">
-                        <dl class="row mb-0">
-                            <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-                                Username
-                            </dt>
-                            <dd class="col-sm-6 text-secondary font-italic text-right">
-                                Datetime
-                            </dd>
-                        </dl>
-                        <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
-                        <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: </p>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>
-                        <p class="text-secondary font-italic">400 Likes</p>
-                    </div>
-                    <div class="col-md-2">
-                        <img src="/images/img2.jpg" class="d-block w-100" alt="slide1">
-                    </div>
-                    <div class="col-md-10">
-                        <dl class="row mb-0">
-                            <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-                                Username
-                            </dt>
-                            <dd class="col-sm-6 text-secondary font-italic text-right">
-                                Datetime
-                            </dd>
-                        </dl>
-                        <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
-                        <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: </p>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>
-                        <p class="text-secondary font-italic">400 Likes</p>
-                    </div>
-                    <div class="col-md-2">
-                        <img src="/images/img2.jpg" class="d-block w-100" alt="slide1">
-                    </div>
-                    <div class="col-md-10">
-                        <dl class="row mb-0">
-                            <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-                                Username
-                            </dt>
-                            <dd class="col-sm-6 text-secondary font-italic text-right">
-                                Datetime
-                            </dd>
-                        </dl>
-                        <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
-                        <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: </p>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>
-                        <p class="text-secondary font-italic">400 Likes</p>
+        @if (Model.CommunityReviews.Count() == 0)
+        {
+            <h5 class="mb-4 text-center">This books has no reviews yet. Be the first one.</h5>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="row">
+                        @foreach (var review in Model.CommunityReviews)
+                        {
+                            <div class="col-md-2">
+                                <img src="@review.AuthorProfilePicture" class="d-block w-100" alt="slide1">
+                            </div>
+                            <div class="col-md-10">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
+                                        @review.AuthorUsername
+                                    </dt>
+                                    <dd class="col-sm-6 text-secondary font-italic text-right">
+                                        @review.CreatedOn
+                                    </dd>
+                                </dl>
+                                <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
+                                <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @review.ReadingProgress</p>
+                                <p>@Html.Raw(review.SanitizedDescription)</p>
+                                <p class="text-secondary font-italic">@review.Likes Likes</p>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </section>
 <section class="related-books">
@@ -186,3 +213,67 @@
         </div>
     </div>
 </section>
+<form method="post" id="antiForgeryForm"></form>
+
+@section Scripts{
+    <script>
+        $("span[data-vote]").each(function (el) {
+            $(this).click(function () {
+                var rate = $(this).attr("data-vote");
+                var bookId = @Model.Id;
+                var data = { rate: rate, bookId: bookId };
+                var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/StarRatings",
+                    data: JSON.stringify(data),
+                    headers: {
+                        'X-CSRF-TOKEN': antiForgeryToken
+                    },
+                    success: function (data) {
+                        $('#bookRatingsCount').html(data.ratingsCount);
+                        $('#bookAverageRating').html(data.averageRating.toFixed(1));
+
+                        var id = $("span[rate]");
+                        for (var i = 1; i <= Math.round(data.averageRating); i++) {
+                            id.each(function (el) {
+                                if ($(this).attr("rate") == i) {
+                                    $(this).addClass("filled");
+                                }
+                            });
+                        }
+                        for (var i = Math.round(data.averageRating) + 1; i <= 5; i++) {
+                            id.each(function (el) {
+                                if ($(this).attr("rate") == i) {
+                                    $(this).removeClass("filled");
+                                }
+                            });
+                        }
+
+                        var votes = $("span[data-vote]");
+
+                        for (var i = 1; i <= rate; i++) {
+                            votes.each(function (el) {
+                                if ($(this).attr("data-vote") == i) {
+                                    console.log(rate);
+                                    $(this).addClass("filled");
+                                }
+                            });
+                        }
+                        var count = rate;
+                        for (var i = count + 1; i <= 5; i++) {
+                            votes.each(function (el) {
+                                if ($(this).attr("data-vote") == i) {
+                                    $(this).removeClass("filled");
+                                }
+                            });
+                        }
+
+                    },
+                    contentType: 'application/json',
+                });
+            })
+        });
+    </script>
+}

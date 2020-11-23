@@ -28,7 +28,7 @@
             var book = await this.booksService.GetBookByIdAsync<BooksDetailsViewModel>(id);
             book.CommunityReviews = await this.reviewsService.GetTopReviewsByBookIdAsync<BooksReviewViewModel>(id, ReviewsCount);
 
-            return this.View();
+            return this.View(book);
         }
 
         public IActionResult All()

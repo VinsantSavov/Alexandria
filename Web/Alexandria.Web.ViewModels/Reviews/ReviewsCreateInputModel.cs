@@ -12,7 +12,7 @@
     public class ReviewsCreateInputModel : IMapFrom<Book>, IHaveCustomMappings
     {
         [Required]
-        [EnsureBookIdExists]
+        [EnsureBookIdExists(ErrorMessage = ErrorMessages.ReviewNotExistingBookIdErrorMessage)]
         public int Id { get; set; }
 
         public string Title { get; set; }

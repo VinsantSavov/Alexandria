@@ -10,5 +10,6 @@
         // Create Review
         public const string ReviewDescriptionLengthErrorMessage = "Review content must be between {2} and {1} characters long!";
         public const string ReviewRequiredDescriptionErrorMessage = "Review content is required!";
+        public const string ReviewNotExistingBookIdErrorMessage = "Invalid book!";
     }
 }

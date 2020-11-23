@@ -21,7 +21,7 @@
             this.db = db;
         }
 
-        public async Task CreateReviewAsync(string description, int? parentId, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition)
+        public async Task<int> CreateReviewAsync(string description, int? parentId, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition)
         {
             var review = new Review
             {
@@ -36,6 +36,8 @@
 
             await this.db.Reviews.AddAsync(review);
             await this.db.SaveChangesAsync();
+
+            return review.Id;
         }
 
         public async Task DeleteReviewByIdAsync(int id)
