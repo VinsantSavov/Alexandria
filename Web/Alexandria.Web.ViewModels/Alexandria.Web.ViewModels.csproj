@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\Alexandria.Common\Alexandria.Common.csproj" />
     <ProjectReference Include="..\..\Data\Alexandria.Data.Models\Alexandria.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\Alexandria.Services.Mapping\Alexandria.Services.Mapping.csproj" />
+    <ProjectReference Include="..\Alexandria.Web.Infrastructure\Alexandria.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

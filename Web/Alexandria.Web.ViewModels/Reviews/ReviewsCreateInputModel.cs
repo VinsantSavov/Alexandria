@@ -6,11 +6,13 @@
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Mapping;
+    using Alexandria.Web.Infrastructure.Attributes;
     using AutoMapper;
 
     public class ReviewsCreateInputModel : IMapFrom<Book>, IHaveCustomMappings
     {
         [Required]
+        [EnsureBookIdExists]
         public int Id { get; set; }
 
         public string Title { get; set; }
