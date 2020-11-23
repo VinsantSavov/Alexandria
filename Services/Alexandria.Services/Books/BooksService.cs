@@ -109,6 +109,11 @@
             return books;
         }
 
+        public async Task<bool> DoesBookIdExistAsync(int id)
+        {
+            return await this.db.Books.AnyAsync(b => b.Id == id && !b.IsDeleted);
+        }
+
         public async Task<int> GetBooksCountAsync()
         {
             return await this.db.Books.Where(b => !b.IsDeleted).CountAsync();

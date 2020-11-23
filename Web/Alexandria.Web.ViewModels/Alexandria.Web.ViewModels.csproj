@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Alexandria.Common\Alexandria.Common.csproj" />
     <ProjectReference Include="..\..\Data\Alexandria.Data.Models\Alexandria.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\Alexandria.Services.Mapping\Alexandria.Services.Mapping.csproj" />
   </ItemGroup>

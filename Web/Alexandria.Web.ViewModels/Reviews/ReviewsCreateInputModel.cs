@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using Alexandria.Common;
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Mapping;
@@ -9,6 +10,7 @@
 
     public class ReviewsCreateInputModel : IMapFrom<Book>, IHaveCustomMappings
     {
+        [Required]
         public int Id { get; set; }
 
         public string Title { get; set; }
@@ -19,16 +21,22 @@
 
         public string Author { get; set; }
 
-        [Display(Name = "What did you think?")]
+        [Display(Name = GlobalConstants.ReviewDescriptionDisplayNameConstant)]
         [DataType(DataType.MultilineText)]
-        [Required]
-        [MinLength(20)]
+        [Required(ErrorMessage = ErrorMessages.ReviewRequiredDescriptionErrorMessage)]
+        [StringLength(
+            GlobalConstants.ReviewDescriptionMaxLength,
+            ErrorMessage = ErrorMessages.ReviewDescriptionLengthErrorMessage,
+            MinimumLength = GlobalConstants.ReviewDescriptionMinLength)]
         public string Description { get; set; }
 
-        [Display(Name = "What is your reading progress?")]
+        [Required]
+        [Display(Name = GlobalConstants.ReviewReadingProgressDisplayNameConstant)]
+        [EnumDataType(typeof(ReadingProgress))]
         public ReadingProgress ReadingProgress { get; set; }
 
-        [Display(Name = "Is this the edition you read?")]
+        [Required]
+        [Display(Name = GlobalConstants.ReviewThisEditionDisplayNameConstant)]
         public bool ThisEdition { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

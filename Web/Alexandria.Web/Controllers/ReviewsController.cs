@@ -4,6 +4,7 @@
 
     using Alexandria.Services.Books;
     using Alexandria.Web.ViewModels.Reviews;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Components.Forms;
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +17,16 @@
             this.booksService = booksService;
         }
 
+        [Authorize]
         public async Task<IActionResult> Create(int id)
         {
-            var viewModel = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(4);
+            var viewModel = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(id);
 
             return this.View(viewModel);
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(ReviewsCreateInputModel input)
         {
             if (!this.ModelState.IsValid)

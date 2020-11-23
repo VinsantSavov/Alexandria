@@ -44,6 +44,12 @@
         public const int RatingMinValue = 1;
         public const int RatingMaxValue = 5;
 
+        // Review Input Model constants
+        public const string ReviewDescriptionDisplayNameConstant = "What did you think?";
+        public const string ReviewReadingProgressDisplayNameConstant = "What is your reading progress?";
+        public const string ReviewThisEditionDisplayNameConstant = "Is this the edition you read?";
+        public const int ReviewDescriptionMinLength = 20;
+
         // User Register costants
         public const string UserEmailDisplayName = "Email";
         public const string UserPasswordDisplayName = "Password";

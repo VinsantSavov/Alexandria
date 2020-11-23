@@ -16,6 +16,8 @@
 
         Task EditBookAsync(int id, string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink);
 
+        Task<bool> DoesBookIdExistAsync(int id);
+
         Task<int> GetBooksCountAsync();
 
         Task<int> GetBooksCountByAuthorIdAsync(int authorId);
