@@ -1,0 +1,35 @@
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    font-size: 20px;
+}
+
+    .rating span.star {
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        display: inline-block
+    }
+
+        .rating span.star:hover {
+            cursor: pointer
+        }
+
+        .rating span.star:before {
+            content: "\f006";
+            padding-right: 5px;
+            color: #999
+        }
+
+        .rating span.star:hover:before, .rating span.star:hover ~ span.star:before {
+            content: "\f005";
+            color: #fca103
+        }
+
+        .rating span.star.filled {
+        }
+
+            .rating span.star.filled:before {
+                content: "\f005";
+                color: #fca103
+            }

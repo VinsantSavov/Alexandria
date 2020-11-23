@@ -108,6 +108,19 @@
             return review;
         }
 
+        public async Task<IEnumerable<TModel>> GetTopReviewsByBookIdAsync<TModel>(int bookId, int count)
+        {
+            var reviews = await this.db.Reviews.AsNoTracking()
+                                         .Where(r => r.BookId == bookId && !r.IsDeleted)
+                                         .OrderByDescending(r => r.Likes)
+                                         .ThenByDescending(r => r.CreatedOn)
+                                         .To<TModel>()
+                                         .Take(count)
+                                         .ToListAsync();
+
+            return reviews;
+        }
+
         public async Task MakeBestReviewAsync(int id)
         {
             var review = await this.GetByIdAsync(id);

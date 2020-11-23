@@ -40,7 +40,7 @@
 
         public IEnumerable<BooksLiteraryAwardViewModel> Awards { get; set; }
 
-        public IEnumerable<BooksReviewViewModel> Reviews { get; set; }
+        public IEnumerable<BooksReviewViewModel> CommunityReviews { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

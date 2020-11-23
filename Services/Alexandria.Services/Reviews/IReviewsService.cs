@@ -20,5 +20,7 @@
         Task<IEnumerable<TModel>> GetAllReviewsByAuthorIdAsync<TModel>(string authorId);
 
         Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId);
+
+        Task<IEnumerable<TModel>> GetTopReviewsByBookIdAsync<TModel>(int bookId, int count);
     }
 }

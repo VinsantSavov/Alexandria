@@ -4,23 +4,30 @@
     using System.Threading.Tasks;
 
     using Alexandria.Services.Books;
+    using Alexandria.Services.Reviews;
     using Alexandria.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Mvc;
 
     public class BooksController : Controller
     {
         private const int BooksPerPage = 10;
+        private const int ReviewsCount = 5;
         private const string ControllerName = "Books";
 
         private readonly IBooksService booksService;
+        private readonly IReviewsService reviewsService;
 
-        public BooksController(IBooksService booksService)
+        public BooksController(IBooksService booksService, IReviewsService reviewsService)
         {
             this.booksService = booksService;
+            this.reviewsService = reviewsService;
         }
 
-        public IActionResult Details()
+        public async Task<IActionResult> Details(int id)
         {
+            var book = await this.booksService.GetBookByIdAsync<BooksDetailsViewModel>(id);
+            book.CommunityReviews = await this.reviewsService.GetTopReviewsByBookIdAsync<BooksReviewViewModel>(id, ReviewsCount);
+
             return this.View();
         }
 
@@ -62,6 +69,7 @@
         public async Task<IActionResult> Test(int id)
         {
             var book = await this.booksService.GetBookByIdAsync<BooksDetailsViewModel>(id);
+            book.CommunityReviews = await this.reviewsService.GetTopReviewsByBookIdAsync<BooksReviewViewModel>(id, ReviewsCount);
 
             return this.View(book);
         }
