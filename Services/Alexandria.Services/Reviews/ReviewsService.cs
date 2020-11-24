@@ -96,6 +96,18 @@
             return reviews;
         }
 
+        public async Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId)
+        {
+            var reviews = await this.db.Reviews.AsNoTracking()
+                                               .Where(r => r.ParentId == reviewId && !r.IsDeleted)
+                                               .OrderByDescending(r => r.Likes)
+                                               .ThenByDescending(r => r.CreatedOn)
+                                               .To<TModel>()
+                                               .ToListAsync();
+
+            return reviews;
+        }
+
         public async Task<TModel> GetReviewByIdAsync<TModel>(int id)
         {
             var review = await this.db.Reviews.Where(r => r.Id == id && !r.IsDeleted)

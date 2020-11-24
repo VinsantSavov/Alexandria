@@ -17,6 +17,8 @@
 
         Task MakeBestReviewAsync(int id);
 
+        Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId);
+
         Task<IEnumerable<TModel>> GetAllReviewsByAuthorIdAsync<TModel>(string authorId);
 
         Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId);

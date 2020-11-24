@@ -10,6 +10,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class ReviewsController : Controller
     {
         private readonly IBooksService booksService;
@@ -26,14 +27,15 @@
             this.userManager = userManager;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDetailsViewModel>(id);
+            review.Comments = await this.reviewsService.GetChildrenReviewsByReviewIdAsync<ReviewsAllViewModel>(id);
 
             return this.View(review);
         }
 
-        [Authorize]
         public async Task<IActionResult> Create(int id)
         {
             var viewModel = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(id);
@@ -42,7 +44,6 @@
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(ReviewsCreateInputModel input)
         {
             if (!this.ModelState.IsValid)

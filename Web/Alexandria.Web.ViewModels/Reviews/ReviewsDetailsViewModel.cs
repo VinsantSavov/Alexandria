@@ -1,6 +1,7 @@
 ﻿namespace Alexandria.Web.ViewModels.Reviews
 {
     using System;
+    using System.Collections.Generic;
 
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
@@ -46,6 +47,8 @@
         public DateTime BookPublishedOn { get; set; }
 
         public string BookAuthorFullName { get; set; }
+
+        public IEnumerable<ReviewsAllViewModel> Comments { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

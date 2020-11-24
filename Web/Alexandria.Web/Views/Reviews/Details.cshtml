@@ -1,27 +1,40 @@
 ﻿@using Alexandria.Web.ViewModels.Reviews
 @model ReviewsDetailsViewModel
 
+<style>
+    .like {
+        background-color: #fd7e14;
+        border: solid;
+        color: white;
+        padding: 5px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 8px;
+    }
+</style>
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2"></div>
+        <div class="col-md-3"></div>
         <h3 class="text-left mb-4"><span class="text-info">@Model.AuthorUsername's Review</span> for @Model.BookTitle</h3>
     </div>
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-2">
-            <img src="@Model.BookPictureURL" class="d-block w-75" alt="slide1">
+        <div class="col-md-3"></div>
+        <div class="col-md-1">
+            <img src="@Model.BookPictureURL" class="d-block w-100" alt="slide1">
         </div>
         <div class="col-md-4">
             <h4 class="font-weight-bold text-capitalize text-left">
                 <a class="text-dark" asp-controller="Books" asp-action="Details" asp-route-id="@Model.BookId">
                     @Model.BookTitle
                 </a>
+                <span class="text-secondary font-weight-normal">(@Model.BookPublishedOn.Year)</span>
             </h4>
             <p class="text-left mt-1">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.BookAuthorId"><em>@Model.BookAuthorFullName</em></a></p>
-            <p class="text-left font-italic mt-0 " style="font-size: 13px">Published on: @Model.BookPublishedOn.ToShortDateString()</p>
             <div class="row">
                 <div class="col-md-6">
-                    <p class="text-left">@Model.AuthorUsername</p>
+                    <h5 class="text-left">@Model.AuthorUsername</h5>
                     <div class="col-md-2">
                         <img src="@Model.AuthorProfilePicture" class="d-block" alt="slide1">
                     </div>
@@ -29,7 +42,7 @@
             </div>
             <p>@Html.Raw(@Model.SanitizedDescription)</p>
             <form>
-                <button class="btn " href="#">Like</button>
+                <button class="btn like active" href="#">Like</button>
             </form>
             <hr />
             <dl class="row">
@@ -69,7 +82,60 @@
 <section>
     <div class="container">
         <h4 class="mb-4 text-center">Comments</h4>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="/images/user/icons80.png" class="d-block w-100" alt="slide1">
+                    </div>
+                    <div class="col-md-10">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
+                                AuthorUsername
+                            </dt>
+                            <dd class="col-sm-6 text-secondary font-italic text-right">
+                                12.12.2020
+                            </dd>
+                        </dl>
+                        <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
+                        <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: ReadingProgress</p>
+                        <p>jsgogjjgsjgsjgjsgpjwegjewjgjgsdjgjs dgjsdgsdgjspgjjgjggjgjgjgjgjgjgjjgjgjgjgg jgfhfhfhfhfhfhfhfhfhfhfhfhfhfhjgjgjgjgjgj gjgjjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjjg</p>
+                        <p class="text-secondary font-italic">
+                            400 Likes
+                            <i class="fas fa-circle" style="font-size: 3px"></i>
+                            <span class="text-right">
+                                <a class="text-secondary" asp-controller="Reviews" asp-action="Details" asp-route-id="3">
+                                    see review
+                                </a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="col-md-2">
+            <img src="@comment.AuthorProfilePicture" class="d-block w-100" alt="slide1">
+        </div>
+        <div class="col-md-10">
+            <dl class="row mb-0">
+                <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
+                    @comment.AuthorUsername
+                </dt>
+                <dd class="col-sm-6 text-secondary font-italic text-right">
+                    @comment.CreatedOn
+                </dd>
+            </dl>
+            <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
+            <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @comment.ReadingProgress</p>
+            <p>@Html.Raw(comment.SanitizedDescription)</p>
+            <p class="text-secondary font-italic">@comment.Likes Likes</p>
+        </div>
+    }
 </section>
 
 @*<div class="col-md-2">
