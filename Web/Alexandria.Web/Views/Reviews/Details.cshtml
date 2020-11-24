@@ -1,19 +1,6 @@
 ﻿@using Alexandria.Web.ViewModels.Reviews
 @model ReviewsDetailsViewModel
 
-<style>
-    .like {
-        background-color: #fd7e14;
-        border: solid;
-        color: white;
-        padding: 5px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 8px;
-    }
-</style>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3"></div>
@@ -82,6 +69,25 @@
 <section>
     <div class="container">
         <h4 class="mb-4 text-center">Comments</h4>
+        @if (Model.Comments.Count() == 0)
+        {
+            <h5 class="text-center text-secondary my-4">No comments have been added yet.</h5>
+            <h6 class="text-center text-secondary my-4">Be the first one.</h6>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="row">
+                        @foreach (var comment in Model.Comments)
+                        { 
+                            <partial name="_ReviewsListingPartial" model="comment" />
+                        }
+                    </div>
+                </div>
+            </div>
+        }
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -101,6 +107,9 @@
                         <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
                         <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: ReadingProgress</p>
                         <p>jsgogjjgsjgsjgjsgpjwegjewjgjgsdjgjs dgjsdgsdgjspgjjgjggjgjgjgjgjgjgjjgjgjgjgg jgfhfhfhfhfhfhfhfhfhfhfhfhfhfhjgjgjgjgjgj gjgjjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjjg</p>
+                        <form>
+                            <button class="btn like active" href="#">Like</button>
+                        </form>
                         <p class="text-secondary font-italic">
                             400 Likes
                             <i class="fas fa-circle" style="font-size: 3px"></i>
@@ -115,27 +124,6 @@
             </div>
         </div>
     </div>
-
-    @foreach (var comment in Model.Comments)
-    {
-        <div class="col-md-2">
-            <img src="@comment.AuthorProfilePicture" class="d-block w-100" alt="slide1">
-        </div>
-        <div class="col-md-10">
-            <dl class="row mb-0">
-                <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-                    @comment.AuthorUsername
-                </dt>
-                <dd class="col-sm-6 text-secondary font-italic text-right">
-                    @comment.CreatedOn
-                </dd>
-            </dl>
-            <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
-            <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @comment.ReadingProgress</p>
-            <p>@Html.Raw(comment.SanitizedDescription)</p>
-            <p class="text-secondary font-italic">@comment.Likes Likes</p>
-        </div>
-    }
 </section>
 
 @*<div class="col-md-2">

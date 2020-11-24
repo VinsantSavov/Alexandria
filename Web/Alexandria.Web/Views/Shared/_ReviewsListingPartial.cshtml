@@ -1,0 +1,30 @@
+﻿@model ReviewListingViewModel
+
+<div class="col-md-2">
+    <img src="@Model.AuthorProfilePicture" class="d-block w-100" alt="slide1">
+</div>
+<div class="col-md-10">
+    <dl class="row mb-0">
+        <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
+            @Model.AuthorUsername
+        </dt>
+        <dd class="col-sm-6 text-secondary font-italic text-right">
+            @Model.CreatedOn
+        </dd>
+    </dl>
+    <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
+    <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @Model.ReadingProgress</p>
+    <p>@Html.Raw(Model.SanitizedDescription)</p>
+    <form>
+        <button class="btn like active" href="#">Like</button>
+    </form>
+    <p class="text-secondary font-italic">
+        @Model.Likes Likes
+        <i class="fas fa-circle" style="font-size: 3px"></i>
+        <span class="text-right">
+            <a class="text-secondary" asp-controller="Reviews" asp-action="Details" asp-route-id="@Model.Id">
+                see review
+            </a>
+        </span>
+    </p>
+</div>

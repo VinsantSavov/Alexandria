@@ -1,4 +1,4 @@
-﻿namespace Alexandria.Web.ViewModels.Books
+﻿namespace Alexandria.Web.ViewModels
 {
     using System;
 
@@ -6,11 +6,11 @@
     using Alexandria.Services.Mapping;
     using Ganss.XSS;
 
-    public class BooksReviewViewModel : IMapFrom<Review>
+    public class ReviewListingViewModel : IMapFrom<Review>
     {
         private readonly HtmlSanitizer sanitizer;
 
-        public BooksReviewViewModel()
+        public ReviewListingViewModel()
         {
             this.sanitizer = new HtmlSanitizer();
         }

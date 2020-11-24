@@ -136,25 +136,8 @@
                     <div class="row">
                         @foreach (var review in Model.CommunityReviews)
                         {
-                            <div class="col-md-2">
-                                <img src="@review.AuthorProfilePicture" class="d-block w-100" alt="slide1">
-                            </div>
-                            <div class="col-md-10">
-                                <dl class="row mb-0">
-                                    <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-                                        @review.AuthorUsername
-                                    </dt>
-                                    <dd class="col-sm-6 text-secondary font-italic text-right">
-                                        @review.CreatedOn
-                                    </dd>
-                                </dl>
-                                <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
-                                <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @review.ReadingProgress</p>
-                                <p>@Html.Raw(review.SanitizedDescription)</p>
-                                <p class="text-secondary font-italic">@review.Likes Likes</p>
-                            </div>
+                            <partial name="_ReviewsListingPartial" model="review" />
                         }
-
                     </div>
                 </div>
             </div>

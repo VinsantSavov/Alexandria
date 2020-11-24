@@ -5,6 +5,7 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Books;
     using Alexandria.Services.Reviews;
+    using Alexandria.Web.ViewModels;
     using Alexandria.Web.ViewModels.Reviews;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -31,7 +32,7 @@
         public async Task<IActionResult> Details(int id)
         {
             var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDetailsViewModel>(id);
-            review.Comments = await this.reviewsService.GetChildrenReviewsByReviewIdAsync<ReviewsAllViewModel>(id);
+            review.Comments = await this.reviewsService.GetChildrenReviewsByReviewIdAsync<ReviewListingViewModel>(id);
 
             return this.View(review);
         }

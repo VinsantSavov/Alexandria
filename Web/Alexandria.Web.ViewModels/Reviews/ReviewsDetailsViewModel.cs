@@ -48,7 +48,7 @@
 
         public string BookAuthorFullName { get; set; }
 
-        public IEnumerable<ReviewsAllViewModel> Comments { get; set; }
+        public IEnumerable<ReviewListingViewModel> Comments { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
