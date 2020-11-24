@@ -46,7 +46,7 @@
             configuration.CreateMap<Book, ReviewsCreateInputModel>()
                 .ForMember(
                 r => r.Author,
-                b => b.MapFrom(src => src.Author.FirstName + " " + src.Author.LastName));
+                b => b.MapFrom(src => string.IsNullOrWhiteSpace(src.Author.SecondName) ? src.Author.FirstName + " " + src.Author.LastName : src.Author.FirstName + " " + src.Author.SecondName + " " + src.Author.LastName));
         }
     }
 }

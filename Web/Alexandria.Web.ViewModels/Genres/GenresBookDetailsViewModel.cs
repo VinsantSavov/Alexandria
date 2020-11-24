@@ -27,7 +27,7 @@
                             b => b.MapFrom(src => src.Tags.Select(t => t.Tag.Name)))
                          .ForMember(
                             dest => dest.Author,
-                            b => b.MapFrom(src => src.Author.FirstName + " " + src.Author.LastName));
+                            b => b.MapFrom(src => string.IsNullOrWhiteSpace(src.Author.SecondName) ? src.Author.FirstName + " " + src.Author.LastName : src.Author.FirstName + " " + src.Author.SecondName + " " + src.Author.LastName));
         }
     }
 }

@@ -37,6 +37,15 @@
             return this.View(review);
         }
 
+        [AllowAnonymous]
+        public async Task<IActionResult> All(int id)
+        {
+            var viewModel = await this.booksService.GetBookByIdAsync<ReviewsAllViewModel>(id);
+            viewModel.AllReviews = await this.reviewsService.GetAllReviewsByBookIdAsync<ReviewListingViewModel>(id);
+
+            return this.View(viewModel);
+        }
+
         public async Task<IActionResult> Create(int id)
         {
             var viewModel = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(id);
