@@ -7,13 +7,15 @@
 
     public interface IReviewsService
     {
-        Task<int> CreateReviewAsync(string description, int? parentId, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition);
+        Task<int> CreateReviewAsync(string description, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition, int? parentId = null);
 
         Task<TModel> GetReviewByIdAsync<TModel>(int id);
 
         Task DeleteReviewByIdAsync(int id);
 
         Task EditReviewAsync(int id, string description);
+
+        Task<bool> DoesReviewIdExistAsync(int id);
 
         Task MakeBestReviewAsync(int id);
 

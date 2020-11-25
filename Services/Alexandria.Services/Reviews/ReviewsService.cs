@@ -21,7 +21,7 @@
             this.db = db;
         }
 
-        public async Task<int> CreateReviewAsync(string description, int? parentId, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition)
+        public async Task<int> CreateReviewAsync(string description, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition, int? parentId = null)
         {
             var review = new Review
             {
@@ -53,6 +53,11 @@
             review.DeletedOn = DateTime.UtcNow;
 
             await this.db.SaveChangesAsync();
+        }
+
+        public async Task<bool> DoesReviewIdExistAsync(int id)
+        {
+            return await this.db.Reviews.AnyAsync(r => r.Id == id && !r.IsDeleted);
         }
 
         public async Task EditReviewAsync(int id, string description)

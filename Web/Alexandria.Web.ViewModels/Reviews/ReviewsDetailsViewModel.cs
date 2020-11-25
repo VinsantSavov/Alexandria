@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
+    using Alexandria.Common;
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Mapping;
@@ -20,6 +22,12 @@
 
         public int Id { get; set; }
 
+        // mapped from review
+        public string Content { get; set; }
+
+        // not mapped, used for input
+        [IgnoreMap]
+        [Display(Name = GlobalConstants.ReviewDescriptionDisplayNameConstant)]
         public string Description { get; set; }
 
         public DateTime CreatedOn { get; set; }
@@ -28,7 +36,7 @@
 
         public string AuthorProfilePicture { get; set; }
 
-        public string SanitizedDescription => this.sanitizer.Sanitize(this.Description);
+        public string SanitizedContent => this.sanitizer.Sanitize(this.Content);
 
         public int Likes { get; set; }
 
@@ -36,7 +44,7 @@
 
         public bool ThisEdition { get; set; }
 
-        public string BookId { get; set; }
+        public int BookId { get; set; }
 
         public string BookTitle { get; set; }
 
@@ -58,7 +66,11 @@
                          a => a.MapFrom(
                              src => string.IsNullOrWhiteSpace(src.Book.Author.SecondName)
                              ? src.Book.Author.FirstName + " " + src.Book.Author.LastName
-                             : src.Book.Author.FirstName + " " + src.Book.Author.SecondName + " " + src.Book.Author.LastName));
+                             : src.Book.Author.FirstName + " " + src.Book.Author.SecondName + " " + src.Book.Author.LastName))
+                         .ForMember(
+                         dest => dest.Content,
+                         a => a.MapFrom(
+                             src => src.Description));
         }
     }
 }

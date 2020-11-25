@@ -58,7 +58,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var bookInfo = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(input.Id);
+                var bookInfo = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(input.BookId);
                 input.PictureURL = bookInfo.PictureURL;
                 input.Title = bookInfo.Title;
                 input.Author = bookInfo.Author;
@@ -68,9 +68,9 @@
             }
 
             var userId = this.userManager.GetUserId(this.User);
-            var reviewId = await this.reviewsService.CreateReviewAsync(input.Description, null, userId, input.Id, input.ReadingProgress, input.ThisEdition);
+            var reviewId = await this.reviewsService.CreateReviewAsync(input.Description, userId, input.BookId, input.ReadingProgress, input.ThisEdition, input.ReviewId);
 
-            return this.RedirectToAction(nameof(this.Details), reviewId);
+            return this.RedirectToAction(nameof(this.Details), new { id = reviewId });
         }
     }
 }

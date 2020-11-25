@@ -13,7 +13,10 @@
     {
         [Required]
         [EnsureBookIdExists(ErrorMessage = ErrorMessages.ReviewNotExistingBookIdErrorMessage)]
-        public int Id { get; set; }
+        public int BookId { get; set; }
+
+        [EnsureReviewIdExists(ErrorMessage = ErrorMessages.ReviewNotExistingReviewIdErrorMessage)]
+        public int? ReviewId { get; set; }
 
         public string Title { get; set; }
 
@@ -46,7 +49,10 @@
             configuration.CreateMap<Book, ReviewsCreateInputModel>()
                 .ForMember(
                 r => r.Author,
-                b => b.MapFrom(src => string.IsNullOrWhiteSpace(src.Author.SecondName) ? src.Author.FirstName + " " + src.Author.LastName : src.Author.FirstName + " " + src.Author.SecondName + " " + src.Author.LastName));
+                b => b.MapFrom(src => string.IsNullOrWhiteSpace(src.Author.SecondName) ? src.Author.FirstName + " " + src.Author.LastName : src.Author.FirstName + " " + src.Author.SecondName + " " + src.Author.LastName))
+                .ForMember(
+                r => r.BookId,
+                b => b.MapFrom(src => src.Id));
         }
     }
 }

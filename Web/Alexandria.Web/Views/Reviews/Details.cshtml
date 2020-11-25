@@ -1,145 +1,198 @@
 ﻿@using Alexandria.Web.ViewModels.Reviews
+@using Alexandria.Data.Models.Enums
 @model ReviewsDetailsViewModel
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <h3 class="text-left mb-4"><span class="text-info">@Model.AuthorUsername's Review</span> for @Model.BookTitle</h3>
-    </div>
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-1">
-            <img src="@Model.BookPictureURL" class="d-block w-100" alt="slide1">
+    <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            plugins: [
+                "image paste table link code media"
+            ]
+        });
+    </script>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <h3 class="text-left mb-4"><span class="text-info">@Model.AuthorUsername's Review</span> for @Model.BookTitle</h3>
         </div>
-        <div class="col-md-4">
-            <h4 class="font-weight-bold text-capitalize text-left">
-                <a class="text-dark" asp-controller="Books" asp-action="Details" asp-route-id="@Model.BookId">
-                    @Model.BookTitle
-                </a>
-                <span class="text-secondary font-weight-normal">(@Model.BookPublishedOn.Year)</span>
-            </h4>
-            <p class="text-left mt-1">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.BookAuthorId"><em>@Model.BookAuthorFullName</em></a></p>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 class="text-left">@Model.AuthorUsername</h5>
-                    <div class="col-md-2">
-                        <img src="@Model.AuthorProfilePicture" class="d-block" alt="slide1">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-1">
+                <img src="@Model.BookPictureURL" class="d-block w-100" alt="slide1">
+            </div>
+            <div class="col-md-4">
+                <h4 class="font-weight-bold text-capitalize text-left">
+                    <a class="text-dark" asp-controller="Books" asp-action="Details" asp-route-id="@Model.BookId">
+                        @Model.BookTitle
+                    </a>
+                    <span class="text-secondary font-weight-normal">(@Model.BookPublishedOn.Year)</span>
+                </h4>
+                <p class="text-left mt-1">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.BookAuthorId"><em>@Model.BookAuthorFullName</em></a></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="text-left">@Model.AuthorUsername</h5>
+                        <div class="col-md-2">
+                            <img src="@Model.AuthorProfilePicture" class="d-block" alt="slide1">
+                        </div>
                     </div>
                 </div>
+                <p>@Html.Raw(@Model.SanitizedContent)</p>
+                <form>
+                    <button class="btn like active" href="#">Like</button>
+                </form>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-4" style="font-size: 13px">
+                        <i class="far fa-calendar-alt"></i>
+                        Published On:
+                    </dt>
+                    <dd class="col-md-8" style="font-size: 13px">
+                        @Model.CreatedOn
+                    </dd>
+                    <dt class="col-sm-4" style="font-size: 13px">
+                        <i class="fas fa-bookmark"></i>
+                        Reading Progress:
+                    </dt>
+                    <dd class="col-md-8" style="font-size: 13px">
+                        @Model.ReadingProgress
+                    </dd>
+                    <dt class="col-sm-4" style="font-size: 13px">
+                        <i class="fas fa-book"></i>
+                        This Edition:
+                    </dt>
+                    <dd class="col-md-8" style="font-size: 13px">
+                        @Model.ThisEdition
+                    </dd>
+                    <dt class="col-sm-4" style="font-size: 13px">
+                        <i class="far fa-thumbs-up"></i>
+                        Likes:
+                    </dt>
+                    <dd class="col-md-8" style="font-size: 13px">
+                        @Model.Likes
+                    </dd>
+                </dl>
+                <hr />
+                <button class="btn mb-5" onclick="displaysCreateReviewForm()">Add Comment</button>
+                <div id="AddCommentToReviewForm" style="display: none">
+                    <form asp-controller="Reviews" asp-action="Create" method="post">
+                        <div asp-validation-summary="All" class="alert-danger"></div>
+
+                        <input type="hidden" asp-for="BookId" />
+                        <input type="hidden" name="ReviewId" value="@Model.Id" />
+
+                        <div class="form-group">
+                            <label asp-for="Description"></label>
+                            <textarea asp-for="Description" class="form-control" rows="10" placeholder="Write your review"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label asp-for="ReadingProgress"></label>
+                                <select asp-for="ReadingProgress" asp-items="@Html.GetEnumSelectList<ReadingProgress>()" class="form-control"></select>
+                                <span asp-validation-for="ReadingProgress" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label asp-for="ThisEdition"></label>
+                                <select asp-for="ThisEdition" class="form-control">
+                                    <option value="True">Yes</option>
+                                    <option value="False">No</option>
+                                </select>
+                                <span asp-validation-for="ThisEdition" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="btn" />
+                    </form>
+                </div>
             </div>
-            <p>@Html.Raw(@Model.SanitizedDescription)</p>
-            <form>
-                <button class="btn like active" href="#">Like</button>
-            </form>
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-4" style="font-size: 13px">
-                    <i class="far fa-calendar-alt"></i>
-                    Published On:
-                </dt>
-                <dd class="col-md-8" style="font-size: 13px">
-                    @Model.CreatedOn
-                </dd>
-                <dt class="col-sm-4" style="font-size: 13px">
-                    <i class="fas fa-bookmark"></i>
-                    Reading Progress:
-                </dt>
-                <dd class="col-md-8" style="font-size: 13px">
-                    @Model.ReadingProgress
-                </dd>
-                <dt class="col-sm-4" style="font-size: 13px">
-                    <i class="fas fa-book"></i>
-                    This Edition:
-                </dt>
-                <dd class="col-md-8" style="font-size: 13px">
-                    @Model.ThisEdition
-                </dd>
-                <dt class="col-sm-4" style="font-size: 13px">
-                    <i class="far fa-thumbs-up"></i>
-                    Likes:
-                </dt>
-                <dd class="col-md-8" style="font-size: 13px">
-                    @Model.Likes
-                </dd>
-            </dl>
-            <hr />
         </div>
     </div>
-</div>
-<section>
-    <div class="container">
-        <h4 class="mb-4 text-center">Comments</h4>
-        @if (Model.Comments.Count() == 0)
-        {
-            <h5 class="text-center text-secondary my-4">No comments have been added yet.</h5>
-            <h6 class="text-center text-secondary my-4">Be the first one.</h6>
-        }
-        else
-        {
+    <section>
+        <div class="container">
+            <h4 class="my-4 text-center">Comments</h4>
+            @if (Model.Comments.Count() == 0)
+            {
+                <h5 class="text-center text-secondary my-4">No comments have been added yet.</h5>
+                <h6 class="text-center text-secondary my-4">Be the first one.</h6>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            @foreach (var comment in Model.Comments)
+                            {
+                                <partial name="_ReviewsListingPartial" model="comment" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <div class="row">
-                        @foreach (var comment in Model.Comments)
-                        { 
-                            <partial name="_ReviewsListingPartial" model="comment" />
-                        }
-                    </div>
-                </div>
-            </div>
-        }
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-2">
-                        <img src="/images/user/icons80.png" class="d-block w-100" alt="slide1">
-                    </div>
-                    <div class="col-md-10">
-                        <dl class="row mb-0">
-                            <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-                                AuthorUsername
-                            </dt>
-                            <dd class="col-sm-6 text-secondary font-italic text-right">
-                                12.12.2020
-                            </dd>
-                        </dl>
-                        <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
-                        <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: ReadingProgress</p>
-                        <p>jsgogjjgsjgsjgjsgpjwegjewjgjgsdjgjs dgjsdgsdgjspgjjgjggjgjgjgjgjgjgjjgjgjgjgg jgfhfhfhfhfhfhfhfhfhfhfhfhfhfhjgjgjgjgjgj gjgjjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjjg</p>
-                        <form>
-                            <button class="btn like active" href="#">Like</button>
-                        </form>
-                        <p class="text-secondary font-italic">
-                            400 Likes
-                            <i class="fas fa-circle" style="font-size: 3px"></i>
-                            <span class="text-right">
-                                <a class="text-secondary" asp-controller="Reviews" asp-action="Details" asp-route-id="3">
-                                    see review
-                                </a>
-                            </span>
-                        </p>
+                        <div class="col-md-2">
+                            <img src="/images/user/icons80.png" class="d-block w-100" alt="slide1">
+                        </div>
+                        <div class="col-md-10">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
+                                    AuthorUsername
+                                </dt>
+                                <dd class="col-sm-6 text-secondary font-italic text-right">
+                                    12.12.2020
+                                </dd>
+                            </dl>
+                            <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
+                            <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: ReadingProgress</p>
+                            <p>jsgogjjgsjgsjgjsgpjwegjewjgjgsdjgjs dgjsdgsdgjspgjjgjggjgjgjgjgjgjgjjgjgjgjgg jgfhfhfhfhfhfhfhfhfhfhfhfhfhfhjgjgjgjgjgj gjgjjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjjg</p>
+                            <form>
+                                <button class="btn like active" href="#">Like</button>
+                            </form>
+                            <p class="text-secondary font-italic">
+                                400 Likes
+                                <i class="fas fa-circle" style="font-size: 3px"></i>
+                                <span class="text-right">
+                                    <a class="text-secondary" asp-controller="Reviews" asp-action="Details" asp-route-id="3">
+                                        see review
+                                    </a>
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-@*<div class="col-md-2">
-        <img src="@review.AuthorProfilePicture" class="d-block w-100" alt="slide1">
-    </div>
-    <div class="col-md-10">
-        <dl class="row mb-0">
-            <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-                @review.AuthorUsername
-            </dt>
-            <dd class="col-sm-6 text-secondary font-italic text-right">
-                @review.CreatedOn
-            </dd>
-        </dl>
-        <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
-        <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @review.ReadingProgress</p>
-        <p>@Html.Raw(review.SanitizedDescription)</p>
-        <p class="text-secondary font-italic">@review.Likes Likes</p>
-    </div>*@
+@section Scripts{ 
+<script>
+    function displaysCreateReviewForm() {
+        $("#AddCommentToReviewForm").toggle();
+    }
+</script>
+}
+
+    @*<div class="col-md-2">
+            <img src="@review.AuthorProfilePicture" class="d-block w-100" alt="slide1">
+        </div>
+        <div class="col-md-10">
+            <dl class="row mb-0">
+                <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
+                    @review.AuthorUsername
+                </dt>
+                <dd class="col-sm-6 text-secondary font-italic text-right">
+                    @review.CreatedOn
+                </dd>
+            </dl>
+            <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
+            <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @review.ReadingProgress</p>
+            <p>@Html.Raw(review.SanitizedDescription)</p>
+            <p class="text-secondary font-italic">@review.Likes Likes</p>
+        </div>*@

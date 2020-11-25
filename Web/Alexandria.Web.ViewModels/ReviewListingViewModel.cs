@@ -17,6 +17,8 @@
 
         public int Id { get; set; }
 
+        public int? ParentId { get; set; }
+
         public string AuthorUsername { get; set; }
 
         public string AuthorProfilePicture { get; set; }
