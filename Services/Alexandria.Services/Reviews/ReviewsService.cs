@@ -21,6 +21,15 @@
             this.db = db;
         }
 
+        public async Task<bool> AreReviewsAboutSameBookAsync(int reviewId, int bookId)
+        {
+            var reviewBookId = await this.db.Reviews.Where(r => r.Id == reviewId && !r.IsDeleted)
+                                                    .Select(r => r.BookId)
+                                                    .FirstOrDefaultAsync();
+
+            return reviewBookId == bookId;
+        }
+
         public async Task<int> CreateReviewAsync(string description, string authorId, int bookId, ReadingProgress readingProgress, bool thisEdition, int? parentId = null)
         {
             var review = new Review

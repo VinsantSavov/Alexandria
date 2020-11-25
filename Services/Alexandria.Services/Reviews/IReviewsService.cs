@@ -17,6 +17,8 @@
 
         Task<bool> DoesReviewIdExistAsync(int id);
 
+        Task<bool> AreReviewsAboutSameBookAsync(int reviewId, int bookId);
+
         Task MakeBestReviewAsync(int id);
 
         Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId);

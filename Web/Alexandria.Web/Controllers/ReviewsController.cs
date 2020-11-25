@@ -67,6 +67,16 @@
                 return this.View(input);
             }
 
+            if (input.ReviewId.HasValue)
+            {
+                var areAboutSameBook = await this.reviewsService.AreReviewsAboutSameBookAsync(input.ReviewId.Value, input.BookId);
+
+                if (!areAboutSameBook)
+                {
+                    return this.BadRequest();
+                }
+            }
+
             var userId = this.userManager.GetUserId(this.User);
             var reviewId = await this.reviewsService.CreateReviewAsync(input.Description, userId, input.BookId, input.ReadingProgress, input.ThisEdition, input.ReviewId);
 
