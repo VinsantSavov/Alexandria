@@ -14,7 +14,7 @@
 
         public string AuthorFullName { get; set; }
 
-        public IEnumerable<ReviewListingViewModel> AllReviews { get; set; }
+        public ICollection<ReviewListingViewModel> AllReviews { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

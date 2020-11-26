@@ -1,6 +1,8 @@
 ﻿namespace Alexandria.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Alexandria.Data.Models;
@@ -60,10 +62,26 @@
             viewModel.CurrentPage = page;
             viewModel.ControllerName = ControllerName;
             viewModel.ActionName = nameof(this.All);
-            viewModel.AllReviews = await this.reviewsService.GetAllReviewsByBookIdAsync<ReviewListingViewModel>(id, ReviewsPerPage, (page - 1) * ReviewsPerPage);
+            viewModel.AllReviews = (ICollection<ReviewListingViewModel>)await this.reviewsService.GetAllReviewsByBookIdAsync<ReviewListingViewModel>(id, ReviewsPerPage, (page - 1) * ReviewsPerPage);
+
+            var all = await this.reviewsService.GetChildrenReviewsToReviewsAsync<ReviewListingViewModel>(viewModel.AllReviews.Select(r => r.Id).ToList(), id);
+
+            foreach (var review in all)
+            {
+                viewModel.AllReviews.Add(review);
+            }
 
             return this.View(viewModel);
         }
+
+        /*private async Task<ICollection<ReviewListingViewModel>> FillCollection(ICollection<int> reviewsIds, int bookId)
+        {
+            var all = new List<ReviewListingViewModel>();
+
+            all.AddRange(await this.reviewsService.GetChildrenReviewsToReviewsAsync<ReviewListingViewModel>(reviewsIds, bookId));
+
+            await this.FillCollection(all.Select(r => r.Id).ToList(), bookId);
+        }*/
 
         public async Task<IActionResult> Create(int id)
         {

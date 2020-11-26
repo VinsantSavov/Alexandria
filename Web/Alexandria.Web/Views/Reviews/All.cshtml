@@ -1,17 +1,41 @@
-﻿@using Alexandria.Web.ViewModels.Reviews
+﻿@using System.Threading.Tasks
+@using Alexandria.Web.ViewModels.Reviews
 @model ReviewsAllViewModel
+
+@{
+    async Task DisplayReviews(int? parentId)
+    {
+        var reviews = Model.AllReviews.Where(r => r.ParentId == parentId);
+
+        if (!reviews.Any())
+        {
+            return;
+        }
+
+        foreach (var review in reviews)
+        {
+            <div class="row">
+                <div class="col-md-12 border">
+                    <partial name="_ReviewsListingPartial" model="review" />
+                </div>
+                <div class="col-md-1 bg-white"></div>
+                <div class="col-md-11 bg-light">
+                    @{ await DisplayReviews(review.Id); }
+                </div>
+            </div>
+        }
+    }
+}
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
             <h3 class="text-center my-5">Community Reviews</h3>
-
-            @foreach (var review in Model.AllReviews)
-            {
-                <partial name="_ReviewsListingPartial" model="review" />
-            }
-            <div class="row">
+            <div>
+                @{ await DisplayReviews(null); }
+            </div>
+            <div class="row my-4">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <partial name="_PaginationPartialWithId" />

@@ -116,7 +116,9 @@
         public async Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId, int? take = null, int skip = 0)
         {
             var queryable = this.db.Reviews.AsNoTracking()
-                                         .Where(r => r.BookId == bookId && !r.IsDeleted)
+                                         .Where(r => r.BookId == bookId
+                                                 && r.ParentId == null
+                                                 && !r.IsDeleted)
                                          .OrderBy(r => r.IsBestReview)
                                          .ThenByDescending(r => r.Likes)
                                          .ThenByDescending(r => r.CreatedOn)
@@ -163,7 +165,9 @@
         public async Task<IEnumerable<TModel>> GetTopReviewsByBookIdAsync<TModel>(int bookId, int count)
         {
             var reviews = await this.db.Reviews.AsNoTracking()
-                                         .Where(r => r.BookId == bookId && !r.IsDeleted)
+                                         .Where(r => r.BookId == bookId
+                                                && r.ParentId == null
+                                                && !r.IsDeleted)
                                          .OrderByDescending(r => r.Likes)
                                          .ThenByDescending(r => r.CreatedOn)
                                          .To<TModel>()
@@ -187,6 +191,28 @@
             }
 
             await this.db.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<TModel>> GetChildrenReviewsToReviewsAsync<TModel>(ICollection<int> reviewsIds, int bookId)
+        {
+            var childrenReviews = await this.db.Reviews.AsNoTracking()
+                                                 .Where(r => reviewsIds
+                                                    .Contains(r.ParentId == null ? 0 : r.ParentId.Value)
+                                                    && r.BookId == bookId
+                                                    && !r.IsDeleted)
+                                                 .To<TModel>()
+                                                 .ToListAsync();
+
+            if (!childrenReviews.Any())
+            {
+                return childrenReviews;
+            }
+
+            childrenReviews.AddRange(await this.GetChildrenReviewsToReviewsAsync<TModel>(
+                childrenReviews
+                .Select(r => (int)r.GetType().GetProperty("Id").GetValue(r)).ToList(), bookId));
+
+            return childrenReviews;
         }
 
         private async Task<Review> GetByIdAsync(int id)
