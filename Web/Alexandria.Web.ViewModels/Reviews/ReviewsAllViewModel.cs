@@ -6,10 +6,8 @@
     using Alexandria.Services.Mapping;
     using AutoMapper;
 
-    public class ReviewsAllViewModel : IMapFrom<Book>, IHaveCustomMappings
+    public class ReviewsAllViewModel : PagingViewModel, IMapFrom<Book>, IHaveCustomMappings
     {
-        public int Id { get; set; }
-
         public string Title { get; set; }
 
         public int AuthorId { get; set; }

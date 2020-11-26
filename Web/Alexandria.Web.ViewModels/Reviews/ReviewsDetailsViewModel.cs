@@ -11,7 +11,7 @@
     using AutoMapper;
     using Ganss.XSS;
 
-    public class ReviewsDetailsViewModel : IMapFrom<Review>, IHaveCustomMappings
+    public class ReviewsDetailsViewModel : PagingViewModel, IMapFrom<Review>, IHaveCustomMappings
     {
         private readonly HtmlSanitizer sanitizer;
 
@@ -19,8 +19,6 @@
         {
             this.sanitizer = new HtmlSanitizer();
         }
-
-        public int Id { get; set; }
 
         // mapped from review
         public string Content { get; set; }

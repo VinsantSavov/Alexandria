@@ -1,5 +1,6 @@
 ﻿namespace Alexandria.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Alexandria.Data.Models;
@@ -14,6 +15,10 @@
     [Authorize]
     public class ReviewsController : Controller
     {
+        private const int ReviewsPerPage = 3;
+        private const int CommentsPerPage = 3;
+        private const string ControllerName = "Reviews";
+
         private readonly IBooksService booksService;
         private readonly IReviewsService reviewsService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -29,19 +34,33 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, int page = 1)
         {
             var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDetailsViewModel>(id);
-            review.Comments = await this.reviewsService.GetChildrenReviewsByReviewIdAsync<ReviewListingViewModel>(id);
+
+            var reviewsCount = await this.reviewsService.GetChildrenReviewsCountByReviewIdAsync(id);
+
+            review.PagesCount = (int)Math.Ceiling((double)reviewsCount / CommentsPerPage);
+            review.CurrentPage = page;
+            review.ControllerName = ControllerName;
+            review.ActionName = nameof(this.Details);
+            review.Comments = await this.reviewsService.GetChildrenReviewsByReviewIdAsync<ReviewListingViewModel>(id, CommentsPerPage, (page - 1) * CommentsPerPage);
 
             return this.View(review);
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> All(int id)
+        public async Task<IActionResult> All(int id, int page = 1)
         {
             var viewModel = await this.booksService.GetBookByIdAsync<ReviewsAllViewModel>(id);
-            viewModel.AllReviews = await this.reviewsService.GetAllReviewsByBookIdAsync<ReviewListingViewModel>(id);
+
+            var reviewsCount = await this.reviewsService.GetReviewsCountByBookIdAsync(id);
+
+            viewModel.PagesCount = (int)Math.Ceiling((double)reviewsCount / ReviewsPerPage);
+            viewModel.CurrentPage = page;
+            viewModel.ControllerName = ControllerName;
+            viewModel.ActionName = nameof(this.All);
+            viewModel.AllReviews = await this.reviewsService.GetAllReviewsByBookIdAsync<ReviewListingViewModel>(id, ReviewsPerPage, (page - 1) * ReviewsPerPage);
 
             return this.View(viewModel);
         }
@@ -79,6 +98,11 @@
 
             var userId = this.userManager.GetUserId(this.User);
             var reviewId = await this.reviewsService.CreateReviewAsync(input.Description, userId, input.BookId, input.ReadingProgress, input.ThisEdition, input.ReviewId);
+
+            if (input.ReviewId != null)
+            {
+                return this.RedirectToAction(nameof(this.Details), new { id = input.ReviewId });
+            }
 
             return this.RedirectToAction(nameof(this.Details), new { id = reviewId });
         }

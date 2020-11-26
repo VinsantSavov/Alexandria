@@ -64,6 +64,22 @@
             await this.db.SaveChangesAsync();
         }
 
+        public async Task<int> GetChildrenReviewsCountByReviewIdAsync(int parentId)
+        {
+            var count = await this.db.Reviews.Where(r => r.ParentId == parentId && !r.IsDeleted)
+                                             .CountAsync();
+
+            return count;
+        }
+
+        public async Task<int> GetReviewsCountByBookIdAsync(int bookId)
+        {
+            var count = await this.db.Reviews.Where(r => r.BookId == bookId && !r.IsDeleted)
+                                             .CountAsync();
+
+            return count;
+        }
+
         public async Task<bool> DoesReviewIdExistAsync(int id)
         {
             return await this.db.Reviews.AnyAsync(r => r.Id == id && !r.IsDeleted);
@@ -97,29 +113,37 @@
             return reviews;
         }
 
-        public async Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId)
+        public async Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId, int? take = null, int skip = 0)
         {
-            var reviews = await this.db.Reviews.AsNoTracking()
+            var queryable = this.db.Reviews.AsNoTracking()
                                          .Where(r => r.BookId == bookId && !r.IsDeleted)
                                          .OrderBy(r => r.IsBestReview)
                                          .ThenByDescending(r => r.Likes)
                                          .ThenByDescending(r => r.CreatedOn)
-                                         .To<TModel>()
-                                         .ToListAsync();
+                                         .Skip(skip);
 
-            return reviews;
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
-        public async Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId)
+        public async Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId, int? take = null, int skip = 0)
         {
-            var reviews = await this.db.Reviews.AsNoTracking()
-                                               .Where(r => r.ParentId == reviewId && !r.IsDeleted)
-                                               .OrderByDescending(r => r.Likes)
-                                               .ThenByDescending(r => r.CreatedOn)
-                                               .To<TModel>()
-                                               .ToListAsync();
+            var queryable = this.db.Reviews.AsNoTracking()
+                                           .Where(r => r.ParentId == reviewId && !r.IsDeleted)
+                                           .OrderByDescending(r => r.Likes)
+                                           .ThenByDescending(r => r.CreatedOn)
+                                           .Skip(skip);
 
-            return reviews;
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
         public async Task<TModel> GetReviewByIdAsync<TModel>(int id)

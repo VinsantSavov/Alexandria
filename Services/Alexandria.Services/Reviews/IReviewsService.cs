@@ -15,17 +15,21 @@
 
         Task EditReviewAsync(int id, string description);
 
+        Task<int> GetChildrenReviewsCountByReviewIdAsync(int parentId);
+
+        Task<int> GetReviewsCountByBookIdAsync(int bookId);
+
         Task<bool> DoesReviewIdExistAsync(int id);
 
         Task<bool> AreReviewsAboutSameBookAsync(int reviewId, int bookId);
 
         Task MakeBestReviewAsync(int id);
 
-        Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId);
+        Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId, int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetAllReviewsByAuthorIdAsync<TModel>(string authorId);
 
-        Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId);
+        Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId, int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetTopReviewsByBookIdAsync<TModel>(int bookId, int count);
     }
