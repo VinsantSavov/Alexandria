@@ -1,6 +1,7 @@
 ﻿namespace Alexandria.Services.Likes
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Alexandria.Data;
@@ -39,6 +40,14 @@
             }
 
             await this.db.SaveChangesAsync();
+        }
+
+        public async Task<int> GetLikesCountByReviewIdAsync(int reviewId)
+        {
+            var count = await this.db.Likes.Where(l => l.ReviewId == reviewId && l.IsLiked)
+                                           .CountAsync();
+
+            return count;
         }
     }
 }

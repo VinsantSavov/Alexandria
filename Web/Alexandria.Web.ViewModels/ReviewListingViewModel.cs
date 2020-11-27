@@ -1,12 +1,14 @@
 ﻿namespace Alexandria.Web.ViewModels
 {
     using System;
+    using System.Linq;
 
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
+    using AutoMapper;
     using Ganss.XSS;
 
-    public class ReviewListingViewModel : IMapFrom<Review>
+    public class ReviewListingViewModel : IMapFrom<Review>, IHaveCustomMappings
     {
         private readonly HtmlSanitizer sanitizer;
 
@@ -32,5 +34,14 @@
         public string SanitizedDescription => this.sanitizer.Sanitize(this.Description);
 
         public int Likes { get; set; }
+
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<Review, ReviewListingViewModel>()
+                         .ForMember(
+                         dest => dest.Likes,
+                         a => a.MapFrom(
+                             src => src.Likes.Count(l => l.IsLiked)));
+        }
     }
 }

@@ -39,9 +39,8 @@
                 </div>
             </div>
             <p>@Html.Raw(@Model.SanitizedContent)</p>
-            <form>
-                <button class="btn like active" href="#">Like</button>
-            </form>
+            <form method="post" id="antiForgeryForm"></form>
+            <button id="likeReview" class="btn like" onclick="createLike()" href="#">Like</button>
             <hr />
             <dl class="row">
                 <dt class="col-sm-4" style="font-size: 13px">
@@ -69,7 +68,7 @@
                     <i class="far fa-thumbs-up"></i>
                     Likes:
                 </dt>
-                <dd class="col-md-8" style="font-size: 13px">
+                <dd id="reviewLikesCount" class="col-md-8" style="font-size: 13px">
                     @Model.Likes
                 </dd>
             </dl>
@@ -178,6 +177,42 @@
 
 @section Scripts{
     <script>
+        function createLike() {
+            var value = document.getElementById("likeReview").innerHTML;
+            var reviewId = @Model.Id;
+            var data = { reviewId: reviewId, isLiked: true };
+            var antiforgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+
+            if (value.toLowerCase() == "like") {
+                data.isLiked = true;
+            }
+            else {
+                data.isLiked = false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Likes",
+                data: JSON.stringify(data),
+                headers: {
+                    'X-CSRF-TOKEN': antiforgeryToken
+                },
+                success: function (data) {
+                    $("reviewLikesCount").html(data.LikesCount);
+
+                    var value = document.getElementById("likeReview").innerHTML;
+
+                    if (value.toLowerCase() == "like") {
+                        document.getElementById("likeReview").innerHTML = "Unlike";
+                    }
+                    else {
+                        document.getElementById("likeReview").innerHTML = "Like";
+                    }
+                },
+                contentType: 'application/json',
+            });
+        }
+
         function displaysCreateReviewForm() {
             $("#AddCommentToReviewForm").toggle();
         }

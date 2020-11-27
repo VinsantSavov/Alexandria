@@ -12,6 +12,7 @@
     using Alexandria.Services.Countries;
     using Alexandria.Services.EditionLanguages;
     using Alexandria.Services.Genres;
+    using Alexandria.Services.Likes;
     using Alexandria.Services.Mapping;
     using Alexandria.Services.Messaging;
     using Alexandria.Services.Reviews;
@@ -82,6 +83,7 @@
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IGoodReadsScraperService, GoodReadsScraperService>();
             services.AddTransient<IStarRatingsService, StarRatingsService>();
+            services.AddTransient<ILikesService, LikesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

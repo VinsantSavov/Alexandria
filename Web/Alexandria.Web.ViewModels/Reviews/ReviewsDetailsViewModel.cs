@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
 
     using Alexandria.Common;
     using Alexandria.Data.Models;
@@ -68,7 +69,11 @@
                          .ForMember(
                          dest => dest.Content,
                          a => a.MapFrom(
-                             src => src.Description));
+                             src => src.Description))
+                         .ForMember(
+                         dest => dest.Likes,
+                         a => a.MapFrom(
+                             src => src.Likes.Count(l => l.IsLiked)));
         }
     }
 }
