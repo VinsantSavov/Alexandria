@@ -19,6 +19,7 @@ namespace Alexandria.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Reviews = new HashSet<Review>();
             this.Ratings = new HashSet<StarRating>();
+            this.Likes = new HashSet<Like>();
         }
 
         public GenderType Gender { get; set; }
@@ -44,5 +45,7 @@ namespace Alexandria.Data.Models
         public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<StarRating> Ratings { get; set; }
+
+        public virtual ICollection<Like> Likes { get; set; }
     }
 }

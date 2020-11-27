@@ -74,15 +74,6 @@
             return this.View(viewModel);
         }
 
-        /*private async Task<ICollection<ReviewListingViewModel>> FillCollection(ICollection<int> reviewsIds, int bookId)
-        {
-            var all = new List<ReviewListingViewModel>();
-
-            all.AddRange(await this.reviewsService.GetChildrenReviewsToReviewsAsync<ReviewListingViewModel>(reviewsIds, bookId));
-
-            await this.FillCollection(all.Select(r => r.Id).ToList(), bookId);
-        }*/
-
         public async Task<IActionResult> Create(int id)
         {
             var viewModel = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(id);

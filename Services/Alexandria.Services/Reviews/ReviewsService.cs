@@ -74,7 +74,9 @@
 
         public async Task<int> GetReviewsCountByBookIdAsync(int bookId)
         {
-            var count = await this.db.Reviews.Where(r => r.BookId == bookId && !r.IsDeleted)
+            var count = await this.db.Reviews.Where(r => r.BookId == bookId
+                                                    && r.ParentId == null
+                                                    && !r.IsDeleted)
                                              .CountAsync();
 
             return count;
@@ -105,7 +107,7 @@
             var reviews = await this.db.Reviews.AsNoTracking()
                                          .Where(r => r.AuthorId == authorId && !r.IsDeleted)
                                          .OrderBy(r => r.IsBestReview)
-                                         .ThenByDescending(r => r.Likes)
+                                         .ThenByDescending(r => r.Likes.Count(l => l.IsLiked))
                                          .ThenByDescending(r => r.CreatedOn)
                                          .To<TModel>()
                                          .ToListAsync();
@@ -120,7 +122,7 @@
                                                  && r.ParentId == null
                                                  && !r.IsDeleted)
                                          .OrderBy(r => r.IsBestReview)
-                                         .ThenByDescending(r => r.Likes)
+                                         .ThenByDescending(r => r.Likes.Count(l => l.IsLiked))
                                          .ThenByDescending(r => r.CreatedOn)
                                          .Skip(skip);
 
@@ -136,7 +138,7 @@
         {
             var queryable = this.db.Reviews.AsNoTracking()
                                            .Where(r => r.ParentId == reviewId && !r.IsDeleted)
-                                           .OrderByDescending(r => r.Likes)
+                                           .OrderByDescending(r => r.Likes.Count(l => l.IsLiked))
                                            .ThenByDescending(r => r.CreatedOn)
                                            .Skip(skip);
 
@@ -168,7 +170,7 @@
                                          .Where(r => r.BookId == bookId
                                                 && r.ParentId == null
                                                 && !r.IsDeleted)
-                                         .OrderByDescending(r => r.Likes)
+                                         .OrderByDescending(r => r.Likes.Count(l => l.IsLiked))
                                          .ThenByDescending(r => r.CreatedOn)
                                          .To<TModel>()
                                          .Take(count)

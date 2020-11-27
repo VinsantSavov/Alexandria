@@ -1,12 +1,18 @@
 ﻿namespace Alexandria.Data.Models
 {
     using System;
+    using System.Collections.Generic;
 
     using Alexandria.Data.Common.Models;
     using Alexandria.Data.Models.Enums;
 
     public class Review : IAuditInfo, IDeletableEntity
     {
+        public Review()
+        {
+            this.Likes = new HashSet<Like>();
+        }
+
         public int Id { get; set; }
 
         public string Description { get; set; }
@@ -27,8 +33,6 @@
 
         public virtual Book Book { get; set; }
 
-        public int Likes { get; set; }
-
         public ReadingProgress ReadingProgress { get; set; }
 
         public bool ThisEdition { get; set; }
@@ -38,5 +42,7 @@
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<Like> Likes { get; set; }
     }
 }
