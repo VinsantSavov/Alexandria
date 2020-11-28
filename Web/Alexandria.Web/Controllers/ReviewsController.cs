@@ -53,13 +53,11 @@
             review.ActionName = nameof(this.Details);
             review.Comments = await this.reviewsService.GetChildrenReviewsByReviewIdAsync<ReviewListingViewModel>(id, CommentsPerPage, (page - 1) * CommentsPerPage);
 
-            var userLikedReview = await this.likesService.DoesUserLikeReviewAsync(userId, review.Id);
-            review.UserLikedReview = userLikedReview;
+            review.UserLikedReview = await this.likesService.DoesUserLikeReviewAsync(userId, review.Id);
 
             foreach (var comment in review.Comments)
             {
-                var userLikedComment = await this.likesService.DoesUserLikeReviewAsync(userId, comment.Id);
-                comment.UserLikedReview = userLikedComment;
+                comment.UserLikedReview = await this.likesService.DoesUserLikeReviewAsync(userId, comment.Id);
             }
 
             return this.View(review);
@@ -69,6 +67,7 @@
         public async Task<IActionResult> All(int id, int page = 1)
         {
             var viewModel = await this.booksService.GetBookByIdAsync<ReviewsAllViewModel>(id);
+            var userId = this.userManager.GetUserId(this.User);
 
             var reviewsCount = await this.reviewsService.GetReviewsCountByBookIdAsync(id);
 
@@ -83,6 +82,11 @@
             foreach (var review in all)
             {
                 viewModel.AllReviews.Add(review);
+            }
+
+            foreach (var review in viewModel.AllReviews)
+            {
+                review.UserLikedReview = await this.likesService.DoesUserLikeReviewAsync(userId, review.Id);
             }
 
             return this.View(viewModel);
@@ -100,18 +104,17 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var bookInfo = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(input.BookId);
-                input.PictureURL = bookInfo.PictureURL;
-                input.Title = bookInfo.Title;
-                input.Author = bookInfo.Author;
-                input.AuthorId = bookInfo.AuthorId;
+                var bookInfo = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(input.Id);
+                bookInfo.Description = input.Description;
+                bookInfo.ReadingProgress = input.ReadingProgress;
+                bookInfo.ThisEdition = input.ThisEdition;
 
-                return this.View(input);
+                return this.View(bookInfo);
             }
 
             if (input.ReviewId.HasValue)
             {
-                var areAboutSameBook = await this.reviewsService.AreReviewsAboutSameBookAsync(input.ReviewId.Value, input.BookId);
+                var areAboutSameBook = await this.reviewsService.AreReviewsAboutSameBookAsync(input.ReviewId.Value, input.Id);
 
                 if (!areAboutSameBook)
                 {
@@ -120,7 +123,7 @@
             }
 
             var userId = this.userManager.GetUserId(this.User);
-            var reviewId = await this.reviewsService.CreateReviewAsync(input.Description, userId, input.BookId, input.ReadingProgress, input.ThisEdition, input.ReviewId);
+            var reviewId = await this.reviewsService.CreateReviewAsync(input.Description, userId, input.Id, input.ReadingProgress, input.ThisEdition, input.ReviewId);
 
             if (input.ReviewId != null)
             {

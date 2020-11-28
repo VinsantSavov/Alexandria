@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-6">
             <h6 class="font-weight-bold text-capitalize text-left">@Model.Title</h6>
-            <p class="text-left">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.AuthorId"><em>@Model.Author</em></a></p>
+            <p class="text-left">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.Author.Id"><em>@Model.Author.FullName</em></a></p>
             <hr />
         </div>
     </div>
@@ -30,7 +30,7 @@
             <form method="post">
                 <div asp-validation-summary="All" class="alert-danger"></div>
 
-                <input type="hidden" asp-for="BookId" />
+                <input type="hidden" asp-for="Id" />
 
                 <div class="form-group">
                     <label asp-for="Description"></label>

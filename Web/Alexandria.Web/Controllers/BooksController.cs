@@ -3,10 +3,13 @@
     using System;
     using System.Threading.Tasks;
 
+    using Alexandria.Data.Models;
     using Alexandria.Services.Books;
+    using Alexandria.Services.Likes;
     using Alexandria.Services.Reviews;
     using Alexandria.Web.ViewModels;
     using Alexandria.Web.ViewModels.Books;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class BooksController : Controller
@@ -17,17 +20,31 @@
 
         private readonly IBooksService booksService;
         private readonly IReviewsService reviewsService;
+        private readonly ILikesService likesService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public BooksController(IBooksService booksService, IReviewsService reviewsService)
+        public BooksController(
+            IBooksService booksService,
+            IReviewsService reviewsService,
+            ILikesService likesService,
+            UserManager<ApplicationUser> userManager)
         {
             this.booksService = booksService;
             this.reviewsService = reviewsService;
+            this.likesService = likesService;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Details(int id)
         {
             var book = await this.booksService.GetBookByIdAsync<BooksDetailsViewModel>(id);
             book.CommunityReviews = await this.reviewsService.GetTopReviewsByBookIdAsync<ReviewListingViewModel>(id, ReviewsCount);
+            var userId = this.userManager.GetUserId(this.User);
+
+            foreach (var review in book.CommunityReviews)
+            {
+                review.UserLikedReview = await this.likesService.DoesUserLikeReviewAsync(userId, review.Id);
+            }
 
             return this.View(book);
         }

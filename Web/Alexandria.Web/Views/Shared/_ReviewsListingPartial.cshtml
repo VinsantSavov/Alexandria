@@ -1,12 +1,12 @@
 ﻿@model ReviewListingViewModel
 
 <div class="col-md-2">
-    <img src="@Model.AuthorProfilePicture" class="d-block w-100" alt="slide1">
+    <img src="@Model.Author.ProfilePicture" class="d-block w-100" alt="slide1">
 </div>
 <div class="col-md-10">
     <dl class="row mb-0">
         <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-            @Model.AuthorUsername
+            @Model.Author.Username
         </dt>
         <dd class="col-sm-6 text-secondary font-italic text-right">
             @Model.CreatedOn

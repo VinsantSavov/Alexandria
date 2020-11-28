@@ -1,4 +1,5 @@
-﻿@using Alexandria.Web.ViewModels.Reviews
+﻿@using Alexandria.Web.Infrastructure.Extensions
+@using Alexandria.Web.ViewModels.Reviews
 @using Alexandria.Data.Models.Enums
 @model ReviewsDetailsViewModel
 
@@ -15,26 +16,32 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3"></div>
-        <h3 class="text-left mb-4"><span class="text-info">@Model.AuthorUsername's Review</span> for @Model.BookTitle</h3>
+        <h3 class="text-left mb-4"><span class="text-info">@Model.Author.Username's Review</span> for @Model.Book.Title</h3>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-1">
-            <img src="@Model.BookPictureURL" class="d-block w-100" alt="slide1">
+            <img src="@Model.Book.PictureURL" class="d-block w-100" alt="slide1">
         </div>
         <div class="col-md-4">
             <h4 class="font-weight-bold text-capitalize text-left">
-                <a class="text-dark" asp-controller="Books" asp-action="Details" asp-route-id="@Model.BookId">
-                    @Model.BookTitle
+                <a class="text-dark" asp-controller="Books" asp-action="Details" asp-route-id="@Model.Book.Id">
+                    @Model.Book.Title
                 </a>
-                <span class="text-secondary font-weight-normal">(@Model.BookPublishedOn.Year)</span>
+                <span class="text-secondary font-weight-normal">(@Model.Book.PublishedOn.Year)</span>
             </h4>
-            <p class="text-left mt-1">by <a class="text-dark" asp-controller="Authors" asp-action="Details" asp-route-id="@Model.BookAuthorId"><em>@Model.BookAuthorFullName</em></a></p>
+            <p class="text-left mt-1">by <a class="text-dark" 
+                                            asp-controller="Authors" 
+                                            asp-action="Details" 
+                                            asp-route-id="@Model.Book.Author.Id">
+                                            <em>@Model.Book.Author.FullName</em>
+                                         </a>
+            </p>
             <div class="row">
                 <div class="col-md-6">
-                    <h5 class="text-left">@Model.AuthorUsername</h5>
+                    <h5 class="text-left">@Model.Author.Username</h5>
                     <div class="col-md-2">
-                        <img src="@Model.AuthorProfilePicture" class="d-block" alt="slide1">
+                        <img src="@Model.Author.ProfilePicture" class="d-block" alt="slide1">
                     </div>
                 </div>
             </div>
@@ -82,12 +89,16 @@
                 </dd>
             </dl>
             <hr />
+            @if (Model.Author.Id == this.User.GetUserId())
+            {
+
+            }
             <button class="btn mb-5" onclick="displaysCreateReviewForm()">Add Comment</button>
             <div id="AddCommentToReviewForm" style="display: none">
                 <form asp-controller="Reviews" asp-action="Create" method="post">
                     <div asp-validation-summary="All" class="alert-danger"></div>
 
-                    <input type="hidden" asp-for="BookId" />
+                    <input type="hidden" name="Id" value="@Model.Book.Id" />
                     <input type="hidden" name="ReviewId" value="@Model.Id" />
 
                     <div class="form-group">
@@ -138,7 +149,7 @@
                             <partial name="_ReviewsListingPartial" model="comment" />
                         }
                         <div class="col-md-3"></div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-3 mb-5">
                             <partial name="_PaginationPartialWithId" />
                         </div>
                         <div class="col-md-3"></div>
@@ -146,41 +157,6 @@
                 </div>
             </div>
         }
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-2">
-                        <img src="/images/user/icons80.png" class="d-block w-100" alt="slide1">
-                    </div>
-                    <div class="col-md-10">
-                        <dl class="row mb-0">
-                            <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-                                AuthorUsername
-                            </dt>
-                            <dd class="col-sm-6 text-secondary font-italic text-right">
-                                12.12.2020
-                            </dd>
-                        </dl>
-                        <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
-                        <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: ReadingProgress</p>
-                        <p>jsgogjjgsjgsjgjsgpjwegjewjgjgsdjgjs dgjsdgsdgjspgjjgjggjgjgjgjgjgjgjjgjgjgjgg jgfhfhfhfhfhfhfhfhfhfhfhfhfhfhjgjgjgjgjgj gjgjjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjgjjg</p>
-                        <form>
-                            <button class="btn like active" href="#">Like</button>
-                        </form>
-                        <p class="text-secondary font-italic">
-                            400 Likes
-                            <i class="fas fa-circle" style="font-size: 3px"></i>
-                            <span class="text-right">
-                                <a class="text-secondary" asp-controller="Reviews" asp-action="Details" asp-route-id="3">
-                                    see review
-                                </a>
-                            </span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 

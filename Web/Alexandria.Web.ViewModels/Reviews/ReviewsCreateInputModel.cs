@@ -7,13 +7,12 @@
     using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Mapping;
     using Alexandria.Web.Infrastructure.Attributes;
-    using AutoMapper;
 
-    public class ReviewsCreateInputModel : IMapFrom<Book>, IHaveCustomMappings
+    public class ReviewsCreateInputModel : IMapFrom<Book>
     {
         [Required]
         [EnsureBookIdExists(ErrorMessage = ErrorMessages.ReviewNotExistingBookIdErrorMessage)]
-        public int BookId { get; set; }
+        public int Id { get; set; }
 
         [EnsureReviewIdExists(ErrorMessage = ErrorMessages.ReviewNotExistingReviewIdErrorMessage)]
         public int? ReviewId { get; set; }
@@ -22,9 +21,7 @@
 
         public string PictureURL { get; set; }
 
-        public int AuthorId { get; set; }
-
-        public string Author { get; set; }
+        public ReviewsBookAuthorViewModel Author { get; set; }
 
         [Display(Name = GlobalConstants.ReviewDescriptionDisplayNameConstant)]
         [DataType(DataType.MultilineText)]
@@ -43,16 +40,5 @@
         [Required]
         [Display(Name = GlobalConstants.ReviewThisEditionDisplayNameConstant)]
         public bool ThisEdition { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Book, ReviewsCreateInputModel>()
-                .ForMember(
-                r => r.Author,
-                b => b.MapFrom(src => string.IsNullOrWhiteSpace(src.Author.SecondName) ? src.Author.FirstName + " " + src.Author.LastName : src.Author.FirstName + " " + src.Author.SecondName + " " + src.Author.LastName))
-                .ForMember(
-                r => r.BookId,
-                b => b.MapFrom(src => src.Id));
-        }
     }
 }

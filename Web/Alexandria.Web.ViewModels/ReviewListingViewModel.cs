@@ -5,6 +5,7 @@
 
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
+    using Alexandria.Web.ViewModels.Reviews;
     using AutoMapper;
     using Ganss.XSS;
 
@@ -21,10 +22,6 @@
 
         public int? ParentId { get; set; }
 
-        public string AuthorUsername { get; set; }
-
-        public string AuthorProfilePicture { get; set; }
-
         public DateTime CreatedOn { get; set; }
 
         public string ReadingProgress { get; set; }
@@ -36,6 +33,8 @@
         public int Likes { get; set; }
 
         public bool UserLikedReview { get; set; }
+
+        public ReviewsAuthorViewModel Author { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

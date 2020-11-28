@@ -21,9 +21,6 @@
             this.sanitizer = new HtmlSanitizer();
         }
 
-        // mapped from review
-        public string Content { get; set; }
-
         // not mapped, used for input
         [IgnoreMap]
         [Display(Name = GlobalConstants.ReviewDescriptionDisplayNameConstant)]
@@ -31,9 +28,8 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string AuthorUsername { get; set; }
-
-        public string AuthorProfilePicture { get; set; }
+        // mapped from review
+        public string Content { get; set; }
 
         public string SanitizedContent => this.sanitizer.Sanitize(this.Content);
 
@@ -45,29 +41,15 @@
 
         public bool ThisEdition { get; set; }
 
-        public int BookId { get; set; }
+        public ReviewsAuthorViewModel Author { get; set; }
 
-        public string BookTitle { get; set; }
-
-        public string BookPictureURL { get; set; }
-
-        public int BookAuthorId { get; set; }
-
-        public DateTime BookPublishedOn { get; set; }
-
-        public string BookAuthorFullName { get; set; }
+        public ReviewsBookViewModel Book { get; set; }
 
         public IEnumerable<ReviewListingViewModel> Comments { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Review, ReviewsDetailsViewModel>()
-                         .ForMember(
-                         dest => dest.BookAuthorFullName,
-                         a => a.MapFrom(
-                             src => string.IsNullOrWhiteSpace(src.Book.Author.SecondName)
-                             ? src.Book.Author.FirstName + " " + src.Book.Author.LastName
-                             : src.Book.Author.FirstName + " " + src.Book.Author.SecondName + " " + src.Book.Author.LastName))
                          .ForMember(
                          dest => dest.Content,
                          a => a.MapFrom(
