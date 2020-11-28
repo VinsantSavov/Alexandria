@@ -7,6 +7,7 @@
 
     using Alexandria.Data.Models;
     using Alexandria.Services.Books;
+    using Alexandria.Services.Likes;
     using Alexandria.Services.Reviews;
     using Alexandria.Web.ViewModels;
     using Alexandria.Web.ViewModels.Reviews;
@@ -23,15 +24,18 @@
 
         private readonly IBooksService booksService;
         private readonly IReviewsService reviewsService;
+        private readonly ILikesService likesService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ReviewsController(
             IBooksService booksService,
             IReviewsService reviewsService,
+            ILikesService likesService,
             UserManager<ApplicationUser> userManager)
         {
             this.booksService = booksService;
             this.reviewsService = reviewsService;
+            this.likesService = likesService;
             this.userManager = userManager;
         }
 
@@ -39,6 +43,7 @@
         public async Task<IActionResult> Details(int id, int page = 1)
         {
             var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDetailsViewModel>(id);
+            var userId = this.userManager.GetUserId(this.User);
 
             var reviewsCount = await this.reviewsService.GetChildrenReviewsCountByReviewIdAsync(id);
 
@@ -47,6 +52,15 @@
             review.ControllerName = ControllerName;
             review.ActionName = nameof(this.Details);
             review.Comments = await this.reviewsService.GetChildrenReviewsByReviewIdAsync<ReviewListingViewModel>(id, CommentsPerPage, (page - 1) * CommentsPerPage);
+
+            var userLikedReview = await this.likesService.DoesUserLikeReviewAsync(userId, review.Id);
+            review.UserLikedReview = userLikedReview;
+
+            foreach (var comment in review.Comments)
+            {
+                var userLikedComment = await this.likesService.DoesUserLikeReviewAsync(userId, comment.Id);
+                comment.UserLikedReview = userLikedComment;
+            }
 
             return this.View(review);
         }

@@ -35,6 +35,8 @@
 
         public int Likes { get; set; }
 
+        public bool UserLikedReview { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Review, ReviewListingViewModel>()

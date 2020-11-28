@@ -45,3 +45,44 @@
         </div>
     </div>
 </div>
+<form method="post" id="antiForgeryForm"></form>
+
+@section Scripts{
+    <script>
+        function createLike(id) {
+            var elementId = "likeReview-" + id;
+            var reviewCountId = '#reviewLikesCount-' + id;
+            var value = document.getElementById(elementId).innerHTML.trim();
+            var reviewId = id;
+            var data = { reviewId: reviewId, isLiked: true };
+            var antiforgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+
+            if (value.toLowerCase() == "like") {
+                data.isLiked = true;
+            }
+            else {
+                data.isLiked = false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Likes",
+                data: JSON.stringify(data),
+                headers: {
+                    'X-CSRF-TOKEN': antiforgeryToken
+                },
+                success: function (response) {
+                    $(reviewCountId).html(response.likesCount);
+
+                    if (value.toLowerCase() == "like") {
+                        document.getElementById(elementId).innerHTML = "Unlike";
+                    }
+                    else {
+                        document.getElementById(elementId).innerHTML = "Like";
+                    }
+                },
+                contentType: 'application/json',
+            });
+        }
+    </script>
+}

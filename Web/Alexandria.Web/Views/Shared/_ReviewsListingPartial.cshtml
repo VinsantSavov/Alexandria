@@ -15,11 +15,18 @@
     <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
     <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @Model.ReadingProgress</p>
     <p>@Html.Raw(Model.SanitizedDescription)</p>
-    <form>
-        <button class="btn like active" href="#">Like</button>
-    </form>
+    <button id="likeReview-@Model.Id" class="btn like" onclick="createLike(@Model.Id)" href="#">
+        @if (Model.UserLikedReview)
+        {
+            @:Unlike
+        }
+        else
+        {
+            @:Like
+        }
+    </button>
     <p class="text-secondary font-italic">
-        @Model.Likes Likes
+        <span id="reviewLikesCount-@Model.Id">@Model.Likes</span> Likes
         <i class="fas fa-circle" style="font-size: 3px"></i>
         <span class="text-right">
             <a class="text-secondary" asp-controller="Reviews" asp-action="Details" asp-route-id="@Model.Id">

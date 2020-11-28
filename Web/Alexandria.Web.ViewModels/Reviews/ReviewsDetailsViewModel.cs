@@ -39,6 +39,8 @@
 
         public int Likes { get; set; }
 
+        public bool UserLikedReview { get; set; }
+
         public ReadingProgress ReadingProgress { get; set; }
 
         public bool ThisEdition { get; set; }
