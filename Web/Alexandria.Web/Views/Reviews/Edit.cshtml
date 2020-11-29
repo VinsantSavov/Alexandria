@@ -1,6 +1,6 @@
 ﻿@using Alexandria.Web.ViewModels.Reviews
 @using Alexandria.Data.Models.Enums
-@model ReviewsCreateInputModel
+@model ReviewsEditInputModel
 
 <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -16,17 +16,17 @@
     <div class="row mb-5">
         <div class="col-md-1"></div>
         <div class="col-md-1">
-            <img src="@Model.PictureURL" class="d-block w-100" alt="slide1">
+            <img src="@Model.Book.PictureURL" class="d-block w-100" alt="slide1">
         </div>
         <div class="col-md-6">
-            <h6 class="font-weight-bold text-capitalize text-left">@Model.Title</h6>
+            <h6 class="font-weight-bold text-capitalize text-left">@Model.Book.Title</h6>
             <p class="text-left">
                 by
                 <a class="text-dark"
                    asp-controller="Authors"
                    asp-action="Details"
-                   asp-route-id="@Model.Author.Id">
-                    <em>@Model.Author.FullName</em>
+                   asp-route-id="@Model.Book.Author.Id">
+                    <em>@Model.Book.Author.FullName</em>
                 </a>
             </p>
             <hr />
@@ -35,10 +35,10 @@
     <div class="row mb-5">
         <div class="col-md-1"></div>
         <div class="col-md-8">
-            <form method="post" asp-action="Create">
+            <form method="post" asp-action="Edit">
                 <div asp-validation-summary="All" class="alert-danger"></div>
 
-                <input type="hidden" asp-for="Id" />
+                <input type="hidden" name="Book.Id" value="@Model.Book.Id" />
 
                 <div class="form-group">
                     <label asp-for="Description"></label>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
 
-                <input type="submit" class="btn" />
+                <input type="submit" class="btn" value="Save" />
             </form>
         </div>
     </div>

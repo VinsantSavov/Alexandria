@@ -80,13 +80,5 @@
 
             return this.View(viewModel);
         }
-
-        public async Task<IActionResult> Test(int id)
-        {
-            var book = await this.booksService.GetBookByIdAsync<BooksDetailsViewModel>(id);
-            book.CommunityReviews = await this.reviewsService.GetTopReviewsByBookIdAsync<ReviewListingViewModel>(id, ReviewsCount);
-
-            return this.View(book);
-        }
     }
 }

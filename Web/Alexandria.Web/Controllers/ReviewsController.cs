@@ -130,6 +130,44 @@
             return this.RedirectToAction(nameof(this.Details), new { id = reviewId });
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var review = await this.reviewsService.GetReviewByIdAsync<ReviewsEditInputModel>(id);
+
+            if (review == null)
+            {
+                return this.NotFound();
+            }
+
+            if (review.AuthorId != this.User.GetUserId())
+            {
+                return this.Unauthorized();
+            }
+
+            return this.View(review);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ReviewsEditInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                var book = await this.booksService.GetBookByIdAsync<ReviewsEditBookViewModel>(input.Book.Id);
+                input.Book = book;
+                return this.View(input);
+            }
+
+            var authorId = await this.reviewsService.GetAuthorIdByIdAsync(input.Id);
+            if (authorId != this.User.GetUserId())
+            {
+                return this.Unauthorized();
+            }
+
+            await this.reviewsService.EditReviewAsync(input.Id, input.Description, input.ReadingProgress, input.ThisEdition);
+
+            return this.RedirectToAction(nameof(this.Details), new { Id = input.Id });
+        }
+
         public async Task<IActionResult> Delete(int id)
         {
             var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDeleteViewModel>(id);

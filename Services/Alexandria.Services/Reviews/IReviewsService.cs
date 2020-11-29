@@ -13,11 +13,13 @@
 
         Task DeleteReviewByIdAsync(int id);
 
-        Task EditReviewAsync(int id, string description);
+        Task EditReviewAsync(int id, string description, ReadingProgress readingProgress, bool thisEdition);
 
         Task<int> GetChildrenReviewsCountByReviewIdAsync(int parentId);
 
         Task<int> GetReviewsCountByBookIdAsync(int bookId);
+
+        Task<string> GetAuthorIdByIdAsync(int id);
 
         Task<bool> DoesReviewIdExistAsync(int id);
 

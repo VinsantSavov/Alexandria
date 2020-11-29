@@ -82,12 +82,21 @@
             return count;
         }
 
+        public async Task<string> GetAuthorIdByIdAsync(int id)
+        {
+            var authorId = await this.db.Reviews.Where(r => r.Id == id && !r.IsDeleted)
+                                          .Select(r => r.AuthorId)
+                                          .FirstOrDefaultAsync();
+
+            return authorId;
+        }
+
         public async Task<bool> DoesReviewIdExistAsync(int id)
         {
             return await this.db.Reviews.AnyAsync(r => r.Id == id && !r.IsDeleted);
         }
 
-        public async Task EditReviewAsync(int id, string description)
+        public async Task EditReviewAsync(int id, string description, ReadingProgress readingProgress, bool thisEdition)
         {
             var review = await this.GetByIdAsync(id);
 
@@ -97,6 +106,8 @@
             }
 
             review.Description = description;
+            review.ReadingProgress = readingProgress;
+            review.ThisEdition = thisEdition;
             review.ModifiedOn = DateTime.UtcNow;
 
             await this.db.SaveChangesAsync();
