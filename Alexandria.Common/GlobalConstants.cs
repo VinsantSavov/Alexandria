@@ -61,5 +61,8 @@
 
         // User Login constants
         public const string UserLoginRememberMe = "Remember me?";
+
+        // Redirects
+        public const string RedirectToBooksDetails = "/Books/Details/{0}";
     }
 }

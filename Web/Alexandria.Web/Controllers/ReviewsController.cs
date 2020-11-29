@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Alexandria.Common;
     using Alexandria.Services.Books;
     using Alexandria.Services.Likes;
     using Alexandria.Services.Reviews;
@@ -127,6 +128,45 @@
             }
 
             return this.RedirectToAction(nameof(this.Details), new { id = reviewId });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDeleteViewModel>(id);
+
+            if (review == null)
+            {
+                return this.NotFound();
+            }
+
+            if (review.Author.Id != this.User.GetUserId())
+            {
+                return this.Unauthorized();
+            }
+
+            return this.View(review);
+        }
+
+        [HttpPost]
+        [ActionName(nameof(Delete))]
+        public async Task<IActionResult> ConfirmedDelete(int id)
+        {
+            var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDeleteConfirmedViewModel>(id);
+
+            if (review == null)
+            {
+                return this.NotFound();
+            }
+
+            if (review.AuthorId != this.User.GetUserId())
+            {
+                return this.Unauthorized();
+            }
+
+            await this.reviewsService.DeleteReviewByIdAsync(id);
+
+            return this.Redirect(
+                string.Format(GlobalConstants.RedirectToBooksDetails, review.BookId));
         }
     }
 }

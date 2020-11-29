@@ -30,12 +30,13 @@
                 </a>
                 <span class="text-secondary font-weight-normal">(@Model.Book.PublishedOn.Year)</span>
             </h4>
-            <p class="text-left mt-1">by <a class="text-dark" 
-                                            asp-controller="Authors" 
-                                            asp-action="Details" 
-                                            asp-route-id="@Model.Book.Author.Id">
-                                            <em>@Model.Book.Author.FullName</em>
-                                         </a>
+            <p class="text-left mt-1">
+                by <a class="text-dark"
+                      asp-controller="Authors"
+                      asp-action="Details"
+                      asp-route-id="@Model.Book.Author.Id">
+                    <em>@Model.Book.Author.FullName</em>
+                </a>
             </p>
             <div class="row">
                 <div class="col-md-6">
@@ -89,11 +90,26 @@
                 </dd>
             </dl>
             <hr />
-            @if (Model.Author.Id == this.User.GetUserId())
-            {
-
-            }
-            <button class="btn mb-5" onclick="displaysCreateReviewForm()">Add Comment</button>
+            <div class="btn-sec form-inline">
+                @if (Model.Author.Id == this.User.GetUserId())
+                {
+                    <form>
+                        <button class="btn mb-5 mx-2">Edit</button>
+                    </form>
+                }
+                <button class="btn mb-5 mx-2" onclick="displaysCreateReviewForm()">Add Comment</button>
+                @if (Model.Author.Id == this.User.GetUserId())
+                {
+                    <form>
+                        <button class="btn bg-danger border-danger mb-5 mx-2"
+                                asp-controller="Reviews"
+                                asp-action="Delete"
+                                asp-route-id="@Model.Id">
+                            Delete
+                        </button>
+                    </form>
+                }
+            </div>
             <div id="AddCommentToReviewForm" style="display: none">
                 <form asp-controller="Reviews" asp-action="Create" method="post">
                     <div asp-validation-summary="All" class="alert-danger"></div>

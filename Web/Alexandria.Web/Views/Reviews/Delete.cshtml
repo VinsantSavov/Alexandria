@@ -1,0 +1,92 @@
+﻿@using Alexandria.Web.ViewModels.Reviews
+@model ReviewsDeleteViewModel
+
+<div class="container">
+    <h5 class="text-center mb-2">Are you sure you want to delete your review?</h5>
+    <hr />
+    <form class="justify-content-center form-inline mb-5" method="post">
+        <button class="btn"
+                asp-controller="Reviews"
+                asp-action="Delete"
+                asp-route-id="@Model.Id">
+            Yes
+        </button>
+        <button class="btn black"
+                asp-controller="Reviews"
+                asp-action="Details"
+                asp-route-id="@Model.Id">
+            No
+        </button>
+    </form>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
+            <img src="@Model.Author.ProfilePicture" class="d-block w-100" alt="slide1">
+        </div>
+        <div class="col-md-9">
+            <dl class="row mb-0">
+                <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
+                    @Model.Author.Username
+                </dt>
+                <dd class="col-sm-6 text-secondary font-italic text-right">
+                    @Model.CreatedOn
+                </dd>
+            </dl>
+            <p>@Html.Raw(Model.SanitizedDescription)</p>
+            <dl class="row">
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="fas fa-book-open"></i>
+                    Book Title:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    <a class="text-dark"
+                       asp-controller="Books"
+                       asp-action="Details"
+                       asp-route-id="@Model.Book.Id">
+                        @Model.Book.Title
+                    </a>
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="far fa-calendar-check"></i>
+                    Year:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.Book.PublishedOn.Year
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="fas fa-pen-nib"></i>
+                    Author:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    <a class="text-dark"
+                       asp-controller="Authors"
+                       asp-action="Details"
+                       asp-route-id="@Model.Book.Author.Id">
+                        @Model.Book.Author.FullName
+                    </a>
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="fas fa-bookmark"></i>
+                    Reading Progress:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.ReadingProgress
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="fas fa-book"></i>
+                    This Edition:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.ThisEdition
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    <i class="far fa-thumbs-up"></i>
+                    Likes:
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    <div id="reviewLikesCount-@Model.Id">@Model.Likes</div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
