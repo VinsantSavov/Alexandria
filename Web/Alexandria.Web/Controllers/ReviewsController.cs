@@ -5,14 +5,13 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Alexandria.Data.Models;
     using Alexandria.Services.Books;
     using Alexandria.Services.Likes;
     using Alexandria.Services.Reviews;
+    using Alexandria.Web.Infrastructure.Extensions;
     using Alexandria.Web.ViewModels;
     using Alexandria.Web.ViewModels.Reviews;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
@@ -25,25 +24,22 @@
         private readonly IBooksService booksService;
         private readonly IReviewsService reviewsService;
         private readonly ILikesService likesService;
-        private readonly UserManager<ApplicationUser> userManager;
 
         public ReviewsController(
             IBooksService booksService,
             IReviewsService reviewsService,
-            ILikesService likesService,
-            UserManager<ApplicationUser> userManager)
+            ILikesService likesService)
         {
             this.booksService = booksService;
             this.reviewsService = reviewsService;
             this.likesService = likesService;
-            this.userManager = userManager;
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id, int page = 1)
         {
             var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDetailsViewModel>(id);
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.GetUserId();
 
             var reviewsCount = await this.reviewsService.GetChildrenReviewsCountByReviewIdAsync(id);
 
@@ -67,7 +63,7 @@
         public async Task<IActionResult> All(int id, int page = 1)
         {
             var viewModel = await this.booksService.GetBookByIdAsync<ReviewsAllViewModel>(id);
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.GetUserId();
 
             var reviewsCount = await this.reviewsService.GetReviewsCountByBookIdAsync(id);
 
@@ -122,7 +118,7 @@
                 }
             }
 
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.GetUserId();
             var reviewId = await this.reviewsService.CreateReviewAsync(input.Description, userId, input.Id, input.ReadingProgress, input.ThisEdition, input.ReviewId);
 
             if (input.ReviewId != null)

@@ -17,7 +17,9 @@
         private readonly IAuthorsService authorsService;
         private readonly IBooksService booksService;
 
-        public AuthorsController(IAuthorsService authorsService, IBooksService booksService)
+        public AuthorsController(
+            IAuthorsService authorsService,
+            IBooksService booksService)
         {
             this.authorsService = authorsService;
             this.booksService = booksService;

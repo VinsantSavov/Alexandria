@@ -17,7 +17,9 @@
         private readonly IGenresService genresService;
         private readonly IBooksService booksService;
 
-        public GenresController(IGenresService genresService, IBooksService booksService)
+        public GenresController(
+            IGenresService genresService,
+            IBooksService booksService)
         {
             this.genresService = genresService;
             this.booksService = booksService;
