@@ -152,8 +152,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var book = await this.booksService.GetBookByIdAsync<ReviewsEditBookViewModel>(input.Book.Id);
-                input.Book = book;
+                input.Book = await this.booksService.GetBookByIdAsync<ReviewsEditBookViewModel>(input.Book.Id);
                 return this.View(input);
             }
 

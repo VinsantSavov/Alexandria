@@ -41,6 +41,8 @@
 
         public DbSet<Like> Likes { get; set; }
 
+        public DbSet<UserFollower> UserFollowers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);

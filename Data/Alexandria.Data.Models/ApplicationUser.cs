@@ -20,6 +20,7 @@ namespace Alexandria.Data.Models
             this.Reviews = new HashSet<Review>();
             this.Ratings = new HashSet<StarRating>();
             this.Likes = new HashSet<Like>();
+            this.Followers = new HashSet<UserFollower>();
         }
 
         public GenderType Gender { get; set; }
@@ -47,5 +48,7 @@ namespace Alexandria.Data.Models
         public virtual ICollection<StarRating> Ratings { get; set; }
 
         public virtual ICollection<Like> Likes { get; set; }
+
+        public virtual ICollection<UserFollower> Followers { get; set; }
     }
 }
