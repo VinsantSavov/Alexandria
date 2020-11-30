@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IUserFollowers
+    public interface IUserFollowersService
     {
         Task CreateUserFollowerAsync(string userId, string followerId);
 

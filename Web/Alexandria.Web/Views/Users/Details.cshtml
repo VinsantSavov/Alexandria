@@ -1,0 +1,49 @@
+﻿@using Alexandria.Web.ViewModels.Users
+@model UsersDetailsViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-md-2">
+            <img src="https://www.cheatsheet.com/wp-content/uploads/2020/10/Charlie-Hunnam-1.jpg" class="rounded-circle d-block w-100 mb-2" alt="profilePicture">
+            <p class="text-info text-center" style="font-size: 13px">
+                @Model.RatingsCount ratings
+            </p>
+            <p class="text-info text-center" style="font-size: 13px">
+                @Model.ReviewsCount reviews
+            </p>
+        </div>
+        <div class="col-md-7">
+            <h3>@Model.Username</h3>
+            <hr />
+            <button class="btn mb-4">Follow</button>
+            <dl class="row">
+                <dt class="col-sm-4" style="font-size: 13px">
+                    Details
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.Gender
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    Activity
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    Joined in @Model.CreatedOn.ToString("MMMM yyyy")
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    About me
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.Biography
+                </dd>
+                <dt class="col-sm-4" style="font-size: 13px">
+                    Followers
+                </dt>
+                <dd class="col-md-8" style="font-size: 13px">
+                    @Model.FollowersCount
+                </dd>
+            </dl>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>

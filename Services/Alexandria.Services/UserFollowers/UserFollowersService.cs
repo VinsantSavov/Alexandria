@@ -10,11 +10,11 @@
     using Alexandria.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
 
-    public class UserFollowers : IUserFollowers
+    public class UserFollowersService : IUserFollowersService
     {
         private readonly AlexandriaDbContext db;
 
-        public UserFollowers(AlexandriaDbContext db)
+        public UserFollowersService(AlexandriaDbContext db)
         {
             this.db = db;
         }
