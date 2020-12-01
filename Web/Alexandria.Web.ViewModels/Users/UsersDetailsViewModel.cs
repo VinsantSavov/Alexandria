@@ -1,6 +1,7 @@
 ﻿namespace Alexandria.Web.ViewModels.Users
 {
     using System;
+    using System.Collections.Generic;
 
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
@@ -25,5 +26,9 @@
         public int RatingsCount { get; set; }
 
         public int FollowersCount { get; set; }
+
+        public IEnumerable<UsersRatingViewModel> TopRatings { get; set; }
+
+        public IEnumerable<UsersReviewViewModel> TopReviews { get; set; }
     }
 }

@@ -31,7 +31,7 @@
 
         Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId, int? take = null, int skip = 0);
 
-        Task<IEnumerable<TModel>> GetAllReviewsByAuthorIdAsync<TModel>(string authorId);
+        Task<IEnumerable<TModel>> GetAllReviewsByAuthorIdAsync<TModel>(string authorId, int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId, int? take = null, int skip = 0);
 

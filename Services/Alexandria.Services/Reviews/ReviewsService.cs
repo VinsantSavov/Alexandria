@@ -113,17 +113,23 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TModel>> GetAllReviewsByAuthorIdAsync<TModel>(string authorId)
+        public async Task<IEnumerable<TModel>> GetAllReviewsByAuthorIdAsync<TModel>(string authorId, int? take = null, int skip = 0)
         {
-            var reviews = await this.db.Reviews.AsNoTracking()
-                                         .Where(r => r.AuthorId == authorId && !r.IsDeleted)
-                                         .OrderBy(r => r.IsBestReview)
-                                         .ThenByDescending(r => r.Likes.Count(l => l.IsLiked))
-                                         .ThenByDescending(r => r.CreatedOn)
-                                         .To<TModel>()
-                                         .ToListAsync();
+            var queryable = this.db.Reviews.AsNoTracking()
+                                           .Where(r => r.AuthorId == authorId
+                                                        && !r.IsDeleted
+                                                        && r.ParentId == null)
+                                           .OrderBy(r => r.IsBestReview)
+                                           .ThenByDescending(r => r.Likes.Count(l => l.IsLiked))
+                                           .ThenByDescending(r => r.CreatedOn)
+                                           .Skip(skip);
 
-            return reviews;
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
         public async Task<IEnumerable<TModel>> GetAllReviewsByBookIdAsync<TModel>(int bookId, int? take = null, int skip = 0)

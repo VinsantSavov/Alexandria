@@ -40,7 +40,14 @@
             </p>
             <div class="row">
                 <div class="col-md-6">
-                    <h5 class="text-left">@Model.Author.Username</h5>
+                    <h5 class="text-left">
+                        <a class="text-dark"
+                           asp-controller="Users"
+                           asp-action="Details"
+                           asp-route-id="@Model.Author.Id">
+                            @Model.Author.Username
+                        </a>
+                    </h5>
                     <div class="col-md-2">
                         <img src="@Model.Author.ProfilePicture" class="d-block" alt="slide1">
                     </div>

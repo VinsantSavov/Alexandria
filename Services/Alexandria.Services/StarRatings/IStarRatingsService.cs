@@ -7,7 +7,7 @@
     {
         Task CreateRatingAsync(int rate, string userId, int bookId);
 
-        Task<IEnumerable<TModel>> GetAllRatesByUserIdAsync<TModel>(string userId);
+        Task<IEnumerable<TModel>> GetAllRatesByUserIdAsync<TModel>(string userId, int? take = null, int skip = 0);
 
         Task<int> GetAllRatesByBookIdAsync(int bookId);
 

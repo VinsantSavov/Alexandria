@@ -4,45 +4,173 @@
 <div class="container">
     <div class="row">
         <div class="col-1"></div>
-        <div class="col-md-2">
-            <img src="https://www.cheatsheet.com/wp-content/uploads/2020/10/Charlie-Hunnam-1.jpg" class="rounded-circle d-block w-100 mb-2" alt="profilePicture">
-            <p class="text-info text-center" style="font-size: 13px">
-                @Model.RatingsCount ratings
-            </p>
-            <p class="text-info text-center" style="font-size: 13px">
-                @Model.ReviewsCount reviews
-            </p>
-        </div>
-        <div class="col-md-7">
-            <h3>@Model.Username</h3>
-            <hr />
-            <button class="btn mb-4">Follow</button>
-            <dl class="row">
-                <dt class="col-sm-4" style="font-size: 13px">
-                    Details
-                </dt>
-                <dd class="col-md-8" style="font-size: 13px">
-                    @Model.Gender
-                </dd>
-                <dt class="col-sm-4" style="font-size: 13px">
-                    Activity
-                </dt>
-                <dd class="col-md-8" style="font-size: 13px">
-                    Joined in @Model.CreatedOn.ToString("MMMM yyyy")
-                </dd>
-                <dt class="col-sm-4" style="font-size: 13px">
-                    About me
-                </dt>
-                <dd class="col-md-8" style="font-size: 13px">
-                    @Model.Biography
-                </dd>
-                <dt class="col-sm-4" style="font-size: 13px">
-                    Followers
-                </dt>
-                <dd class="col-md-8" style="font-size: 13px">
-                    @Model.FollowersCount
-                </dd>
-            </dl>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="https://www.cheatsheet.com/wp-content/uploads/2020/10/Charlie-Hunnam-1.jpg" class="rounded-circle d-block w-100 mb-2" alt="profilePicture">
+                    <p class="text-center mb-1" style="font-size: 13px">
+                        <a class="text-info"
+                           asp-controller="Users"
+                           asp-action="Ratings"
+                           asp-route-id="@Model.Id">
+                            @Model.RatingsCount ratings
+                        </a>
+                    </p>
+                    <p class="text-info text-center" style="font-size: 13px">
+                        <a class="text-info"
+                           asp-controller="Users"
+                           asp-action="Reviews"
+                           asp-route-id="@Model.Id">
+                            @Model.ReviewsCount reviews
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-9">
+                    <h3>@Model.Username</h3>
+                    <hr />
+                    <button class="btn mb-4">Follow</button>
+                    <dl class="row">
+                        <dt class="col-sm-4" style="font-size: 13px">
+                            Details
+                        </dt>
+                        <dd class="col-md-8" style="font-size: 13px">
+                            @Model.Gender
+                        </dd>
+                        <dt class="col-sm-4" style="font-size: 13px">
+                            Activity
+                        </dt>
+                        <dd class="col-md-8" style="font-size: 13px">
+                            Joined in @Model.CreatedOn.ToString("MMMM yyyy")
+                        </dd>
+                        <dt class="col-sm-4" style="font-size: 13px">
+                            About me
+                        </dt>
+                        <dd class="col-md-8" style="font-size: 13px">
+                            @Model.Biography
+                        </dd>
+                        <dt class="col-sm-4" style="font-size: 13px">
+                            Followers
+                        </dt>
+                        <dd class="col-md-8" style="font-size: 13px">
+                            @Model.FollowersCount
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div>
+                <p>@Model.Username's ratings</p>
+                <table class="table">
+                    <caption class="text-right">
+                        <a class="text-secondary"
+                           asp-controller="Users"
+                           asp-action="Ratings"
+                           asp-route-id="@Model.Id">
+                            All ratings
+                        </a>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Cover</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rating in Model.TopRatings)
+                        {
+                            <tr>
+                                <td style="width: 100px">
+                                    <img src="@rating.Book.PictureURL" class="d-block w-100" alt="BookCover" />
+                                </td>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-controller="Books"
+                                       asp-action="Details"
+                                       asp-route-id="@rating.Book.Id">
+                                        @rating.Book.Title
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-controller="Authors"
+                                       asp-action="Details"
+                                       asp-route-id="@rating.Book.Author.Id">
+                                        @rating.Book.Author.FullName
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="rating">
+                                        @for (int i = 1; i <= rating.Rate; i++)
+                                        {
+                                            <span class="star filled"></span>
+                                        }
+                                    </div>
+                                </td>
+                                <td>@rating.CreatedOn.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <p>@Model.Username's reviews</p>
+                <table class="table">
+                    <caption class="text-right">
+                        <a class="text-secondary"
+                           asp-controller="Users"
+                           asp-action="Reviews"
+                           asp-route-id="@Model.Id">
+                            All reviews
+                        </a>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Cover</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Review</th>
+                            <th scope="col">Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var review in Model.TopReviews)
+                        {
+                            <tr>
+                                <td style="width: 100px">
+                                    <img src="@review.Book.PictureURL" class="d-block w-100" alt="BookCover" />
+                                </td>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-controller="Books"
+                                       asp-action="Details"
+                                       asp-route-id="@review.Book.Id">
+                                        @review.Book.Title
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-controller="Authors"
+                                       asp-action="Details"
+                                       asp-route-id="@review.Book.Author.Id">
+                                        @review.Book.Author.FullName
+                                    </a>
+                                </td>
+                                <td>@Html.Raw(review.ShortSanitizedDescription)</td>
+                                <td>@review.CreatedOn.ToShortDateString()</td>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-controller="Reviews"
+                                       asp-action="Details"
+                                       asp-route-id="@review.Id">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="col-1"></div>
     </div>

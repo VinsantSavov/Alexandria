@@ -5,8 +5,13 @@
 </div>
 <div class="col-md-10">
     <dl class="row mb-0">
-        <dt class="col-sm-6 font-weight-bold text-capitalize text-left text-info">
-            @Model.Author.Username
+        <dt class="col-sm-6 font-weight-bold text-capitalize text-left">
+            <a class="text-info"
+               asp-controller="Users"
+               asp-action="Details"
+               asp-route-id="@Model.Author.Id">
+                @Model.Author.Username
+            </a>
         </dt>
         <dd class="col-sm-6 text-secondary font-italic text-right">
             @Model.CreatedOn

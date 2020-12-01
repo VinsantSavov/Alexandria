@@ -52,14 +52,19 @@
             return ratings;
         }
 
-        public async Task<IEnumerable<TModel>> GetAllRatesByUserIdAsync<TModel>(string userId)
+        public async Task<IEnumerable<TModel>> GetAllRatesByUserIdAsync<TModel>(string userId, int? take = null, int skip = 0)
         {
-            var ratings = await this.db.StarRatings.AsNoTracking()
-                                             .Where(r => r.UserId == userId)
-                                             .To<TModel>()
-                                             .ToListAsync();
+            var queryable = this.db.StarRatings.AsNoTracking()
+                                               .Where(r => r.UserId == userId)
+                                               .OrderByDescending(r => r.Rate)
+                                               .Skip(skip);
 
-            return ratings;
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
         public async Task<double> GetAverageRatingByBookIdAsync(int bookId)
