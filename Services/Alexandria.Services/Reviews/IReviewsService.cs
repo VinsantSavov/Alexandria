@@ -19,6 +19,8 @@
 
         Task<int> GetReviewsCountByBookIdAsync(int bookId);
 
+        Task<int> GetReviewsCountByUserIdAsync(string userId);
+
         Task<string> GetAuthorIdByIdAsync(int id);
 
         Task<bool> DoesReviewIdExistAsync(int id);

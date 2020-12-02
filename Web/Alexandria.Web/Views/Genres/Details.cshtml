@@ -7,7 +7,12 @@
         <div class="col-md-8">
             <h4 class="font-weight-bold text-capitalize text-left">@Model.Name</h4>
             <p class="mt-md-4">@Model.Description</p>
-            <a class="text-uppercase text-dark font-weight-bold float-left" asp-controller="Genres" asp-action="NewReleases" asp-route-id="@Model.Id">New Releases tagged "@Model.Name"<hr /></a>
+            <a class="text-uppercase text-dark font-weight-bold float-left"
+               asp-controller="Genres"
+               asp-action="NewReleases"
+               asp-route-id="@Model.Id">
+                New Releases tagged "@Model.Name"<hr />
+            </a>
             <section class="recent-book-sec mt-4 mb-3">
                 <div class="row">
                     @foreach (var book in Model.NewReleasedBooks)
@@ -15,7 +20,9 @@
                         <div class="item my-3 mx-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
                              data-content="<dl><dt>Title:</dt><dd>@book.Title</dd><dt>Author:</dt><dd>@book.Author</dd><dt>Tags:</dt><dd>@string.Join(", ", book.Tags)</dd></dl>">
                             <div style="width: 150px;">
-                                <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+                                <a asp-controller="Books"
+                                   asp-action="Details"
+                                   asp-route-id="@book.Id">
                                     <img src="@book.PictureURL" alt="img">
                                 </a>
                             </div>
@@ -23,7 +30,12 @@
                     }
                 </div>
             </section>
-            <a class="text-uppercase text-dark font-weight-bold float-left" asp-controller="Genres" asp-action="TopRated" asp-route-id="@Model.Id">top rated tagged "@Model.Name"<hr /></a>
+            <a class="text-uppercase text-dark font-weight-bold float-left"
+               asp-controller="Genres"
+               asp-action="TopRated"
+               asp-route-id="@Model.Id">
+                top rated tagged "@Model.Name"<hr />
+            </a>
             <section class="recent-book-sec mt-4">
                 <div class="row">
                     @foreach (var book in Model.TopRatedBooks)
@@ -31,7 +43,8 @@
                         <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
                              data-content="<dl><dt>Title:</dt><dd>@book.Title</dd><dt>Author:</dt><dd>@book.Author</dd><dt>Tags:</dt><dd>@string.Join(", ", book.Tags)</dd></dl>">
                             <div style="width: 150px;">
-                                <a asp-controller="Books" asp-action="Details">
+                                <a asp-controller="Books" 
+                                   asp-action="Details">
                                     <img src="@book.PictureURL" alt="img">
                                 </a>
                             </div>

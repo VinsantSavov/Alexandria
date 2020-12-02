@@ -26,7 +26,7 @@
         {
             var userId = this.User.GetUserId();
             await this.ratingsService.CreateRatingAsync(input.Rate, userId, input.BookId);
-            var ratings = await this.ratingsService.GetAllRatesByBookIdAsync(input.BookId);
+            var ratings = await this.ratingsService.GetRatesCountByBookIdAsync(input.BookId);
             var averageRating = await this.ratingsService.GetAverageRatingByBookIdAsync(input.BookId);
 
             return new StarRatingResponseModel { RatingsCount = ratings, AverageRating = averageRating };

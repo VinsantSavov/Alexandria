@@ -1,1 +1,71 @@
-﻿
+﻿@using Alexandria.Web.ViewModels.Users
+@model UsersRatingViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-9">
+            <h4>
+                <a class="text-dark"
+                   asp-controller="Users"
+                   asp-action="Details"
+                   asp-route-id="@Model.Id">
+                    @Model.Username
+                </a>
+            </h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Cover</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rating in Model.AllRatings)
+                    {
+                        <tr>
+                            <td style="width: 100px">
+                                <img src="@rating.Book.PictureURL" class="d-block w-100" alt="BookCover" />
+                            </td>
+                            <td>
+                                <a class="text-dark"
+                                   asp-controller="Books"
+                                   asp-action="Details"
+                                   asp-route-id="@rating.Book.Id">
+                                    @rating.Book.Title
+                                </a>
+                            </td>
+                            <td>
+                                <a class="text-dark"
+                                   asp-controller="Authors"
+                                   asp-action="Details"
+                                   asp-route-id="@rating.Book.Author.Id">
+                                    @rating.Book.Author.FullName
+                                </a>
+                            </td>
+                            <td>
+                                <div class="rating">
+                                    @for (int i = 1; i <= rating.Rate; i++)
+                                    {
+                                        <span class="star filled"></span>
+                                    }
+                                </div>
+                            </td>
+                            <td>@rating.CreatedOn.ToShortDateString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="row my-2">
+                <div class="col-md-4"></div>
+                <div class="col-md-1">
+                    <partial name="_PaginationPartialWithId" model="@Model" />
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+</div>

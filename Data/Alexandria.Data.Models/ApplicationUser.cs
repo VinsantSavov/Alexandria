@@ -50,5 +50,7 @@ namespace Alexandria.Data.Models
         public virtual ICollection<Like> Likes { get; set; }
 
         public virtual ICollection<UserFollower> Followers { get; set; }
+
+        public virtual ICollection<UserFollower> Following { get; set; }
     }
 }

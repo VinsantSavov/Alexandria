@@ -44,13 +44,13 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task<int> GetAllRatesByBookIdAsync(int bookId)
-        {
-            var ratings = await this.db.StarRatings.Where(r => r.BookId == bookId)
-                                                   .CountAsync();
+        public async Task<int> GetRatesCountByUserIdAsync(string userId)
+                  => await this.db.StarRatings.Where(sr => sr.UserId == userId)
+                                              .CountAsync();
 
-            return ratings;
-        }
+        public async Task<int> GetRatesCountByBookIdAsync(int bookId)
+                  => await this.db.StarRatings.Where(r => r.BookId == bookId)
+                                              .CountAsync();
 
         public async Task<IEnumerable<TModel>> GetAllRatesByUserIdAsync<TModel>(string userId, int? take = null, int skip = 0)
         {

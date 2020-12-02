@@ -27,8 +27,10 @@
 
         public int FollowersCount { get; set; }
 
-        public IEnumerable<UsersRatingViewModel> TopRatings { get; set; }
+        public int FollowingCount { get; set; }
 
-        public IEnumerable<UsersReviewViewModel> TopReviews { get; set; }
+        public IEnumerable<UsersSingleRatingViewModel> TopRatings { get; set; }
+
+        public IEnumerable<UsersSingleReviewViewModel> TopReviews { get; set; }
     }
 }

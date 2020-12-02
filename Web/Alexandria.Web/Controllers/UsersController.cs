@@ -1,5 +1,6 @@
 ﻿namespace Alexandria.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Alexandria.Services.Reviews;
@@ -11,8 +12,9 @@
 
     public class UsersController : Controller
     {
-        private const int RatingsCount = 5;
-        private const int ReviewsCount = 5;
+        private const int RatingsPerPage = 5;
+        private const int ReviewsPerPage = 1;
+        private const string ControllerName = "Users";
 
         private readonly IUsersService usersService;
         private readonly IUserFollowersService userFollowersService;
@@ -39,20 +41,48 @@
                 return this.NotFound();
             }
 
-            user.TopRatings = await this.starRatingsService.GetAllRatesByUserIdAsync<UsersRatingViewModel>(id, RatingsCount);
-            user.TopReviews = await this.reviewsService.GetAllReviewsByAuthorIdAsync<UsersReviewViewModel>(id, ReviewsCount);
+            user.TopRatings = await this.starRatingsService.GetAllRatesByUserIdAsync<UsersSingleRatingViewModel>(id, RatingsPerPage);
+            user.TopReviews = await this.reviewsService.GetAllReviewsByAuthorIdAsync<UsersSingleReviewViewModel>(id, ReviewsPerPage);
 
             return this.View(user);
         }
 
-        public async Task<IActionResult> Ratings(string id)
+        public async Task<IActionResult> Ratings(string id, int page = 1)
         {
-            return this.View();
+            var user = await this.usersService.GetUserByIdAsync<UsersRatingViewModel>(id);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            int ratingsCount = await this.starRatingsService.GetRatesCountByUserIdAsync(id);
+
+            user.CurrentPage = page;
+            user.PagesCount = (int)Math.Ceiling((double)ratingsCount / RatingsPerPage);
+            user.ControllerName = ControllerName;
+            user.ActionName = nameof(this.Ratings);
+            user.AllRatings = await this.starRatingsService.GetAllRatesByUserIdAsync<UsersSingleRatingViewModel>(id, RatingsPerPage, (page - 1) * RatingsPerPage);
+
+            return this.View(user);
         }
 
-        public async Task<IActionResult> Reviews(string id)
+        public async Task<IActionResult> Reviews(string id, int page = 1)
         {
-            return this.View();
+            var user = await this.usersService.GetUserByIdAsync<UsersReviewViewModel>(id);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            var reviewsCount = await this.reviewsService.GetReviewsCountByUserIdAsync(id);
+
+            user.CurrentPage = page;
+            user.PagesCount = (int)Math.Ceiling((double)reviewsCount / ReviewsPerPage);
+            user.ControllerName = ControllerName;
+            user.ActionName = nameof(this.Reviews);
+            user.AllReviews = await this.reviewsService.GetAllReviewsByAuthorIdAsync<UsersSingleReviewViewModel>(id, ReviewsPerPage, (page - 1) * ReviewsPerPage);
+
+            return this.View(user);
         }
     }
 }

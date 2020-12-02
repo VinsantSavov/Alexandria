@@ -5,10 +5,17 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-8">
-            <a class="text-dark" asp-controller="Genres" asp-action="Details" asp-route-id="@Model.Id">
-                <h4 class="font-weight-bold text-capitalize text-left mb-3">@Model.Name</h4>
+            <a class="text-dark"
+               asp-controller="Genres"
+               asp-action="Details"
+               asp-route-id="@Model.Id">
+                <h4 class="font-weight-bold text-capitalize text-left mb-3">
+                    @Model.Name
+                </h4>
             </a>
-            <h5 class="font-weight-bold text-capitalize text-left">@ViewData["Subtitle"]</h5><hr />
+            <h5 class="font-weight-bold text-capitalize text-left">
+                @ViewData["Subtitle"]
+            </h5><hr />
             <section class="recent-book-sec mt-4 mb-3">
                 <div class="row">
                     @foreach (var book in Model.AllBooks)
@@ -16,7 +23,9 @@
                         <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
                              data-content="<dl><dt>Title:</dt><dd>@book.Title</dd><dt>Author:</dt><dd>@book.Author</dd><dt>Tags:</dt><dd>@string.Join(", ", book.Tags)</dd></dl>">
                             <div style="width: 150px;">
-                                <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
+                                <a asp-controller="Books"
+                                   asp-action="Details"
+                                   asp-route-id="@book.Id">
                                     <img src="@book.PictureURL" alt="img">
                                 </a>
                             </div>

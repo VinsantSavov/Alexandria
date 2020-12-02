@@ -15,7 +15,7 @@
                         .OnDelete(DeleteBehavior.Restrict);
 
             userFollower.HasOne(uf => uf.Follower)
-                        .WithMany()
+                        .WithMany(u => u.Following)
                         .HasForeignKey(uf => uf.FollowerId)
                         .IsRequired(true)
                         .OnDelete(DeleteBehavior.Restrict);

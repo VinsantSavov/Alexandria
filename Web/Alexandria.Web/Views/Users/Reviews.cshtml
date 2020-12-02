@@ -1,1 +1,72 @@
-﻿
+﻿@using Alexandria.Web.ViewModels.Users
+@model UsersReviewViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-9">
+            <h4>
+                <a class="text-dark"
+                   asp-controller="Users"
+                   asp-action="Details"
+                   asp-route-id="@Model.Id">
+                    @Model.Username
+                </a>
+            </h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Cover</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Review</th>
+                        <th scope="col">Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var review in Model.AllReviews)
+                    {
+                        <tr>
+                            <td style="width: 100px">
+                                <img src="@review.Book.PictureURL" class="d-block w-100" alt="BookCover" />
+                            </td>
+                            <td>
+                                <a class="text-dark"
+                                   asp-controller="Books"
+                                   asp-action="Details"
+                                   asp-route-id="@review.Book.Id">
+                                    @review.Book.Title
+                                </a>
+                            </td>
+                            <td>
+                                <a class="text-dark"
+                                   asp-controller="Authors"
+                                   asp-action="Details"
+                                   asp-route-id="@review.Book.Author.Id">
+                                    @review.Book.Author.FullName
+                                </a>
+                            </td>
+                            <td>@Html.Raw(review.ShortSanitizedDescription)</td>
+                            <td>@review.CreatedOn.ToShortDateString()</td>
+                            <td>
+                                <a class="text-dark"
+                                   asp-controller="Reviews"
+                                   asp-action="Details"
+                                   asp-route-id="@review.Id">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="row my-2">
+                <div class="col-md-4"></div>
+                <div class="col-md-1">
+                    <partial name="_PaginationPartialWithId" model="@Model" />
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+</div>

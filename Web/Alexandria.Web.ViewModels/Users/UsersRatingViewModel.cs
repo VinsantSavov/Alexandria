@@ -1,18 +1,16 @@
 ﻿namespace Alexandria.Web.ViewModels.Users
 {
-    using System;
+    using System.Collections.Generic;
 
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
 
-    public class UsersRatingViewModel : IMapFrom<StarRating>
+    public class UsersRatingViewModel : PagingViewModel, IMapFrom<ApplicationUser>
     {
-        public int Id { get; set; }
+        public new string Id { get; set; }
 
-        public int Rate { get; set; }
+        public string Username { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-
-        public UsersBookViewModel Book { get; set; }
+        public IEnumerable<UsersSingleRatingViewModel> AllRatings { get; set; }
     }
 }

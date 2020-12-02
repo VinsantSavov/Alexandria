@@ -1,31 +1,17 @@
 ﻿namespace Alexandria.Web.ViewModels.Users
 {
-    using System;
-    using System.Linq;
+    using System.Collections.Generic;
 
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
-    using Ganss.XSS;
+    using AutoMapper;
 
-    public class UsersReviewViewModel : IMapFrom<Review>
+    public class UsersReviewViewModel : PagingViewModel, IMapFrom<ApplicationUser>
     {
-        private readonly HtmlSanitizer sanitizer;
+        public new string Id { get; set; }
 
-        public UsersReviewViewModel()
-        {
-            this.sanitizer = new HtmlSanitizer();
-        }
+        public string Username { get; set; }
 
-        public int Id { get; set; }
-
-        public string Description { get; set; }
-
-        public string SanitizedDescription => this.sanitizer.Sanitize(this.Description);
-
-        public string ShortSanitizedDescription => this.SanitizedDescription.Count() > 200 ? this.SanitizedDescription.Substring(0, 200) + "..." : this.SanitizedDescription;
-
-        public DateTime CreatedOn { get; set; }
-
-        public UsersBookViewModel Book { get; set; }
+        public IEnumerable<UsersSingleReviewViewModel> AllReviews { get; set; }
     }
 }

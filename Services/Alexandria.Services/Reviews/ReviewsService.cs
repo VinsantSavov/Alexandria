@@ -74,12 +74,18 @@
 
         public async Task<int> GetReviewsCountByBookIdAsync(int bookId)
         {
-            var count = await this.db.Reviews.Where(r => r.BookId == bookId
+            return await this.db.Reviews.Where(r => r.BookId == bookId
                                                     && r.ParentId == null
                                                     && !r.IsDeleted)
-                                             .CountAsync();
+                                        .CountAsync();
+        }
 
-            return count;
+        public async Task<int> GetReviewsCountByUserIdAsync(string userId)
+        {
+            return await this.db.Reviews.Where(r => r.AuthorId == userId
+                                                    && r.ParentId == null
+                                                    && !r.IsDeleted)
+                                        .CountAsync();
         }
 
         public async Task<string> GetAuthorIdByIdAsync(int id)
