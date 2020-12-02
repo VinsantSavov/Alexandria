@@ -7,7 +7,7 @@
     {
         Task CreateUserFollowerAsync(string userId, string followerId);
 
-        Task<bool> DoesUserFollowerExistAsync(string userId, string followerId);
+        Task<bool> DoesUserFollowUserAsync(string userId, string followerId);
 
         Task<int> GetFollowersCountByUserIdAsync(string userId);
 

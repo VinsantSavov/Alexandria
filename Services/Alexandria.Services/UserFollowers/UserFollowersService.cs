@@ -54,7 +54,7 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task<bool> DoesUserFollowerExistAsync(string userId, string followerId)
+        public async Task<bool> DoesUserFollowUserAsync(string userId, string followerId)
            => await this.db.UserFollowers.AnyAsync(uf => uf.UserId == userId
                                                   && uf.FollowerId == followerId
                                                   && !uf.IsDeleted);

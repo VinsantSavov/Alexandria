@@ -31,6 +31,8 @@
 
         public int FollowingCount { get; set; }
 
+        public bool UserFollowedUser { get; set; }
+
         public IEnumerable<UsersSingleRatingViewModel> TopRatings { get; set; }
 
         public IEnumerable<UsersSingleReviewViewModel> TopReviews { get; set; }

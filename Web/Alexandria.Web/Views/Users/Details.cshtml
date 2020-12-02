@@ -28,7 +28,17 @@
                 <div class="col-md-9">
                     <h3>@Model.Username</h3>
                     <hr />
-                    <button class="btn mb-4">Follow</button>
+                    <form method="post" id="antiForgeryForm"></form>
+                    <button id="followButton" class="btn mb-4" onclick="followUser()">
+                        @if (Model.UserFollowedUser)
+                        {
+                            @:Following
+                        }
+                        else
+                        {
+                            @:Follow
+                        }
+                    </button>
                     <dl class="row">
                         <dt class="col-sm-4" style="font-size: 13px">
                             Details
@@ -51,8 +61,10 @@
                         <dt class="col-sm-4" style="font-size: 13px">
                             Followers
                         </dt>
-                        <dd class="col-md-8" style="font-size: 13px">
-                            @Model.FollowersCount
+                        <dd class="col-md-8 form-inline" style="font-size: 13px">
+                            <div id="followersCount">
+                                @Model.FollowersCount
+                            </div>
                             <a class="font-italic text-dark mx-2"
                                asp-controller="Users"
                                asp-action="Followers"
@@ -193,3 +205,36 @@
         <div class="col-1"></div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        function followUser() {
+            var value = document.getElementById("followButton").innerHTML.trim();
+            var antiforgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+            var userId = '@Model.Id';
+            var data = { id: userId };
+            var check = '<i class="fas fa - check"></i>';
+
+            $.ajax({
+                type: "POST",
+                url: "/api/UserFollowers",
+                data: JSON.stringify(data),
+                headers: {
+                    'X-CSRF-TOKEN': antiforgeryToken
+                },
+                success: function (response) {
+                    $('#followersCount').html(response.followersCount);
+
+                    if (value.toLowerCase() == "follow") {
+                        document.getElementById("followButton").innerHTML = "following";
+                        $('#followButton').prepend(check);
+                    }
+                    else {
+                        document.getElementById("followButton").innerHTML = "follow";
+                    }
+                },
+                contentType: 'application/json',
+            });
+        }
+    </script>
+}

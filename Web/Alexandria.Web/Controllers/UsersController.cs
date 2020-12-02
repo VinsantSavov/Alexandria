@@ -7,6 +7,7 @@
     using Alexandria.Services.StarRatings;
     using Alexandria.Services.UserFollowers;
     using Alexandria.Services.Users;
+    using Alexandria.Web.Infrastructure.Extensions;
     using Alexandria.Web.ViewModels.Users;
     using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +45,9 @@
                 return this.NotFound();
             }
 
+            var followerId = this.User.GetUserId();
+
+            user.UserFollowedUser = await this.userFollowersService.DoesUserFollowUserAsync(id, followerId);
             user.TopRatings = await this.starRatingsService.GetAllRatesByUserIdAsync<UsersSingleRatingViewModel>(id, TopCount);
             user.TopReviews = await this.reviewsService.GetAllReviewsByAuthorIdAsync<UsersSingleReviewViewModel>(id, TopCount);
 
