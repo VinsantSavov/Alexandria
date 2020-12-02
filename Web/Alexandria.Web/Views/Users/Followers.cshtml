@@ -1,1 +1,61 @@
-﻿
+﻿@using Alexandria.Web.ViewModels.Users
+@model UsersFollowersViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-9">
+            <h4 class="mb-3">
+                <a class="text-dark"
+                   asp-controller="Users"
+                   asp-action="Details"
+                   asp-route-id="@Model.Id">
+                    @Model.Username
+                </a>
+                followers
+            </h4>
+            @if (Model.Followers.Count() == 0)
+            {
+                <p class="text-center">@Model.Username has no followers.</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Profile Picture</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Reviews</th>
+                            <th scope="col">Following</th>
+                            <th scope="col">Followers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Followers)
+                        {
+                            <tr>
+                                <td style="width: 100px">
+                                    <img src="@user.ProfilePicture" class="d-block w-100" alt="BookCover" />
+                                </td>
+                                <td>
+                                    <a class="text-dark"
+                                       asp-controller="Books"
+                                       asp-action="Details"
+                                       asp-route-id="@user.Id">
+                                        @user.Username
+                                    </a>
+                                </td>
+                                <td>@user.ReviewsCount</td>
+                                <td>@user.FollowingCount</td>
+                                <td>@user.FollowersCount</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="my-3">
+                    <partial name="_PaginationPartialWithId" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

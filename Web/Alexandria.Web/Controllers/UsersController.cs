@@ -14,6 +14,8 @@
     {
         private const int RatingsPerPage = 5;
         private const int ReviewsPerPage = 5;
+        private const int FollowersPerPage = 5;
+        private const int FollowingPerPage = 5;
         private const int TopCount = 5;
         private const string ControllerName = "Users";
 
@@ -82,6 +84,44 @@
             user.ControllerName = ControllerName;
             user.ActionName = nameof(this.Reviews);
             user.AllReviews = await this.reviewsService.GetAllReviewsByAuthorIdAsync<UsersSingleReviewViewModel>(id, ReviewsPerPage, (page - 1) * ReviewsPerPage);
+
+            return this.View(user);
+        }
+
+        public async Task<IActionResult> Following(string id, int page = 1)
+        {
+            var user = await this.usersService.GetUserByIdAsync<UsersFollowersViewModel>(id);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            var followingCount = await this.userFollowersService.GetFollowingCountByUserIdAsync(id);
+
+            user.CurrentPage = page;
+            user.PagesCount = (int)Math.Ceiling((double)followingCount / FollowingPerPage);
+            user.ControllerName = ControllerName;
+            user.ActionName = nameof(this.Following);
+            user.Following = await this.userFollowersService.GetAllFollowingByUserIdAsync<UsersSingleFollowingViewModel>(id, FollowingPerPage, (page - 1) * FollowingPerPage);
+
+            return this.View(user);
+        }
+
+        public async Task<IActionResult> Followers(string id, int page = 1)
+        {
+            var user = await this.usersService.GetUserByIdAsync<UsersFollowersViewModel>(id);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            var followersCount = await this.userFollowersService.GetFollowersCountByUserIdAsync(id);
+
+            user.CurrentPage = page;
+            user.PagesCount = (int)Math.Ceiling((double)followersCount / FollowersPerPage);
+            user.ControllerName = ControllerName;
+            user.ActionName = nameof(this.Followers);
+            user.Followers = await this.userFollowersService.GetAllFollowersByUserIdAsync<UsersSingleFollowerViewModel>(id, FollowersPerPage, (page - 1) * FollowersPerPage);
 
             return this.View(user);
         }

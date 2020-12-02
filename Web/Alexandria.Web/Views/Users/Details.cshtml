@@ -21,7 +21,7 @@
                            asp-controller="Users"
                            asp-action="Reviews"
                            asp-route-id="@Model.Id">
-                            @Model.ReviewsCount reviews
+                            @Model.ReviewsCount reviews and comments
                         </a>
                     </p>
                 </div>
@@ -53,12 +53,24 @@
                         </dt>
                         <dd class="col-md-8" style="font-size: 13px">
                             @Model.FollowersCount
+                            <a class="font-italic text-dark mx-2"
+                               asp-controller="Users"
+                               asp-action="Followers"
+                               asp-route-id="@Model.Id">
+                                view
+                            </a>
                         </dd>
                         <dt class="col-sm-4" style="font-size: 13px">
                             Following
                         </dt>
                         <dd class="col-md-8" style="font-size: 13px">
                             @Model.FollowingCount
+                            <a class="font-italic text-dark mx-2"
+                               asp-controller="Users"
+                               asp-action="Following"
+                               asp-route-id="@Model.Id">
+                                view
+                            </a>
                         </dd>
                     </dl>
                 </div>
