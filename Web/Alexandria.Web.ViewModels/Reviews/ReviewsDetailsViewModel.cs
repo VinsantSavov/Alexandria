@@ -21,6 +21,8 @@
             this.sanitizer = new HtmlSanitizer();
         }
 
+        public int Id { get; set; }
+
         // not mapped, used for input
         [IgnoreMap]
         [Display(Name = GlobalConstants.ReviewDescriptionDisplayNameConstant)]
@@ -58,6 +60,11 @@
                          dest => dest.Likes,
                          a => a.MapFrom(
                              src => src.Likes.Count(l => l.IsLiked)));
+        }
+
+        public override string GetId()
+        {
+            return this.Id.ToString();
         }
     }
 }

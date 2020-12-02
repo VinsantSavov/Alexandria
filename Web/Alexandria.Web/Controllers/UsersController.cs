@@ -13,7 +13,8 @@
     public class UsersController : Controller
     {
         private const int RatingsPerPage = 5;
-        private const int ReviewsPerPage = 1;
+        private const int ReviewsPerPage = 5;
+        private const int TopCount = 5;
         private const string ControllerName = "Users";
 
         private readonly IUsersService usersService;
@@ -41,8 +42,8 @@
                 return this.NotFound();
             }
 
-            user.TopRatings = await this.starRatingsService.GetAllRatesByUserIdAsync<UsersSingleRatingViewModel>(id, RatingsPerPage);
-            user.TopReviews = await this.reviewsService.GetAllReviewsByAuthorIdAsync<UsersSingleReviewViewModel>(id, ReviewsPerPage);
+            user.TopRatings = await this.starRatingsService.GetAllRatesByUserIdAsync<UsersSingleRatingViewModel>(id, TopCount);
+            user.TopReviews = await this.reviewsService.GetAllReviewsByAuthorIdAsync<UsersSingleReviewViewModel>(id, TopCount);
 
             return this.View(user);
         }

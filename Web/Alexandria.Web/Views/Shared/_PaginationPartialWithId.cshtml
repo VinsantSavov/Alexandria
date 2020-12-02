@@ -15,7 +15,7 @@
                 <a class="page-link"
                    asp-controller="@Model.ControllerName"
                    asp-action="@Model.ActionName"
-                   asp-route-id="@Model.Id"
+                   asp-route-id="@Model.GetId()"
                    asp-route-page="@(Model.CurrentPage - 1)">Previous</a>
             </li>
         }
@@ -27,7 +27,7 @@
                 <li class="page-item">
                     <a class="page-link" asp-controller="@Model.ControllerName"
                        asp-action="@Model.ActionName"
-                       asp-route-id="@Model.Id"
+                       asp-route-id="@Model.GetId()"
                        asp-route-page="@i">@i</a>
                 </li>
             }
@@ -46,7 +46,7 @@
                     <a class="page-link" 
                        asp-controller="@Model.ControllerName"
                        asp-action="@Model.ActionName"
-                       asp-route-id="@Model.Id"
+                       asp-route-id="@Model.GetId()"
                        asp-route-page="@i">@i</a>
                 </li>
             }
@@ -63,7 +63,7 @@
                 <a class="page-link"
                    asp-controller="@Model.ControllerName"
                    asp-action="@Model.ActionName"
-                   asp-route-id="@Model.Id"
+                   asp-route-id="@Model.GetId()"
                    asp-route-page="@(Model.CurrentPage + 1)">Next</a>
             </li>
         }

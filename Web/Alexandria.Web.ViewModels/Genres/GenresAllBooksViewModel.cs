@@ -7,8 +7,15 @@
 
     public class GenresAllBooksViewModel : PagingViewModel, IMapFrom<Genre>
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public IEnumerable<GenresBookDetailsViewModel> AllBooks { get; set; }
+
+        public override string GetId()
+        {
+            return this.Id.ToString();
+        }
     }
 }

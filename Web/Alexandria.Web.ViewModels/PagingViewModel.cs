@@ -2,8 +2,6 @@
 {
     public abstract class PagingViewModel
     {
-        public int Id { get; set; }
-
         public int CurrentPage { get; set; }
 
         public int PagesCount { get; set; }
@@ -15,5 +13,7 @@
         public string ControllerName { get; set; }
 
         public string ActionName { get; set; }
+
+        public abstract string GetId();
     }
 }

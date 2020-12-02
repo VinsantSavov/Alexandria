@@ -8,6 +8,8 @@
 
     public class AuthorsAllBooksDetailsViewModel : PagingViewModel, IMapFrom<Author>
     {
+        public int Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string SecondName { get; set; }
@@ -25,5 +27,10 @@
         public int ReviewsCount => this.AllBooks.Sum(b => b.ReviewsCount);
 
         public IEnumerable<AuthorsAllBooksBookViewModel> AllBooks { get; set; }
+
+        public override string GetId()
+        {
+            return this.Id.ToString();
+        }
     }
 }
