@@ -29,7 +29,7 @@
                     @Model.Author.Username
                 </dt>
                 <dd class="col-sm-6 text-secondary font-italic text-right">
-                    @Model.CreatedOn
+                    <time datetime="@Model.CreatedOn.ToString("O")"></time>
                 </dd>
             </dl>
             <p>@Html.Raw(Model.SanitizedDescription)</p>

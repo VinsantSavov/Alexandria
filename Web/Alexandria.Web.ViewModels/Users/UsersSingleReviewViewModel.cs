@@ -4,6 +4,7 @@
     using System.Linq;
 
     using Alexandria.Data.Models;
+    using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Mapping;
     using Ganss.XSS;
 

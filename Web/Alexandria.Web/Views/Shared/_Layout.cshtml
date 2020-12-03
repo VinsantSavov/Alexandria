@@ -163,11 +163,13 @@
             </div>
         </div>
     </footer>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
-    <script src="/js/custom.js"></script>
+    <script src="/js/jquery.min.js" asp-append-version="true"></script>
+    <script src="/js/popper.min.js" asp-append-version="true"></script>
+    <script src="/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="/js/owl.carousel.min.js" asp-append-version="true"></script>
+    <script src="/js/custom.js" asp-append-version="true"></script>
+    <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <script>$("[data-toggle=popover]").popover();</script>
 
     @RenderSection("Scripts", required: false)

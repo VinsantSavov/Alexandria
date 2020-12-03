@@ -110,36 +110,7 @@
                     <tbody>
                         @foreach (var rating in Model.TopRatings)
                         {
-                            <tr>
-                                <td style="width: 100px">
-                                    <img src="@rating.Book.PictureURL" class="d-block w-100" alt="BookCover" />
-                                </td>
-                                <td>
-                                    <a class="text-dark"
-                                       asp-controller="Books"
-                                       asp-action="Details"
-                                       asp-route-id="@rating.Book.Id">
-                                        @rating.Book.Title
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="text-dark"
-                                       asp-controller="Authors"
-                                       asp-action="Details"
-                                       asp-route-id="@rating.Book.Author.Id">
-                                        @rating.Book.Author.FullName
-                                    </a>
-                                </td>
-                                <td>
-                                    <div class="rating">
-                                        @for (int i = 1; i <= rating.Rate; i++)
-                                        {
-                                            <span class="star filled"></span>
-                                        }
-                                    </div>
-                                </td>
-                                <td>@rating.CreatedOn.ToShortDateString()</td>
-                            </tr>
+                            <partial name="_RatingsPartial" model="rating" />
                         }
                     </tbody>
                 </table>
@@ -161,42 +132,13 @@
                             <th scope="col">Author</th>
                             <th scope="col">Review</th>
                             <th scope="col">Created</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var review in Model.TopReviews)
                         {
-                            <tr>
-                                <td style="width: 100px">
-                                    <img src="@review.Book.PictureURL" class="d-block w-100" alt="BookCover" />
-                                </td>
-                                <td>
-                                    <a class="text-dark"
-                                       asp-controller="Books"
-                                       asp-action="Details"
-                                       asp-route-id="@review.Book.Id">
-                                        @review.Book.Title
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="text-dark"
-                                       asp-controller="Authors"
-                                       asp-action="Details"
-                                       asp-route-id="@review.Book.Author.Id">
-                                        @review.Book.Author.FullName
-                                    </a>
-                                </td>
-                                <td>@Html.Raw(review.ShortSanitizedDescription)</td>
-                                <td>@review.CreatedOn.ToShortDateString()</td>
-                                <td>
-                                    <a class="text-dark"
-                                       asp-controller="Reviews"
-                                       asp-action="Details"
-                                       asp-route-id="@review.Id">
-                                        View
-                                    </a>
-                                </td>
-                            </tr>
+                            <partial name="_ReviewsPartial" model="review" />
                         }
                     </tbody>
                 </table>
@@ -213,7 +155,6 @@
             var antiforgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
             var userId = '@Model.Id';
             var data = { id: userId };
-            var check = '<i class="fas fa - check"></i>';
 
             $.ajax({
                 type: "POST",
@@ -227,7 +168,6 @@
 
                     if (value.toLowerCase() == "follow") {
                         document.getElementById("followButton").innerHTML = "following";
-                        $('#followButton').prepend(check);
                     }
                     else {
                         document.getElementById("followButton").innerHTML = "follow";

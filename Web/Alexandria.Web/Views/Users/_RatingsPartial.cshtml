@@ -1,0 +1,33 @@
+﻿@using Alexandria.Web.ViewModels.Users
+@model UsersSingleRatingViewModel
+
+<tr>
+    <td style="width: 100px">
+        <img src="@Model.Book.PictureURL" class="d-block w-100" alt="BookCover" />
+    </td>
+    <td>
+        <a class="text-dark"
+           asp-controller="Books"
+           asp-action="Details"
+           asp-route-id="@Model.Book.Id">
+            @Model.Book.Title
+        </a>
+    </td>
+    <td>
+        <a class="text-dark"
+           asp-controller="Authors"
+           asp-action="Details"
+           asp-route-id="@Model.Book.Author.Id">
+            @Model.Book.Author.FullName
+        </a>
+    </td>
+    <td>
+        <div class="rating">
+            @for (int i = 1; i <= Model.Rate; i++)
+            {
+                <span class="star filled"></span>
+            }
+        </div>
+    </td>
+    <td>@Model.CreatedOn.ToShortDateString()</td>
+</tr>

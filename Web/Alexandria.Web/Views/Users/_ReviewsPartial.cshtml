@@ -1,0 +1,34 @@
+﻿@using Alexandria.Web.ViewModels.Users
+@model UsersSingleReviewViewModel
+
+<tr>
+    <td style="width: 100px">
+        <img src="@Model.Book.PictureURL" class="d-block w-100" alt="BookCover" />
+    </td>
+    <td>
+        <a class="text-dark"
+           asp-controller="Books"
+           asp-action="Details"
+           asp-route-id="@Model.Book.Id">
+            @Model.Book.Title
+        </a>
+    </td>
+    <td>
+        <a class="text-dark"
+           asp-controller="Authors"
+           asp-action="Details"
+           asp-route-id="@Model.Book.Author.Id">
+            @Model.Book.Author.FullName
+        </a>
+    </td>
+    <td>@Html.Raw(Model.ShortSanitizedDescription)</td>
+    <td>@Model.CreatedOn.ToShortDateString()</td>
+    <td>
+        <a class="text-dark"
+           asp-controller="Reviews"
+           asp-action="Details"
+           asp-route-id="@Model.Id">
+            View
+        </a>
+    </td>
+</tr>

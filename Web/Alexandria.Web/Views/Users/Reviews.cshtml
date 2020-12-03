@@ -28,42 +28,13 @@
                             <th scope="col">Author</th>
                             <th scope="col">Review</th>
                             <th scope="col">Created</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var review in Model.AllReviews)
                         {
-                            <tr>
-                                <td style="width: 100px">
-                                    <img src="@review.Book.PictureURL" class="d-block w-100" alt="BookCover" />
-                                </td>
-                                <td>
-                                    <a class="text-dark"
-                                       asp-controller="Books"
-                                       asp-action="Details"
-                                       asp-route-id="@review.Book.Id">
-                                        @review.Book.Title
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="text-dark"
-                                       asp-controller="Authors"
-                                       asp-action="Details"
-                                       asp-route-id="@review.Book.Author.Id">
-                                        @review.Book.Author.FullName
-                                    </a>
-                                </td>
-                                <td>@Html.Raw(review.ShortSanitizedDescription)</td>
-                                <td>@review.CreatedOn.ToShortDateString()</td>
-                                <td>
-                                    <a class="text-dark"
-                                       asp-controller="Reviews"
-                                       asp-action="Details"
-                                       asp-route-id="@review.Id">
-                                        View
-                                    </a>
-                                </td>
-                            </tr>
+                            <partial name="_ReviewsPartial" model="review" />
                         }
                     </tbody>
                 </table>

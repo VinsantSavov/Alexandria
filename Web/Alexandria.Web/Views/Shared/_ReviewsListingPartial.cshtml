@@ -14,7 +14,8 @@
             </a>
         </dt>
         <dd class="col-sm-6 text-secondary font-italic text-right">
-            @Model.CreatedOn
+            <time datetime="@Model.CreatedOn.ToString("O")">
+            </time>
         </dd>
     </dl>
     <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
