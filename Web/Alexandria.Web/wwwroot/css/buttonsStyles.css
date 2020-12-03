@@ -8,3 +8,13 @@
     display: inline-block;
     font-size: 8px;
 }
+
+.facebook {
+    background-color: #4267B2;
+    border-color: #4267B2;
+}
+
+.google {
+    background-color: #DB4437;
+    border-color: #DB4437;
+}
