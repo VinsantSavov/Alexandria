@@ -69,6 +69,18 @@
                 options.HeaderName = "X-CSRF-TOKEN";
             });
 
+            services.AddAuthentication()
+                .AddFacebook(options =>
+                {
+                    options.AppId = this.configuration["Authentication:Facebook:AppId"];
+                    options.AppSecret = this.configuration["Authentication:Facebook:AppSecret"];
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = this.configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = this.configuration["Authentication:Google:ClientSecret"];
+                });
+
             services.AddSingleton(this.configuration);
 
             // Application services
