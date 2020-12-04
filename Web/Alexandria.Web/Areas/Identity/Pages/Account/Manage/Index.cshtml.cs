@@ -6,10 +6,14 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Alexandria.Common;
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
+    using Alexandria.Services.Cloudinary;
     using Alexandria.Services.Users;
+    using Alexandria.Web.Infrastructure.Attributes;
     using Alexandria.Web.Infrastructure.Extensions;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,19 +22,21 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly IUsersService usersService;
+        private readonly ICloudinaryService cloudinaryService;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IUsersService usersService)
+            ICloudinaryService cloudinaryService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.usersService = usersService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public string Username { get; set; }
+
+        public string ProfilePicture { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -41,14 +47,19 @@
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = GlobalConstants.PhoneNumberDisplayName)]
             public string PhoneNumber { get; set; }
 
-            [EnumDataType(typeof(GenderType))]
+            [Required]
+            [EnumDataType(typeof(GenderType), ErrorMessage = ErrorMessages.UserInvalidGender)]
             public GenderType Gender { get; set; }
 
-            public string ProfilePicture { get; set; }
+            [DataType(DataType.Upload)]
+            [EnsureImageExtensionIsValid(ErrorMessage = ErrorMessages.InvalidExtension)]
+            [Display(Name = GlobalConstants.ProfilePictureDisplayName)]
+            public IFormFile ProfilePicture { get; set; }
 
+            [StringLength(GlobalConstants.UserBiographyMaxLength, ErrorMessage = ErrorMessages.UserInvalidBiography)]
             public string Biography { get; set; }
         }
 
@@ -57,11 +68,14 @@
             var userName = await this.userManager.GetUserNameAsync(user);
             var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
 
+            this.ProfilePicture = user.ProfilePicture;
             this.Username = userName;
 
             this.Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
+                Biography = user.Biography,
+                Gender = user.Gender,
             };
         }
 
@@ -91,6 +105,9 @@
                 return this.Page();
             }
 
+            user.Gender = this.Input.Gender;
+            user.Biography = this.Input.Biography;
+
             var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
             if (this.Input.PhoneNumber != phoneNumber)
             {
@@ -100,6 +117,21 @@
                     this.StatusMessage = "Unexpected error when trying to set phone number.";
                     return this.RedirectToPage();
                 }
+            }
+
+            if (this.Input.ProfilePicture != null)
+            {
+                var image = await this.cloudinaryService
+                    .UploadImageAsync(this.Input.ProfilePicture, user.Id.ToString());
+
+                user.ProfilePicture = image;
+            }
+
+            var result = await this.userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                var userId = this.User.GetUserId();
+                throw new InvalidOperationException($"Unexpected error occured with user with Id {userId}");
             }
 
             await this.signInManager.RefreshSignInAsync(user);

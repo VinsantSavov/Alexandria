@@ -59,8 +59,15 @@
         public const int UserPasswordMaxLength = 100;
         public const int UserPasswordMinLength = 6;
 
+        // User Manage constants
+        public const string PhoneNumberDisplayName = "Phone number";
+        public const string ProfilePictureDisplayName = "Profile picture";
+
         // User Login constants
         public const string UserLoginRememberMe = "Remember me?";
+
+        // Extensions
+        public const string AllowableExtensions = "jpg,jpeg,png";
 
         // Redirects
         public const string RedirectToBooksDetails = "/Books/Details/{0}";

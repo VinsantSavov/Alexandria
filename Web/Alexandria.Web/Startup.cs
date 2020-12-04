@@ -9,6 +9,7 @@
     using Alexandria.Services.Authors;
     using Alexandria.Services.Awards;
     using Alexandria.Services.Books;
+    using Alexandria.Services.Cloudinary;
     using Alexandria.Services.Countries;
     using Alexandria.Services.EditionLanguages;
     using Alexandria.Services.Genres;
@@ -24,6 +25,7 @@
     using Alexandria.Web.InputModels.Reviews;
     using Alexandria.Web.ViewModels;
     using AspNetCoreTemplate.Data;
+    using CloudinaryDotNet;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -81,9 +83,18 @@
                     options.ClientSecret = this.configuration["Authentication:Google:ClientSecret"];
                 });
 
-            services.AddSingleton(this.configuration);
+            // Cloudinary
+            var account = new Account(
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]);
+
+            var cloudinary = new Cloudinary(account);
 
             // Application services
+            services.AddSingleton(this.configuration);
+            services.AddSingleton(cloudinary);
+
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IAuthorsService, AuthorsService>();
             services.AddTransient<IAwardsService, AwardsService>();
@@ -98,6 +109,7 @@
             services.AddTransient<IStarRatingsService, StarRatingsService>();
             services.AddTransient<ILikesService, LikesService>();
             services.AddTransient<IUserFollowersService, UserFollowersService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

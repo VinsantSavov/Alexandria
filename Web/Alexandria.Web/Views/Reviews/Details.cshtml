@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-1">
-            <img src="@Model.Book.PictureURL" class="d-block w-100" alt="slide1">
+            <img src="@Model.Book.PictureURL" class="d-block w-100" alt="Book Cover">
         </div>
         <div class="col-md-4">
             <h4 class="font-weight-bold text-capitalize text-left">
@@ -40,7 +40,7 @@
             </p>
             <div class="row">
                 <div class="col-md-6">
-                    <h5 class="text-left">
+                    <h5 class="text-left mb-3">
                         <a class="text-dark"
                            asp-controller="Users"
                            asp-action="Details"
@@ -48,8 +48,8 @@
                             @Model.Author.Username
                         </a>
                     </h5>
-                    <div class="col-md-2">
-                        <img src="@Model.Author.ProfilePicture" class="d-block" alt="slide1">
+                    <div class="col-md-4">
+                        <img src="@Model.Author.ProfilePicture" class="d-block" style="width: 150px; height: 90px;" alt="slide1">
                     </div>
                 </div>
             </div>
