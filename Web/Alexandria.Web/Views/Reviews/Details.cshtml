@@ -98,7 +98,7 @@
             </dl>
             <hr />
             <div class="btn-sec form-inline">
-                @if (Model.Author.Id == this.User.GetUserId())
+                @if (Model.Author.Id == this.User.GetUserId() || this.User.IsAdministrator())
                 {
                     <form>
                         <button class="btn mb-5 mx-2"
@@ -112,7 +112,7 @@
                 <button class="btn mb-5 mx-2" onclick="displaysCreateReviewForm()">
                     Add Comment
                 </button>
-                @if (Model.Author.Id == this.User.GetUserId())
+                @if (Model.Author.Id == this.User.GetUserId() || this.User.IsAdministrator())
                 {
                     <form>
                         <button class="btn bg-danger border-danger mb-5 mx-2"

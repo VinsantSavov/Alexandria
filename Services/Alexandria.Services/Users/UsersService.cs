@@ -7,6 +7,7 @@
 
     using Alexandria.Data;
     using Alexandria.Data.Models;
+    using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,18 @@
 
             user.IsDeleted = true;
             user.DeletedOn = DateTime.UtcNow;
+
+            await this.db.SaveChangesAsync();
+        }
+
+        public async Task EditUserAsync(string id, GenderType gender, string profilePicture, string biography)
+        {
+            var user = await this.GetByIdAsync(id);
+
+            user.Gender = gender;
+            user.ProfilePicture = profilePicture;
+            user.Biography = biography;
+            user.ModifiedOn = DateTime.UtcNow;
 
             await this.db.SaveChangesAsync();
         }

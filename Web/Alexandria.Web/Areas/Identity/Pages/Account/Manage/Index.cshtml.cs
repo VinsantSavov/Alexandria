@@ -1,0 +1,110 @@
+﻿namespace Alexandria.Web.Areas.Identity.Pages.Account.Manage
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Alexandria.Data.Models;
+    using Alexandria.Data.Models.Enums;
+    using Alexandria.Services.Users;
+    using Alexandria.Web.Infrastructure.Extensions;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
+    public partial class IndexModel : PageModel
+    {
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IUsersService usersService;
+
+        public IndexModel(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IUsersService usersService)
+        {
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.usersService = usersService;
+        }
+
+        public string Username { get; set; }
+
+        [TempData]
+        public string StatusMessage { get; set; }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        public class InputModel
+        {
+            [Phone]
+            [Display(Name = "Phone number")]
+            public string PhoneNumber { get; set; }
+
+            [EnumDataType(typeof(GenderType))]
+            public GenderType Gender { get; set; }
+
+            public string ProfilePicture { get; set; }
+
+            public string Biography { get; set; }
+        }
+
+        private async Task LoadAsync(ApplicationUser user)
+        {
+            var userName = await this.userManager.GetUserNameAsync(user);
+            var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+
+            this.Username = userName;
+
+            this.Input = new InputModel
+            {
+                PhoneNumber = phoneNumber,
+            };
+        }
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            if (user == null)
+            {
+                return this.NotFound($"Unable to load user with ID '{this.User.GetUserId()}'.");
+            }
+
+            await this.LoadAsync(user);
+            return this.Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            if (user == null)
+            {
+                return this.NotFound($"Unable to load user with ID '{this.User.GetUserId()}'.");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                await this.LoadAsync(user);
+                return this.Page();
+            }
+
+            var phoneNumber = await this.userManager.GetPhoneNumberAsync(user);
+            if (this.Input.PhoneNumber != phoneNumber)
+            {
+                var setPhoneResult = await this.userManager.SetPhoneNumberAsync(user, this.Input.PhoneNumber);
+                if (!setPhoneResult.Succeeded)
+                {
+                    this.StatusMessage = "Unexpected error when trying to set phone number.";
+                    return this.RedirectToPage();
+                }
+            }
+
+            await this.signInManager.RefreshSignInAsync(user);
+            this.StatusMessage = "Your profile has been updated";
+            return this.RedirectToPage();
+        }
+    }
+}

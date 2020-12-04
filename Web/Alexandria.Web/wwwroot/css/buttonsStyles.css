@@ -14,7 +14,15 @@
     border-color: #4267B2;
 }
 
+    .facebook:hover {
+        color: #4267B2
+    }
+
 .google {
     background-color: #DB4437;
     border-color: #DB4437;
 }
+
+    .google:hover {
+        color: #DB4437
+    }
