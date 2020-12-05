@@ -95,7 +95,7 @@
             services.AddSingleton(this.configuration);
             services.AddSingleton(cloudinary);
 
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<IAuthorsService, AuthorsService>();
             services.AddTransient<IAwardsService, AwardsService>();
             services.AddTransient<IBooksService, BooksService>();

@@ -3,6 +3,7 @@
     public static class GlobalConstants
     {
         public const string SystemName = "Alexandria";
+        public const string SystemEmail = "alexandriasupport@gmail.com";
 
         public const string AdministratorRoleName = "Administrator";
 
