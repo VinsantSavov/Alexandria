@@ -32,6 +32,7 @@
                               new AwardsSeeder(),
                               new CountriesSeeder(),
                               new EditionLanguagesSeeder(),
+                              new AdminSeeder(),
                           };
 
             foreach (var seeder in seeders)

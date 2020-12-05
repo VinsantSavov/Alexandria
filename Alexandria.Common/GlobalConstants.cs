@@ -6,6 +6,10 @@
         public const string SystemEmail = "alexandriasupport@gmail.com";
 
         public const string AdministratorRoleName = "Administrator";
+        public const string AdministratorUsername = "Admin";
+        public const string AdministratorEmail = "admin@gmail.com";
+        public const string AdministratorPassword = "123456789";
+        public const string AdministratorProfilePicture = "https://res.cloudinary.com/alexandrialib/image/upload/v1607190349/user-icon_126283-700_pfxixv.jpg";
 
         // Application user constants
         public const int UserProfilePictureLength = 500;
