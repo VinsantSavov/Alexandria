@@ -1,6 +1,7 @@
 ﻿@using Alexandria.Common
 @using Alexandria.Data.Models
 @using Microsoft.AspNetCore.Identity
+@using Alexandria.Web.Infrastructure.Extensions
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -17,13 +18,36 @@
 }
 else
 {
-    <ul class="navbar-nav ml-auto">
-        <li class="navbar-item active">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(this.User.Identity.Name)!</a>
-        </li>
-        <li class="navbar-item active">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/Login">Logout</a>
-        </li>
-    </ul>
+    <div class="mx-3">
+        <vc:login-user claims-principal="this.User"></vc:login-user>
+    </div>
+    @*<ul class="navbar-nav ml-auto">
+            <li>
+                <img src="@this.User.Identity." />
+            </li>
+            <li class="navbar-item active dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @(this.User.Identity.Name)
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item"
+                       asp-area=""
+                       asp-controller="Users"
+                       asp-action="Details"
+                       asp-route-id="@this.User.GetUserId()">
+                        View Account
+                    </a>
+                    <a class="dropdown-item"
+                       title="Manage"
+                       asp-area="Identity"
+                       asp-page="/Account/Manage/Index">
+                        Manage Account
+                    </a>
+                </div>
+            </li>
+            <li class="navbar-item active">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/Login">Logout</a>
+            </li>
+        </ul>*@
 }
 

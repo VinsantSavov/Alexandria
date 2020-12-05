@@ -49,8 +49,4 @@
     <ProjectReference Include="..\Alexandria.Web.InputModels\Alexandria.Web.InputModels.csproj" />
     <ProjectReference Include="..\Alexandria.Web.ViewModels\Alexandria.Web.ViewModels.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
 </Project>

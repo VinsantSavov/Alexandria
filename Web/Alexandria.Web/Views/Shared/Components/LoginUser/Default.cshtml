@@ -1,0 +1,32 @@
+﻿@using Alexandria.Web.ViewModels.Users
+@model UsersLoginUserViewModel
+
+<ul class="navbar-nav ml-auto">
+    <li>
+        <img class="rounded-circle" src="@Model.ProfilePicture" style="width: 50px; height: 50px;" />
+    </li>
+    <li class="navbar-item active dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @Model.Username
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item"
+               asp-area=""
+               asp-controller="Users"
+               asp-action="Details"
+               asp-route-id="@Model.Id">
+                View Account
+            </a>
+            <a class="dropdown-item"
+               title="Manage"
+               asp-area="Identity"
+               asp-page="/Account/Manage/Index">
+                Manage Account
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/Login">
+                Logout
+            </a>
+        </div>
+    </li>
+</ul>
