@@ -24,6 +24,8 @@
 
         Task<int> GetBooksCountByGenreIdAsync(int genreId);
 
+        Task<IEnumerable<TModel>> GetRandomBooksAsync<TModel>(int count);
+
         Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId);
 
         Task<IEnumerable<TModel>> NewRealesedBooksByGenreIdAsync<TModel>(int genreId, int? take = null, int skip = 0);

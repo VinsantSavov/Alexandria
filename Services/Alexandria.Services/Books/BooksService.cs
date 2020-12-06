@@ -100,6 +100,15 @@
             return await books.To<TModel>().ToListAsync();
         }
 
+        public async Task<IEnumerable<TModel>> GetRandomBooksAsync<TModel>(int count)
+        {
+            return await this.db.Books.Where(b => !b.IsDeleted)
+                                      .OrderBy(b => Guid.NewGuid())
+                                      .To<TModel>()
+                                      .Take(count)
+                                      .ToListAsync();
+        }
+
         public async Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId)
         {
             var books = await this.db.Books.AsNoTracking()

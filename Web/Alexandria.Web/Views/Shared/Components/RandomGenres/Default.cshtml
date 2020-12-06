@@ -1,0 +1,39 @@
+﻿@using Alexandria.Web.ViewModels.Genres
+@model IEnumerable<GenresRandomViewModel>
+
+<h6>Genres</h6>
+<hr />
+<dl class="row">
+    @foreach (var genre in Model)
+    {
+        <dt class="col-sm-9" style="font-size: 13px">
+            <a class="text-dark"
+               asp-controller="Genres"
+               asp-action="Details"
+               asp-route-id="@genre.Id">
+                @genre.Name
+            </a>
+        </dt>
+        <dd class="col-md-2" style="font-size: 13px">
+            @genre.BooksCount
+        </dd>
+        <hr />
+    }
+</dl>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Genres</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var genre in Model)
+        {
+            <tr>
+                <td class="font-weight-bold" style="font-size: 13px">@genre.Name</td>
+                <td style="font-size: 13px">@genre.BooksCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

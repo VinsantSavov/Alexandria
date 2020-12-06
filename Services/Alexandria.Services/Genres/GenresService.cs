@@ -1,6 +1,7 @@
 ﻿namespace Alexandria.Services.Genres
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -54,6 +55,16 @@
                                       .FirstOrDefaultAsync();
 
             return genre;
+        }
+
+        public async Task<IEnumerable<TModel>> GetRandomGenresAsync<TModel>(int count)
+        {
+            return await this.db.Genres.AsNoTracking()
+                                       .Where(g => !g.IsDeleted)
+                                       .OrderBy(g => Guid.NewGuid())
+                                       .Take(count)
+                                       .To<TModel>()
+                                       .ToListAsync();
         }
 
         private async Task<Genre> GetByIdAsync(int id)
