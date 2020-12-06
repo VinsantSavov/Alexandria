@@ -46,11 +46,6 @@
             return this.View(book);
         }
 
-        public IActionResult All()
-        {
-            return this.View();
-        }
-
         public async Task<IActionResult> NewReleases(int page = 1)
         {
             var viewModel = new BooksAllViewModel();
@@ -77,6 +72,22 @@
             viewModel.PagesCount = (int)Math.Ceiling((double)booksCount / BooksPerPage);
             viewModel.ControllerName = ControllerName;
             viewModel.ActionName = nameof(this.TopRated);
+
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> Search(string search, int page = 1)
+        {
+            var viewModel = new BooksSearchViewModel();
+            viewModel.SearchString = search;
+
+            int booksCount = await this.booksService.GetBooksCountAsync(search);
+
+            viewModel.Books = await this.booksService.SearchBooksByTitleAsync<BooksSingleViewModel>(search, BooksPerPage, (page - 1) * BooksPerPage);
+            viewModel.CurrentPage = page;
+            viewModel.PagesCount = (int)Math.Ceiling((double)booksCount / BooksPerPage);
+            viewModel.ControllerName = ControllerName;
+            viewModel.ActionName = nameof(this.Search);
 
             return this.View(viewModel);
         }

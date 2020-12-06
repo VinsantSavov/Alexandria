@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -84,16 +85,19 @@
             return book;
         }
 
-        public async Task<TModel> GetBookByTitleAsync<TModel>(string title = null)
+        public async Task<IEnumerable<TModel>> SearchBooksByTitleAsync<TModel>(string search = null, int? take = null, int skip = 0)
         {
             var books = this.db.Books.Where(b => !b.IsDeleted);
 
-            if (!string.IsNullOrWhiteSpace(title))
+            if (!string.IsNullOrWhiteSpace(search) && take.HasValue)
             {
-                books = books.Where(b => b.Title.Contains(title));
+                books = books.Where(b => b.Title.ToLower().Contains(search.ToLower()))
+                             .OrderBy(b => b.Title)
+                             .Skip(skip)
+                             .Take(take.Value);
             }
 
-            return await books.To<TModel>().FirstOrDefaultAsync();
+            return await books.To<TModel>().ToListAsync();
         }
 
         public async Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId)
@@ -114,9 +118,16 @@
             return await this.db.Books.AnyAsync(b => b.Id == id && !b.IsDeleted);
         }
 
-        public async Task<int> GetBooksCountAsync()
+        public async Task<int> GetBooksCountAsync(string search = null)
         {
-            return await this.db.Books.Where(b => !b.IsDeleted).CountAsync();
+            var books = this.db.Books.Where(b => !b.IsDeleted);
+
+            if (search != null)
+            {
+                return await books.Where(b => b.Title.ToLower().Contains(search.ToLower())).CountAsync();
+            }
+
+            return await books.CountAsync();
         }
 
         public async Task<int> GetBooksCountByAuthorIdAsync(int authorId)

@@ -11,35 +11,7 @@
                 <ul class="list-unstyled">
                     @foreach (var book in Model.Books)
                     {
-                        <li class="media my-5">
-                            <img class="mr-3 w-25" src="@book.PictureURL" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-1">@book.Title</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p>
-                                            Genres:
-                                            @foreach (var genre in book.Genres)
-                                            {
-                                                <a asp-controller="Genres" asp-action="Details" asp-route-id="@genre.GenreId" class="text-dark font-italic">@genre.Name</a>
-                                            }
-                                        </p>
-                                        <p>
-                                            Tags:
-                                            @string.Join(", ", book.Tags.Select(t => t.Name))
-                                        </p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>Avg.Rating: @book.AverageRating</p>
-                                        <p>Reviews: @book.ReviewsCount</p>
-                                    </div>
-                                </div>
-                                <p>
-                                    @book.ShortSummary
-                                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="text-warning font-italic">Read More</a>
-                                </p>
-                            </div>
-                        </li>
+                        <partial name="_ListingBooksPartial" model="book" />
                     }
                 </ul>
                 <partial name="_PaginationPartial" />

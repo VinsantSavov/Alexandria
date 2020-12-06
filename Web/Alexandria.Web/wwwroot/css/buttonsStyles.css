@@ -26,3 +26,10 @@
     .google:hover {
         color: #DB4437
     }
+
+.search_magnifier_btn {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 5px 5px 7px 15px;
+}

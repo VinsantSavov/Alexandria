@@ -1,0 +1,44 @@
+﻿@using Alexandria.Web.ViewModels.Books
+@model BooksSingleViewModel
+
+<li class="media my-5">
+    <img class="mr-3 w-25"
+         src="@Model.PictureURL"
+         alt="Book Cover">
+    <div class="media-body">
+        <h5 class="mt-0 mb-1">@Model.Title</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    Genres:
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <a class="text-dark font-italic"
+                           asp-controller="Genres"
+                           asp-action="Details"
+                           asp-route-id="@genre.GenreId">
+                            @genre.Name
+                        </a>
+                    }
+                </p>
+                <p>
+                    Tags:
+                    @string.Join(", ", Model.Tags.Select(t => t.Name))
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>Avg.Rating: @Model.AverageRating</p>
+                <p>Reviews: @Model.ReviewsCount</p>
+            </div>
+        </div>
+        <p>
+            @Model.ShortSummary
+            <a class="text-warning font-italic"
+               asp-controller="Books"
+               asp-action="Details"
+               asp-route-id="@Model.Id">
+                Read More
+            </a>
+        </p>
+    </div>
+</li>

@@ -1,0 +1,29 @@
+﻿@using Alexandria.Web.ViewModels.Books
+@model BooksSearchViewModel
+
+<section class="product-sec">
+    <div class="container">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-md-8">
+                <h2 class="text-md-left">Search results</h2>
+                <p class="mt-3 text-secondary">Searching for: @Model.SearchString</p>
+                <hr />
+                @if (Model.Books.Count() > 0)
+                {
+                    <ul class="list-unstyled">
+                        @foreach (var book in Model.Books)
+                        {
+                            <partial name="_ListingBooksPartial" model="book" />
+                        }
+                    </ul>
+                    <partial name="_PaginationSearchPartial" />
+                }
+                else
+                {
+                    <p>No results.</p>
+                }
+            </div>
+        </div>
+    </div>
+</section>

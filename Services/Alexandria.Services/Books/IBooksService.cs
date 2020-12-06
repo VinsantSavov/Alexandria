@@ -10,7 +10,7 @@
 
         Task<TModel> GetBookByIdAsync<TModel>(int id);
 
-        Task<TModel> GetBookByTitleAsync<TModel>(string title);
+        Task<IEnumerable<TModel>> SearchBooksByTitleAsync<TModel>(string search, int? take = null, int skip = 0);
 
         Task DeleteByIdAsync(int id);
 
@@ -18,7 +18,7 @@
 
         Task<bool> DoesBookIdExistAsync(int id);
 
-        Task<int> GetBooksCountAsync();
+        Task<int> GetBooksCountAsync(string search = null);
 
         Task<int> GetBooksCountByAuthorIdAsync(int authorId);
 
