@@ -5,6 +5,7 @@
         public const string SystemName = "Alexandria";
         public const string SystemEmail = "alexandriasupport@gmail.com";
 
+        public const string AdministrationArea = "Administration";
         public const string AdministratorRoleName = "Administrator";
         public const string AdministratorUsername = "Admin";
         public const string AdministratorEmail = "admin@gmail.com";
@@ -44,6 +45,10 @@
 
         // Tag constants
         public const int TagNameMaxLength = 20;
+
+        // Genre Input Model constants
+        public const int GenreNameMinLength = 3;
+        public const int GenreDescriptionMinLength = 10;
 
         // Star Rating Input Model constants
         public const int RatingMinValue = 1;

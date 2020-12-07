@@ -5,12 +5,20 @@
 
     public interface IGenresService
     {
-        Task CreateGenreAsync(string name, string description);
+        Task<int> CreateGenreAsync(string name, string description);
 
         Task DeleteGenreByIdAsync(int id);
 
+        Task EditGenreAsync(int id, string name, string description);
+
+        Task<bool> DoesGenreIdExist(int id);
+
         Task<TModel> GetGenreByIdAsync<TModel>(int id);
 
+        Task<int> GetGenresCount();
+
         Task<IEnumerable<TModel>> GetRandomGenresAsync<TModel>(int count);
+
+        Task<IEnumerable<TModel>> GetAllGenresAsync<TModel>(int? take = null, int skip = 0);
     }
 }

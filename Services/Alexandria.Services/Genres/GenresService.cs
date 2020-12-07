@@ -20,7 +20,7 @@
             this.db = db;
         }
 
-        public async Task CreateGenreAsync(string name, string description)
+        public async Task<int> CreateGenreAsync(string name, string description)
         {
             var genre = new Genre
             {
@@ -30,6 +30,18 @@
             };
 
             await this.db.Genres.AddAsync(genre);
+            await this.db.SaveChangesAsync();
+
+            return genre.Id;
+        }
+
+        public async Task EditGenreAsync(int id, string name, string description)
+        {
+            var genre = await this.GetByIdAsync(id);
+
+            genre.Name = name;
+            genre.Description = description;
+
             await this.db.SaveChangesAsync();
         }
 
@@ -47,6 +59,27 @@
 
             await this.db.SaveChangesAsync();
         }
+
+        public async Task<bool> DoesGenreIdExist(int id)
+            => await this.db.Genres.AnyAsync(g => g.Id == id && !g.IsDeleted);
+
+        public async Task<IEnumerable<TModel>> GetAllGenresAsync<TModel>(int? take = null, int skip = 0)
+        {
+            var queryable = this.db.Genres.AsNoTracking()
+                                          .Where(g => !g.IsDeleted)
+                                          .OrderBy(g => g.Name)
+                                          .Skip(skip);
+
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
+        }
+
+        public async Task<int> GetGenresCount()
+         => await this.db.Genres.Where(g => !g.IsDeleted).CountAsync();
 
         public async Task<TModel> GetGenreByIdAsync<TModel>(int id)
         {

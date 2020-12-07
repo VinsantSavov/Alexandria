@@ -9,6 +9,11 @@
         public const string UserInvalidBiography = "Your biography can not be more than {2} characters!";
         public const string UserInvalidGender = "Invalid input!";
 
+        // Create Genre
+        public const string GenreNameLengthErrorMessage = "Genre name must be between {2} and {1} characters long!";
+        public const string GenreDescriptionErrorMessage = "Genre description must be between {2} and {1} characters long!";
+        public const string GenreNotExistingId = "Invalid genre!";
+
         // Create Review
         public const string ReviewDescriptionLengthErrorMessage = "Review content must be between {2} and {1} characters long!";
         public const string ReviewRequiredDescriptionErrorMessage = "Review content is required!";

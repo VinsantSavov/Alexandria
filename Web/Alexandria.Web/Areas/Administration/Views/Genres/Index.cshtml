@@ -1,0 +1,71 @@
+﻿@using Alexandria.Web.ViewModels.Administration.Genres
+@model GenresAllGenresViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <h3 class="col-md-12">Genres</h3>
+
+        <form>
+            <button class="btn mt-2 mb-4"
+                    asp-area="Administration"
+                    asp-controller="Genres"
+                    asp-action="Create">
+                Create new
+            </button>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>CreatedOn</th>
+                    <th>ModifiedOn</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var genre in Model.Genres)
+                {
+                    <tr>
+                        <td>@genre.Name</td>
+                        <td>@genre.Description</td>
+                        <td>@genre.CreatedOn</td>
+                        <td>@genre.ModifiedOn</td>
+                        <td>
+                            <form>
+                                <button class="btn my-1"
+                                        asp-area="Administration"
+                                        asp-controller="Genres"
+                                        asp-action="Delete"
+                                        asp-route-id="@genre.Id">
+                                    Delete
+                                </button>
+                                <button class="btn my-1"
+                                        asp-area="Administration"
+                                        asp-controller="Genres"
+                                        asp-action="Edit"
+                                        asp-route-id="@genre.Id">
+                                    Edit
+                                </button>
+                                <button class="btn my-1"
+                                        asp-area="Administration"
+                                        asp-controller="Genres"
+                                        asp-action="Details"
+                                        asp-route-id="@genre.Id">
+                                    Details
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="my-3">
+            <partial name="_PaginationPartial" />
+        </div>
+    </div>
+</div>

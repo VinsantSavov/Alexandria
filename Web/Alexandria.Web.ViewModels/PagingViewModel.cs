@@ -14,6 +14,6 @@
 
         public string ActionName { get; set; }
 
-        public abstract string GetId();
+        public virtual string GetId() => null;
     }
 }
