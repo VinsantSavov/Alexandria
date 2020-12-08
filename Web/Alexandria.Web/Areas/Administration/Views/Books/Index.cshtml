@@ -1,0 +1,84 @@
+﻿@using Alexandria.Web.ViewModels.Administration.Books
+@model ABooksAllBooksViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <h3 class="col-md-12">Books</h3>
+
+        <form>
+            <button class="btn mt-2 mb-4"
+                    asp-area="Administration"
+                    asp-controller="Books"
+                    asp-action="Create">
+                Create New
+            </button>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Cover</th>
+                    <th>Author</th>
+                    <th>PublishedOn</th>
+                    <th>Pages</th>
+                    <th>EditionLanguage</th>
+                    <th>AmazonLink</th>
+                    <th>CreatedOn</th>
+                    <th>ModifiedOn</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td style="width: 100px">
+                            <img src="@book.PictureURL" class="d-block w-100" alt="BookCover" />
+                        </td>
+                        <td>@book.Author.FullName</td>
+                        <td>@book.PublishedOn.ToShortDateString()</td>
+                        <td>@book.Pages</td>
+                        <td>@book.EditionLanguageName</td>
+                        <td>@book.AmazonLink</td>
+                        <td>@book.CreatedOn</td>
+                        <td>@book.ModifiedOn</td>
+                        <td>
+                            <form>
+                                <button class="btn my-1"
+                                        asp-area="Administration"
+                                        asp-controller="Books"
+                                        asp-action="Delete"
+                                        asp-route-id="@book.Id">
+                                    Delete
+                                </button>
+                                <button class="btn my-1"
+                                        asp-area="Administration"
+                                        asp-controller="Books"
+                                        asp-action="Edit"
+                                        asp-route-id="@book.Id">
+                                    Edit
+                                </button>
+                                <button class="btn my-1"
+                                        asp-area="Administration"
+                                        asp-controller="Books"
+                                        asp-action="Details"
+                                        asp-route-id="@book.Id">
+                                    Details
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="mb-3">
+            <partial name="_PaginationPartial" />
+        </div>
+    </div>
+</div>

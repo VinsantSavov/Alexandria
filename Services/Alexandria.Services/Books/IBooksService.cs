@@ -6,7 +6,7 @@
 
     public interface IBooksService
     {
-        Task CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink);
+        Task<int> CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink);
 
         Task<TModel> GetBookByIdAsync<TModel>(int id);
 
@@ -33,6 +33,8 @@
         Task<IEnumerable<TModel>> TopRatedBooksByGenreIdAsync<TModel>(int genreId, int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetAllBooksByTagIdAsync<TModel>(int tagId);
+
+        Task<IEnumerable<TModel>> GetAllBooksAsync<TModel>(int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetTopRatedBooksAsync<TModel>(int? take = null, int skip = 0);
 

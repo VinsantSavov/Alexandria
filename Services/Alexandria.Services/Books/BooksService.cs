@@ -21,7 +21,7 @@
             this.db = db;
         }
 
-        public async Task CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink)
+        public async Task<int> CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink)
         {
             var book = new Book
             {
@@ -37,6 +37,8 @@
 
             await this.db.Books.AddAsync(book);
             await this.db.SaveChangesAsync();
+
+            return book.Id;
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -273,6 +275,21 @@
                                      .ToListAsync();
 
             return books;
+        }
+
+        public async Task<IEnumerable<TModel>> GetAllBooksAsync<TModel>(int? take = null, int skip = 0)
+        {
+            var queryable = this.db.Books.AsNoTracking()
+                                         .Where(b => !b.IsDeleted)
+                                         .OrderBy(b => b.Title)
+                                         .Skip(skip);
+
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
         public async Task<IEnumerable<TModel>> GetTopRatedBooksAsync<TModel>(int? take = null, int skip = 0)

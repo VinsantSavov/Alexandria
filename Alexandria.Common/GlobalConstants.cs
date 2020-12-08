@@ -60,6 +60,9 @@
         public const string ReviewThisEditionDisplayNameConstant = "Is this the edition you read?";
         public const int ReviewDescriptionMinLength = 20;
 
+        // Book Input Model constants
+        public const string BookPictureUrlDisplayNameConstant = "Book Cover";
+
         // User Register costants
         public const string UserEmailDisplayName = "Email";
         public const string UserPasswordDisplayName = "Password";

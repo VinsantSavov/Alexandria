@@ -79,22 +79,36 @@
                         Genres
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        @foreach (var genre in Model.Genres)
+                        @if (Model.Genres.Count() > 0)
                         {
+                            foreach (var genre in Model.Genres)
+                            {
 
-                            <a class="text-dark"
-                               asp-controller="Genres"
-                               asp-action="Details"
-                               asp-route-id="@genre.GenreId">
-                                @genre.Name
-                            </a>
+                                <a class="text-dark"
+                                   asp-controller="Genres"
+                                   asp-action="Details"
+                                   asp-route-id="@genre.GenreId">
+                                    @genre.Name
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-secondary font-italic">None</p>
                         }
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Tags
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        @string.Join(", ", Model.Tags.Select(t => t.Name))
+                        @if (Model.Tags.Count() > 0)
+                        {
+                            string.Join(", ", Model.Tags.Select(t => t.Name));
+                        }
+                        else
+                        {
+                            <p class="text-secondary font-italic">None</p>
+                        }
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Pages
@@ -112,7 +126,14 @@
                         Literary Awards
                     </dt>
                     <dd class="col-md-8" style="font-size: 13px">
-                        @string.Join(", ", Model.Awards.Select(a => a.AwardName))
+                        @if (Model.Awards.Count() > 0)
+                        {
+                            string.Join(", ", Model.Awards.Select(a => a.AwardName));
+                        }
+                        else
+                        {
+                            <p class="text-secondary font-italic">None</p>
+                        }
                     </dd>
                     <dt class="col-sm-4" style="font-size: 13px">
                         Reviews Count

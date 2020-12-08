@@ -1,6 +1,7 @@
 ﻿namespace Alexandria.Services.Tags
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -44,6 +45,15 @@
             tag.DeletedOn = DateTime.UtcNow;
 
             await this.db.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>()
+        {
+            return await this.db.Tags.AsNoTracking()
+                                     .Where(t => !t.IsDeleted)
+                                     .OrderBy(t => t.Name)
+                                     .To<TModel>()
+                                     .ToListAsync();
         }
 
         public async Task<TModel> GetTagByIdAsync<TModel>(int id)

@@ -1,0 +1,144 @@
+﻿@using Alexandria.Web.ViewModels.Administration.Books
+@model ABooksDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div class="row">
+        <h3 class="col-md-12">Details</h3>
+        <hr />
+        <div class="my-3" style="width: 100px">
+            <img src="@Model.PictureURL" class="d-block w-100" alt="BookCover" />
+        </div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                Title
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Title
+            </dd>
+            <dt class="col-sm-2">
+                Author
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Author.FullName
+            </dd>
+            <dt class="col-sm-2">
+                Summary
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Summary
+            </dd>
+            <dt class="col-sm-2">
+                PublishedOn
+            </dt>
+            <dd class="col-sm-10">
+                @Model.PublishedOn.ToShortDateString()
+            </dd>
+            <dt class="col-sm-2">
+                Pages
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Pages
+            </dd>
+            <dt class="col-sm-2">
+                EditionLanguage
+            </dt>
+            <dd class="col-sm-10">
+                @Model.EditionLanguageName
+            </dd>
+            <dt class="col-sm-2">
+                AmazonLink
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.AmazonLink != null)
+                {
+                    @Model.AmazonLink
+                }
+                else
+                {
+                    <p class="text-secondary">None</p>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                CreatedOn
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CreatedOn
+            </dd>
+            <dt class="col-sm-2">
+                ModifiedOn
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ModifiedOn
+            </dd>
+            <dt class="col-sm-2">
+                Genres
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Genres.Count() > 0)
+                {
+                    foreach (var genre in Model.Genres)
+                    {
+                        <a class="text-dark"
+                           asp-area="Administration"
+                           asp-controller="Genres"
+                           asp-action="Details"
+                           asp-route-id="@genre.GenreId">
+                            @genre.Name
+                        </a>
+                    }
+                }
+                else
+                {
+                    <p class="text-secondary">None</p>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Tags
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Tags.Count() > 0)
+                {
+                    @string.Join(", ", Model.Tags.Select(t => t.Name))
+                }
+                else
+                {
+                    <p class="text-secondary">None</p>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Literary Awards
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Awards.Count() > 0)
+                {
+                    @string.Join(", ", Model.Awards.Select(a => a.AwardName))
+                }
+                else
+                {
+                    <p class="text-secondary">None</p>
+                }
+            </dd>
+        </dl>
+        <div>
+            <form class="my-3">
+                <button class="btn"
+                        asp-area="Administration"
+                        asp-controller="Books"
+                        asp-action="Edit"
+                        asp-route-id="@Model.Id">
+                    Edit
+                </button>
+                <button class="btn black"
+                        asp-area="Administration"
+                        asp-controller="Books"
+                        asp-action="Index">
+                    Back to List
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
