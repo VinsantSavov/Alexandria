@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using Alexandria.Common;
     using Alexandria.Web.Infrastructure.Attributes;
     using Microsoft.AspNetCore.Http;
@@ -23,6 +24,12 @@
         public int Pages { get; set; }
 
         public string AmazonLink { get; set; }
+
+        public IEnumerable<int> GenresIds { get; set; }
+
+        public IEnumerable<int> TagsIds { get; set; }
+
+        public IEnumerable<int> AwardsIds { get; set; }
 
         public IEnumerable<ABooksGenreViewModel> Genres { get; set; }
 

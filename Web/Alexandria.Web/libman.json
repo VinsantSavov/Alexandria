@@ -83,6 +83,14 @@
       "files": [
         "min/moment-with-locales.min.js"
       ]
+    },
+    {
+      "library": "select2@4.0.13",
+      "destination": "wwwroot/lib/select2/",
+      "files": [
+        "dist/js/select2.min.js",
+        "dist/css/select2.min.css"
+      ]
     }
   ]
 }
