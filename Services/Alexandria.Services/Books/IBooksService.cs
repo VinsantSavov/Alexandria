@@ -14,7 +14,9 @@
 
         Task DeleteByIdAsync(int id);
 
-        Task EditBookAsync(int id, string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink);
+        Task EditBookAsync(int id, string title, string summary, DateTime publishedOn, int pages, string pictureUrl, string amazonLink);
+
+        Task<string> GetPictureUrlByBookIdAsync(int id);
 
         Task<bool> DoesBookIdExistAsync(int id);
 

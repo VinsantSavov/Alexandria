@@ -1,16 +1,13 @@
 ﻿namespace Alexandria.Web.Areas.Identity.Pages.Account.Manage
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Alexandria.Common;
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
     using Alexandria.Services.Cloudinary;
-    using Alexandria.Services.Users;
     using Alexandria.Web.Infrastructure.Attributes;
     using Alexandria.Web.Infrastructure.Extensions;
     using Microsoft.AspNetCore.Http;

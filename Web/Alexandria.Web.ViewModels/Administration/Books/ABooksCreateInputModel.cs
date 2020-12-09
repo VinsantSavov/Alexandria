@@ -17,6 +17,7 @@
             MinimumLength = GlobalConstants.BookTitleMinLength)]
         public string Title { get; set; }
 
+        [Required]
         [DataType(DataType.Upload)]
         [EnsureImageExtensionIsValid(ErrorMessage = ErrorMessages.InvalidExtension)]
         [Display(Name = GlobalConstants.BookPictureUrlDisplayNameConstant)]

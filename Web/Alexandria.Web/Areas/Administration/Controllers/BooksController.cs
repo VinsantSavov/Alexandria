@@ -130,45 +130,33 @@
                 return this.NotFound();
             }
 
-            book.AllGenres = await this.genresService.GetAllGenresAsync<ABooksGenreViewModel>();
-
             return this.View(book);
         }
 
-        /*[HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,AuthorId,Summary,PublishedOn,Pages,PictureURL,EditionLanguageId,AmazonLink,CreatedOn,ModifiedOn,IsDeleted,DeletedOn")] Book book)
+        [HttpPost]
+        public async Task<IActionResult> Edit(ABooksEditInputModel input)
         {
-            if (id != book.Id)
+            if (!this.ModelState.IsValid)
             {
-                return NotFound();
+                input = await this.booksService.GetBookByIdAsync<ABooksEditInputModel>(input.Id);
+                return this.View(input);
             }
 
-            if (ModelState.IsValid)
+            if (input.Cover != null)
             {
-                try
-                {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookExists(book.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                input.PictureURL = await this.cloudinaryService.UploadImageAsync(input.Cover, input.Title);
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
-            ViewData["EditionLanguageId"] = new SelectList(_context.EditionLanguages, "Id", "Name", book.EditionLanguageId);
-            return View(book);
+            else
+            {
+                input.PictureURL = await this.booksService.GetPictureUrlByBookIdAsync(input.Id);
+            }
+
+            await this.booksService.EditBookAsync(input.Id, input.Title, input.Summary, input.PublishedOn, input.Pages, input.PictureURL, input.AmazonLink);
+
+            return this.RedirectToAction(nameof(this.Details), new { id = input.Id });
         }
 
-        // GET: Administration/Books/Delete/5
+        /*// GET: Administration/Books/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -85,22 +85,23 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task EditBookAsync(int id, string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink)
+        public async Task EditBookAsync(int id, string title, string summary, DateTime publishedOn, int pages, string pictureUrl, string amazonLink)
         {
             var book = await this.GetByIdAsync(id);
 
             book.Title = title;
-            book.AuthorId = authorId;
             book.Summary = summary;
             book.PublishedOn = publishedOn;
             book.Pages = pages;
             book.PictureURL = pictureUrl;
-            book.EditionLanguageId = editionLanguageId;
             book.AmazonLink = amazonLink;
             book.ModifiedOn = DateTime.UtcNow;
 
             await this.db.SaveChangesAsync();
         }
+
+        public async Task<string> GetPictureUrlByBookIdAsync(int id)
+            => await this.db.Books.Where(b => b.Id == id && !b.IsDeleted).Select(b => b.PictureURL).FirstOrDefaultAsync();
 
         public async Task<TModel> GetBookByIdAsync<TModel>(int id)
         {

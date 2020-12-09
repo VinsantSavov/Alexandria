@@ -1,18 +1,17 @@
 ﻿namespace Alexandria.Web.ViewModels.Administration.Books
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Alexandria.Common;
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
     using Alexandria.Web.Infrastructure.Attributes;
-    using Alexandria.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Http;
 
     public class ABooksEditInputModel : IMapFrom<Book>
     {
+        [EnsureBookIdExists(ErrorMessage = ErrorMessages.ReviewNotExistingBookIdErrorMessage)]
         public int Id { get; set; }
 
         [Required]
@@ -51,15 +50,5 @@
         public string AmazonLink { get; set; }
 
         public ABooksAuthorViewModel Author { get; set; }
-
-        public ABooksEditionLanguageViewModel Language { get; set; }
-
-        public IEnumerable<BooksGenreViewModel> Genres { get; set; }
-
-        public IEnumerable<BooksTagViewModel> Tags { get; set; }
-
-        public IEnumerable<BooksLiteraryAwardViewModel> Awards { get; set; }
-
-        public IEnumerable<ABooksGenreViewModel> AllGenres { get; set; }
     }
 }
