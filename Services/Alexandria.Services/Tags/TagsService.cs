@@ -50,13 +50,19 @@
         public async Task<bool> DoesTagIdExistAsync(int id)
             => await this.db.Tags.AnyAsync(t => t.Id == id && !t.IsDeleted);
 
-        public async Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>()
+        public async Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>(int? take = null, int skip = 0)
         {
-            return await this.db.Tags.AsNoTracking()
+            var queryable = this.db.Tags.AsNoTracking()
                                      .Where(t => !t.IsDeleted)
                                      .OrderBy(t => t.Name)
-                                     .To<TModel>()
-                                     .ToListAsync();
+                                     .Skip(skip);
+
+            if (take.HasValue)
+            {
+                queryable = queryable.Take(take.Value);
+            }
+
+            return await queryable.To<TModel>().ToListAsync();
         }
 
         public async Task<TModel> GetTagByIdAsync<TModel>(int id)
@@ -67,6 +73,9 @@
 
             return tag;
         }
+
+        public async Task<int> GetTagsCountAsync()
+            => await this.db.Tags.Where(t => !t.IsDeleted).CountAsync();
 
         private async Task<Tag> GetByIdAsync(int id)
             => await this.db.Tags.FirstOrDefaultAsync(t => t.Id == id && !t.IsDeleted);

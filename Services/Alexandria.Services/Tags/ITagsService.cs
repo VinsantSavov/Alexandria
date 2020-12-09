@@ -9,10 +9,12 @@
 
         Task DeleteTagByIdAsync(int id);
 
+        Task<int> GetTagsCountAsync();
+
         Task<bool> DoesTagIdExistAsync(int id);
 
         Task<TModel> GetTagByIdAsync<TModel>(int id);
 
-        Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>();
+        Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>(int? take = null, int skip = 0);
     }
 }

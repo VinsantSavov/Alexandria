@@ -2,12 +2,12 @@
 @model GenresCreateInputModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Genre";
 }
 
 <div class="container">
     <div class="row">
-        <div  class="col-md-12">
+        <div class="col-md-12">
             <h4>Create genre</h4>
             <hr />
 
@@ -35,16 +35,14 @@
         </div>
     </div>
 
-    <div>
-        <form class="mt-1 mb-3">
-            <button class="btn black"
-                    asp-area="Administration"
-                    asp-controller="Genres"
-                    asp-action="Index">
-                Back to list
-            </button>
-        </form>
-    </div>
+    <form class="mt-1 mb-3">
+        <button class="btn black"
+                asp-area="Administration"
+                asp-controller="Genres"
+                asp-action="Index">
+            Back to list
+        </button>
+    </form>
 </div>
 
 @section Scripts {

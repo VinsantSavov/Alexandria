@@ -6,6 +6,7 @@
     using Alexandria.Services.Authors;
     using Alexandria.Services.Awards;
     using Alexandria.Services.Books;
+    using Alexandria.Services.BookTags;
     using Alexandria.Services.Cloudinary;
     using Alexandria.Services.EditionLanguages;
     using Alexandria.Services.Genres;
@@ -24,6 +25,7 @@
         private readonly IAwardsService awardsService;
         private readonly IAuthorsService authorsService;
         private readonly IEditionLanguagesService languagesService;
+        private readonly IBookTagsService bookTagsService;
         private readonly ICloudinaryService cloudinaryService;
 
         public BooksController(
@@ -33,6 +35,7 @@
             IAwardsService awardsService,
             IAuthorsService authorsService,
             IEditionLanguagesService languagesService,
+            IBookTagsService bookTagsService,
             ICloudinaryService cloudinaryService)
         {
             this.booksService = booksService;
@@ -41,6 +44,7 @@
             this.awardsService = awardsService;
             this.authorsService = authorsService;
             this.languagesService = languagesService;
+            this.bookTagsService = bookTagsService;
             this.cloudinaryService = cloudinaryService;
         }
 
@@ -147,6 +151,41 @@
             await this.booksService.EditBookAsync(input.Id, input.Title, input.Summary, input.PublishedOn, input.Pages, input.PictureURL, input.AmazonLink);
 
             return this.RedirectToAction(nameof(this.Details), new { id = input.Id });
+        }
+
+        public async Task<IActionResult> AddTags(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var viewModel = await this.booksService.GetBookByIdAsync<ABooksAddTagsInputModel>(id.Value);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            viewModel.AllTags = await this.tagsService.GetAllTagsAsync<ABooksTagViewModel>();
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTags(ABooksAddTagsInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input = await this.booksService.GetBookByIdAsync<ABooksAddTagsInputModel>(input.Id);
+                input.AllTags = await this.tagsService.GetAllTagsAsync<ABooksTagViewModel>();
+
+                return this.View(input);
+            }
+
+            await this.bookTagsService.AddTagsToBook(input.Id, input.TagsIds);
+
+            return this.RedirectToAction(nameof(this.Details), new { Id = input.Id });
         }
 
         public async Task<IActionResult> Delete(int? id)

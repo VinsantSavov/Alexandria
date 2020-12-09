@@ -31,6 +31,9 @@
         public const string BookInvalidAuthorId = "Invalid author!";
         public const string BookInvalidLanguageId = "Invalid edition language!";
 
+        // Create Tag
+        public const string TagNameLengthErrorMessage = "Tag name must be between {2} and {1} characters long!";
+
         // Extensions
         public const string InvalidExtension = "File is not valid";
     }

@@ -12,6 +12,9 @@
         public const string AdministratorPassword = "123456789";
         public const string AdministratorProfilePicture = "https://res.cloudinary.com/alexandrialib/image/upload/v1607190349/user-icon_126283-700_pfxixv.jpg";
 
+        // TempData
+        public const string TempDataName = "Message";
+
         // Application user constants
         public const int UserProfilePictureLength = 500;
         public const int UserBiographyMaxLength = 1500;
@@ -71,6 +74,9 @@
         public const string BookAwardsDisplayNameConstant = "Awards";
         public const string BookAuthorsDisplayNameConstant = "Author";
         public const string BookLanguagesDisplayNameConstant = "Edition Language";
+
+        // Tag Input Model constants
+        public const int TagNameMinLength = 3;
 
         // User Register costants
         public const string UserEmailDisplayName = "Email";

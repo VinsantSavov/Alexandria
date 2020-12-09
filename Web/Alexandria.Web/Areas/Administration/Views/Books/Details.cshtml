@@ -132,6 +132,13 @@
                         asp-route-id="@Model.Id">
                     Edit
                 </button>
+                <button class="btn my-1"
+                        asp-area="Administration"
+                        asp-controller="Books"
+                        asp-action="AddTags"
+                        asp-route-id="@Model.Id">
+                    Add tags
+                </button>
                 <button class="btn black"
                         asp-area="Administration"
                         asp-controller="Books"

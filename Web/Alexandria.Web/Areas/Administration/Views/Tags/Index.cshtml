@@ -1,0 +1,83 @@
+﻿@using Alexandria.Web.ViewModels.Administration.Tags
+@model ATagsAllViewModel
+
+@{
+    ViewData["Title"] = "All Tags";
+}
+
+<div class="container">
+    <div class="row">
+        @if (TempData.ContainsKey("Message"))
+        {
+            <div class="alert alert-info alert-dismissible" role="alert">
+                @TempData["Message"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        <h3 class="col-md-12">Tags</h3>
+        <form>
+            <button class="btn mt-2 mb-4"
+                    asp-area="Administration"
+                    asp-controller="Tags"
+                    asp-action="Create">
+                Create new
+            </button>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Books Count
+                    </th>
+                    <th>
+                        Created On
+                    </th>
+                    <th>
+                        Modified On
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tag in Model.Tags)
+                {
+                    <tr>
+                        <td>
+                            @tag.Name
+                        </td>
+                        <td>
+                            @tag.BooksCount
+                        </td>
+                        <td>
+                            @tag.CreatedOn
+                        </td>
+                        <td>
+                            @tag.ModifiedOn
+                        </td>
+                        <td>
+                            <form>
+                                <button class="btn my-1"
+                                        asp-area="Administration"
+                                        asp-controller="Tags"
+                                        asp-action="Delete"
+                                        asp-route-id="@tag.Id">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="my-3">
+            <partial name="_PaginationPartial" />
+        </div>
+    </div>
+</div>

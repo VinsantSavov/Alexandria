@@ -9,6 +9,7 @@
     using Alexandria.Services.Authors;
     using Alexandria.Services.Awards;
     using Alexandria.Services.Books;
+    using Alexandria.Services.BookTags;
     using Alexandria.Services.Cloudinary;
     using Alexandria.Services.Countries;
     using Alexandria.Services.EditionLanguages;
@@ -109,6 +110,7 @@
             services.AddTransient<IStarRatingsService, StarRatingsService>();
             services.AddTransient<ILikesService, LikesService>();
             services.AddTransient<IUserFollowersService, UserFollowersService>();
+            services.AddTransient<IBookTagsService, BookTagsService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
