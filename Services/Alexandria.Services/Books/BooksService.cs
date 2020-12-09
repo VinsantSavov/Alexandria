@@ -21,7 +21,7 @@
             this.db = db;
         }
 
-        public async Task<int> CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink)
+        public async Task<int> CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, string pictureUrl, int editionLanguageId, string amazonLink, IEnumerable<int> genresIds, IEnumerable<int> tagsIds, IEnumerable<int> awardsIds)
         {
             var book = new Book
             {
@@ -33,9 +33,38 @@
                 PictureURL = pictureUrl,
                 EditionLanguageId = editionLanguageId,
                 AmazonLink = amazonLink,
+                CreatedOn = DateTime.UtcNow,
             };
 
             await this.db.Books.AddAsync(book);
+
+            foreach (var id in genresIds)
+            {
+                book.Genres.Add(new BookGenre
+                {
+                    BookId = book.Id,
+                    GenreId = id,
+                });
+            }
+
+            foreach (var id in tagsIds)
+            {
+                book.Tags.Add(new BookTag
+                {
+                    BookId = book.Id,
+                    TagId = id,
+                });
+            }
+
+            foreach (var id in awardsIds)
+            {
+                book.Awards.Add(new BookAward
+                {
+                    BookId = book.Id,
+                    AwardId = id,
+                });
+            }
+
             await this.db.SaveChangesAsync();
 
             return book.Id;

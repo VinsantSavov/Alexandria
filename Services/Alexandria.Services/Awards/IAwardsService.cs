@@ -9,6 +9,8 @@
 
         Task DeleteAwardByIdAsync(int id);
 
+        Task<bool> DoesAwardIdExistAsync(int id);
+
         Task<IEnumerable<TModel>> GetAllAwardsAsync<TModel>();
     }
 }

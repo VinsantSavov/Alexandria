@@ -6,7 +6,7 @@
 
     public interface IBooksService
     {
-        Task<int> CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, double rating, string pictureUrl, int editionLanguageId, string amazonLink);
+        Task<int> CreateBookAsync(string title, int authorId, string summary, DateTime publishedOn, int pages, string pictureUrl, int editionLanguageId, string amazonLink, IEnumerable<int> genresIds, IEnumerable<int> tagsIds, IEnumerable<int> awardsIds);
 
         Task<TModel> GetBookByIdAsync<TModel>(int id);
 

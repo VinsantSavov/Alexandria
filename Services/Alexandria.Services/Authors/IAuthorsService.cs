@@ -16,6 +16,8 @@
 
         Task EditAuthorBiographyAsync(int id, string biography);
 
+        Task<bool> DoesAuthorIdExistAsync(int id);
+
         Task<IEnumerable<TModel>> GetAllAuthorsAsync<TModel>();
 
         Task<IEnumerable<TModel>> GetMostPopularAuthorsByCountryAsync<TModel>(int countryId, int count = 0);

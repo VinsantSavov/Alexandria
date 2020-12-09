@@ -60,7 +60,7 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task<bool> DoesGenreIdExist(int id)
+        public async Task<bool> DoesGenreIdExistAsync(int id)
             => await this.db.Genres.AnyAsync(g => g.Id == id && !g.IsDeleted);
 
         public async Task<IEnumerable<TModel>> GetAllGenresAsync<TModel>(int? take = null, int skip = 0)

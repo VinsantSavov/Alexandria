@@ -20,6 +20,17 @@
         public const string ReviewNotExistingBookIdErrorMessage = "Invalid book!";
         public const string ReviewNotExistingReviewIdErrorMessage = "Invalid review!";
 
+        // Create Book
+        public const string BookTitleLengthErrorMessage = "Book title must be between {2} and {1} characters long!";
+        public const string BookSummaryLengthErrorMessage = "Book summary must be between {2} and {1} characters long!";
+        public const string BookPagesCountErrorMessage = "Book pages must be between {2} and {1} characters long!";
+        public const string BookAmazonLinkLengthErrorMessage = "Book amazon link can not be more than {1} characters long!";
+        public const string BookInvalidGenresIds = "Invalid genres!";
+        public const string BookInvalidTagsIds = "Invalid tags!";
+        public const string BookInvalidAwardsIds = "Invalid awards!";
+        public const string BookInvalidAuthorId = "Invalid author!";
+        public const string BookInvalidLanguageId = "Invalid edition language!";
+
         // Extensions
         public const string InvalidExtension = "File is not valid";
     }

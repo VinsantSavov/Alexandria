@@ -45,6 +45,9 @@
             await this.db.SaveChangesAsync();
         }
 
+        public async Task<bool> DoesAwardIdExistAsync(int id)
+            => await this.db.Awards.AnyAsync(a => a.Id == id && !a.IsDeleted);
+
         public async Task<IEnumerable<TModel>> GetAllAwardsAsync<TModel>()
         {
             var awards = await this.db.Awards.AsNoTracking()

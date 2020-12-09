@@ -76,6 +76,9 @@
             await this.db.SaveChangesAsync();
         }
 
+        public async Task<bool> DoesAuthorIdExistAsync(int id)
+            => await this.db.Authors.AnyAsync(a => a.Id == id && !a.IsDeleted);
+
         public async Task<IEnumerable<TModel>> GetAllAuthorsAsync<TModel>()
         {
             var authors = await this.db.Authors.AsNoTracking()

@@ -2,15 +2,19 @@
 @model ABooksCreateInputModel
 
 @{
-    ViewData["Title"] = "Create";
-    var genres = Model.Genres.Select(g => new SelectListItem(g.GenreName, g.GenreId.ToString()));
+    ViewData["Title"] = "Create Book";
+    var genres = Model.Genres.Select(g => new SelectListItem(g.Name, g.Id.ToString()));
+    var tags = Model.Tags.Select(t => new SelectListItem(t.Name, t.Id.ToString()));
+    var awards = Model.Awards.Select(a => new SelectListItem(a.Name, a.Id.ToString()));
+    var authors = Model.Authors.Select(a => new SelectListItem(a.FullName, a.Id.ToString()));
+    var languages = Model.Languages.Select(l => new SelectListItem(l.Name, l.Id.ToString()));
 }
 
 <div class="container">
     <div class="row">
-        <h3 class="col-md-12 mb-4">Create Book</h3>
+        <h4 class="col-md-12 mb-4">Create Book</h4>
         <hr />
-        <div class="col-md-4">
+        <div>
             <form method="post"
                   enctype="multipart/form-data"
                   asp-area="Administration"
@@ -19,16 +23,19 @@
 
                 <div asp-validation-summary="All" class="text-danger"></div>
 
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Cover" class="control-label"></label>
+                        <input asp-for="Cover" class="form-control" />
+                        <span asp-validation-for="Cover" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="PictureURL" class="control-label"></label>
-                    <input asp-for="PictureURL" class="form-control" />
-                    <span asp-validation-for="PictureURL" class="text-danger"></span>
-                </div>
+                
                 <div class="form-group">
                     <label asp-for="Summary" class="control-label"></label>
                     <textarea asp-for="Summary" class="form-control" rows="5" placeholder="What is the book about?"></textarea>
@@ -49,10 +56,34 @@
                     <input asp-for="AmazonLink" class="form-control" />
                     <span asp-validation-for="AmazonLink" class="text-danger"></span>
                 </div>
+
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label asp-for="GenresIds" class="control-label"></label>
+                        <select asp-for="GenresIds" asp-items="@genres" class="multiple form-control" multiple="multiple"></select>
+                        <span asp-validation-for="GenresIds" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="TagsIds" class="control-label"></label>
+                        <select asp-for="TagsIds" asp-items="@tags" class="multiple form-control" multiple="multiple"></select>
+                        <span asp-validation-for="TagsIds" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="AwardsIds" class="control-label"></label>
+                        <select asp-for="AwardsIds" asp-items="@awards" class="multiple form-control" multiple="multiple"></select>
+                        <span asp-validation-for="AwardsIds" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="EditionLanguageId" class="control-label"></label>
+                        <select asp-for="EditionLanguageId" asp-items="@languages" class="single form-control"></select>
+                        <span asp-validation-for="EditionLanguageId" class="text-danger"></span>
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label asp-for="GenresIds" class="control-label"></label>
-                    <select asp-for="GenresIds" asp-items="@genres" class="multiple form-control" multiple="multiple"></select>
-                    <span asp-validation-for="GenresIds" class="text-danger"></span>
+                    <label asp-for="AuthorId" class="control-label"></label>
+                    <select asp-for="AuthorId" asp-items="@authors" class="single form-control"></select>
+                    <span asp-validation-for="AuthorId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn" />
@@ -75,6 +106,10 @@
 <script>
     $(document).ready(function () {
         $('.multiple').select2();
+    });
+
+    $(document).ready(function () {
+        $('.single').select2();
     });
 </script>
 

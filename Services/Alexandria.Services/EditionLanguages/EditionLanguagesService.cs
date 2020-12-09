@@ -1,5 +1,6 @@
 ﻿namespace Alexandria.Services.EditionLanguages
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -26,6 +27,19 @@
 
             await this.db.EditionLanguages.AddAsync(language);
             await this.db.SaveChangesAsync();
+        }
+
+        public async Task<bool> DoesEditionLanguageIdExistAsync(int id)
+            => await this.db.EditionLanguages.AnyAsync(l => l.Id == id);
+
+        public async Task<IEnumerable<TModel>> GetAllLanguagesAsync<TModel>()
+        {
+            var languages = await this.db.EditionLanguages.AsNoTracking()
+                                                          .OrderBy(l => l.Name)
+                                                          .To<TModel>()
+                                                          .ToListAsync();
+
+            return languages;
         }
 
         public async Task<TModel> GetEditionLanguageByIdAsync<TModel>(int id)

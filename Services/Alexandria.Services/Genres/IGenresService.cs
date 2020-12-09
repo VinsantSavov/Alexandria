@@ -11,7 +11,7 @@
 
         Task EditGenreAsync(int id, string name, string description);
 
-        Task<bool> DoesGenreIdExist(int id);
+        Task<bool> DoesGenreIdExistAsync(int id);
 
         Task<TModel> GetGenreByIdAsync<TModel>(int id);
 

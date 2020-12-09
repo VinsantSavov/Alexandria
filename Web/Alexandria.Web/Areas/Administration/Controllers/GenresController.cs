@@ -126,7 +126,7 @@
         [ActionName(nameof(Delete))]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var doExist = await this.genresService.DoesGenreIdExist(id);
+            var doExist = await this.genresService.DoesGenreIdExistAsync(id);
 
             if (!doExist)
             {

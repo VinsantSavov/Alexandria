@@ -2,19 +2,18 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using Alexandria.Services.Genres;
+    using Alexandria.Services.EditionLanguages;
 
-    public class EnsureGenreIdExistsAttribute : ValidationAttribute
+    public class EnsureEditionLanguageIdExistAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var genresService = (IGenresService)validationContext.GetService(typeof(IGenresService));
-
             if (value != null)
             {
-                var doExist = genresService.DoesGenreIdExistAsync((int)value).GetAwaiter().GetResult();
+                var id = (int)value;
+                var languagesService = (IEditionLanguagesService)validationContext.GetService(typeof(IEditionLanguagesService));
 
-                if (doExist)
+                if (languagesService.DoesEditionLanguageIdExistAsync(id).GetAwaiter().GetResult())
                 {
                     return ValidationResult.Success;
                 }

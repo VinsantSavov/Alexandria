@@ -5,17 +5,24 @@
     using System.ComponentModel.DataAnnotations;
 
     using Alexandria.Common;
+    using Alexandria.Data.Models;
+    using Alexandria.Services.Mapping;
     using Alexandria.Web.Infrastructure.Attributes;
+    using Alexandria.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Http;
 
-    public class ABooksCreateInputModel
+    public class ABooksEditInputModel : IMapFrom<Book>
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(
             GlobalConstants.BookTitleMaxLength,
             ErrorMessage = ErrorMessages.BookTitleLengthErrorMessage,
             MinimumLength = GlobalConstants.BookTitleMinLength)]
         public string Title { get; set; }
+
+        public string PictureURL { get; set; }
 
         [DataType(DataType.Upload)]
         [EnsureImageExtensionIsValid(ErrorMessage = ErrorMessages.InvalidExtension)]
@@ -43,34 +50,16 @@
             ErrorMessage = ErrorMessages.BookAmazonLinkLengthErrorMessage)]
         public string AmazonLink { get; set; }
 
-        [EnsureGenresIdsExist(ErrorMessage = ErrorMessages.BookInvalidGenresIds)]
-        [Display(Name = GlobalConstants.BookGenresDisplayNameConstant)]
-        public IEnumerable<int> GenresIds { get; set; }
+        public ABooksAuthorViewModel Author { get; set; }
 
-        [EnsureTagsIdsExist(ErrorMessage = ErrorMessages.BookInvalidTagsIds)]
-        [Display(Name = GlobalConstants.BookTagsDisplayNameConstant)]
-        public IEnumerable<int> TagsIds { get; set; }
+        public ABooksEditionLanguageViewModel Language { get; set; }
 
-        [EnsureAwardsIdsExist(ErrorMessage = ErrorMessages.BookInvalidAwardsIds)]
-        [Display(Name = GlobalConstants.BookAwardsDisplayNameConstant)]
-        public IEnumerable<int> AwardsIds { get; set; }
+        public IEnumerable<BooksGenreViewModel> Genres { get; set; }
 
-        [EnsureAuthorIdExist(ErrorMessage = ErrorMessages.BookInvalidAuthorId)]
-        [Display(Name = GlobalConstants.BookAuthorsDisplayNameConstant)]
-        public int AuthorId { get; set; }
+        public IEnumerable<BooksTagViewModel> Tags { get; set; }
 
-        [EnsureEditionLanguageIdExist(ErrorMessage = ErrorMessages.BookInvalidLanguageId)]
-        [Display(Name = GlobalConstants.BookLanguagesDisplayNameConstant)]
-        public int EditionLanguageId { get; set; }
+        public IEnumerable<BooksLiteraryAwardViewModel> Awards { get; set; }
 
-        public IEnumerable<ABooksAuthorViewModel> Authors { get; set; }
-
-        public IEnumerable<ABooksGenreViewModel> Genres { get; set; }
-
-        public IEnumerable<ABooksTagViewModel> Tags { get; set; }
-
-        public IEnumerable<ABooksAwardViewModel> Awards { get; set; }
-
-        public IEnumerable<ABooksEditionLanguageViewModel> Languages { get; set; }
+        public IEnumerable<ABooksGenreViewModel> AllGenres { get; set; }
     }
 }

@@ -7,8 +7,11 @@
 
     using Alexandria.Data;
     using Alexandria.Data.Models;
+    using Alexandria.Services.Authors;
     using Alexandria.Services.Awards;
     using Alexandria.Services.Books;
+    using Alexandria.Services.Cloudinary;
+    using Alexandria.Services.EditionLanguages;
     using Alexandria.Services.Genres;
     using Alexandria.Services.Tags;
     using Alexandria.Web.ViewModels.Administration.Books;
@@ -26,17 +29,26 @@
         private readonly IGenresService genresService;
         private readonly ITagsService tagsService;
         private readonly IAwardsService awardsService;
+        private readonly IAuthorsService authorsService;
+        private readonly IEditionLanguagesService languagesService;
+        private readonly ICloudinaryService cloudinaryService;
 
         public BooksController(
             IBooksService booksService,
             IGenresService genresService,
             ITagsService tagsService,
-            IAwardsService awardsService)
+            IAwardsService awardsService,
+            IAuthorsService authorsService,
+            IEditionLanguagesService languagesService,
+            ICloudinaryService cloudinaryService)
         {
             this.booksService = booksService;
             this.genresService = genresService;
             this.tagsService = tagsService;
             this.awardsService = awardsService;
+            this.authorsService = authorsService;
+            this.languagesService = languagesService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -77,6 +89,8 @@
             viewModel.Genres = await this.genresService.GetAllGenresAsync<ABooksGenreViewModel>();
             viewModel.Tags = await this.tagsService.GetAllTagsAsync<ABooksTagViewModel>();
             viewModel.Awards = await this.awardsService.GetAllAwardsAsync<ABooksAwardViewModel>();
+            viewModel.Authors = await this.authorsService.GetAllAuthorsAsync<ABooksAuthorViewModel>();
+            viewModel.Languages = await this.languagesService.GetAllLanguagesAsync<ABooksEditionLanguageViewModel>();
 
             return this.View(viewModel);
         }
@@ -89,36 +103,39 @@
                 input.Genres = await this.genresService.GetAllGenresAsync<ABooksGenreViewModel>();
                 input.Tags = await this.tagsService.GetAllTagsAsync<ABooksTagViewModel>();
                 input.Awards = await this.awardsService.GetAllAwardsAsync<ABooksAwardViewModel>();
+                input.Authors = await this.authorsService.GetAllAuthorsAsync<ABooksAuthorViewModel>();
+                input.Languages = await this.languagesService.GetAllLanguagesAsync<ABooksEditionLanguageViewModel>();
 
                 return this.View(input);
             }
 
-            return this.RedirectToAction(nameof(this.Details), new { Id = 0 });
+            var bookCoverUrl = await this.cloudinaryService.UploadImageAsync(input.Cover, input.Title);
+
+            var bookId = await this.booksService.CreateBookAsync(input.Title, input.AuthorId, input.Summary, input.PublishedOn, input.Pages, bookCoverUrl, input.EditionLanguageId, input.AmazonLink, input.GenresIds, input.TagsIds, input.AwardsIds);
+
+            return this.RedirectToAction(nameof(this.Details), new { Id = bookId });
         }
 
-        /*// GET: Administration/Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var book = await _context.Books.FindAsync(id);
+            var book = await this.booksService.GetBookByIdAsync<ABooksEditInputModel>(id.Value);
+
             if (book == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
-            ViewData["EditionLanguageId"] = new SelectList(_context.EditionLanguages, "Id", "Name", book.EditionLanguageId);
-            return View(book);
+
+            book.AllGenres = await this.genresService.GetAllGenresAsync<ABooksGenreViewModel>();
+
+            return this.View(book);
         }
 
-        // POST: Administration/Books/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        /*[HttpPost]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,AuthorId,Summary,PublishedOn,Pages,PictureURL,EditionLanguageId,AmazonLink,CreatedOn,ModifiedOn,IsDeleted,DeletedOn")] Book book)
         {
             if (id != book.Id)

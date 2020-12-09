@@ -47,6 +47,9 @@
             await this.db.SaveChangesAsync();
         }
 
+        public async Task<bool> DoesTagIdExistAsync(int id)
+            => await this.db.Tags.AnyAsync(t => t.Id == id && !t.IsDeleted);
+
         public async Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>()
         {
             return await this.db.Tags.AsNoTracking()

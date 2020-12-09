@@ -1,88 +1,90 @@
-﻿@model Alexandria.Data.Models.Book
+﻿@using Alexandria.Web.ViewModels.Administration.Books
+@model ABooksEditInputModel
 
 @{
-    ViewData["Title"] = "Edit";
+    var genres = Model.AllGenres.Select(g => new SelectListItem(g.Name, g.Id.ToString()));
+
+    ViewData["Title"] = "Edit Book";
 }
 
-<h1>Edit</h1>
+<div class="container">
+    <div class="row">
+        <h4 class="col-md-12">Edit Book</h4>
+        <hr />
+        <div>
+            <div class="col-md-6">
+                <img src="@Model.PictureURL" alt="Picture"
+                     style="width: 200px; height: 150px;" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <form method="post"
+                  enctype="multipart/form-data"
+                  asp-area="Administration"
+                  asp-controller="Books"
+                  asp-action="Edit">
 
-<h4>Book</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AuthorId" class="control-label"></label>
-                <select asp-for="AuthorId" class="form-control" asp-items="ViewBag.AuthorId"></select>
-                <span asp-validation-for="AuthorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
-                <span asp-validation-for="Summary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PublishedOn" class="control-label"></label>
-                <input asp-for="PublishedOn" class="form-control" />
-                <span asp-validation-for="PublishedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pages" class="control-label"></label>
-                <input asp-for="Pages" class="form-control" />
-                <span asp-validation-for="Pages" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PictureURL" class="control-label"></label>
-                <input asp-for="PictureURL" class="form-control" />
-                <span asp-validation-for="PictureURL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EditionLanguageId" class="control-label"></label>
-                <select asp-for="EditionLanguageId" class="form-control" asp-items="ViewBag.EditionLanguageId"></select>
-                <span asp-validation-for="EditionLanguageId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AmazonLink" class="control-label"></label>
-                <input asp-for="AmazonLink" class="form-control" />
-                <span asp-validation-for="AmazonLink" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" class="form-control" />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedOn" class="control-label"></label>
-                <input asp-for="ModifiedOn" class="form-control" />
-                <span asp-validation-for="ModifiedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedOn" class="control-label"></label>
-                <input asp-for="DeletedOn" class="form-control" />
-                <span asp-validation-for="DeletedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Author" class="control-label"></label>
+                    <select asp-for="Author" class="form-control"></select>
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Summary" class="control-label"></label>
+                    <textarea asp-for="Summary" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Summary" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PublishedOn" class="control-label"></label>
+                    <input asp-for="PublishedOn" class="form-control" />
+                    <span asp-validation-for="PublishedOn" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Pages" class="control-label"></label>
+                    <input asp-for="Pages" class="form-control" />
+                    <span asp-validation-for="Pages" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Language" class="control-label"></label>
+                    <select asp-for="Language" class="form-control" asp-items="ViewBag.EditionLanguageId"></select>
+                    <span asp-validation-for="Language" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AmazonLink" class="control-label"></label>
+                    <input asp-for="AmazonLink" class="form-control" />
+                    <span asp-validation-for="AmazonLink" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="Genres" class="control-label"></label>
+                    <select asp-for="Genres" asp-items="@genres" class="multiple form-control" multiple="multiple"></select>
+                    <span asp-validation-for="Genres" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn" />
+                </div>
+            </form>
+            <form>
+                <button class="btn black mb-3"
+                        asp-area="Administration"
+                        asp-controller="Books"
+                        asp-action="Index">
+                    Back to List
+                </button>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

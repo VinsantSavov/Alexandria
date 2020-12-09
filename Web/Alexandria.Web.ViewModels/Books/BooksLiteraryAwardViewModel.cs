@@ -5,6 +5,8 @@
 
     public class BooksLiteraryAwardViewModel : IMapFrom<BookAward>
     {
+        public int AwardId { get; set; }
+
         public string AwardName { get; set; }
     }
 }

@@ -4,7 +4,6 @@
 
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
-    using Alexandria.Web.ViewModels.Books;
     using AutoMapper;
 
     public class ABooksListingViewModel : IMapFrom<Book>, IHaveCustomMappings
@@ -13,7 +12,7 @@
 
         public string Title { get; set; }
 
-        public BooksAuthorViewModel Author { get; set; }
+        public ABooksAuthorViewModel Author { get; set; }
 
         public DateTime PublishedOn { get; set; }
 

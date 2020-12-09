@@ -61,7 +61,16 @@
         public const int ReviewDescriptionMinLength = 20;
 
         // Book Input Model constants
+        public const int BookTitleMinLength = 2;
+        public const int BookSummaryMinLength = 20;
+        public const int BookMinCountPages = 5;
+        public const int BookMaxCountPages = 2000;
         public const string BookPictureUrlDisplayNameConstant = "Book Cover";
+        public const string BookGenresDisplayNameConstant = "Genres";
+        public const string BookTagsDisplayNameConstant = "Tags";
+        public const string BookAwardsDisplayNameConstant = "Awards";
+        public const string BookAuthorsDisplayNameConstant = "Author";
+        public const string BookLanguagesDisplayNameConstant = "Edition Language";
 
         // User Register costants
         public const string UserEmailDisplayName = "Email";

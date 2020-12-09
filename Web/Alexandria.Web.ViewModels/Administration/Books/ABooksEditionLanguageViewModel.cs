@@ -3,7 +3,7 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
 
-    public class ABooksGenreViewModel : IMapFrom<Genre>
+    public class ABooksEditionLanguageViewModel : IMapFrom<EditionLanguage>
     {
         public int Id { get; set; }
 
