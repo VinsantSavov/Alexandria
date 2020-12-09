@@ -13,7 +13,7 @@
 
         public string Title { get; set; }
 
-        public BooksAuthorViewModel Author { get; set; }
+        public ABooksAuthorViewModel Author { get; set; }
 
         public DateTime PublishedOn { get; set; }
 

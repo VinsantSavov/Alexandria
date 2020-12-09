@@ -1,12 +1,8 @@
 ﻿namespace Alexandria.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using Alexandria.Data;
-    using Alexandria.Data.Models;
     using Alexandria.Services.Authors;
     using Alexandria.Services.Awards;
     using Alexandria.Services.Books;
@@ -15,10 +11,7 @@
     using Alexandria.Services.Genres;
     using Alexandria.Services.Tags;
     using Alexandria.Web.ViewModels.Administration.Books;
-    using Alexandria.Web.ViewModels.Books;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.EntityFrameworkCore;
 
     public class BooksController : AdministrationController
     {
@@ -156,35 +149,37 @@
             return this.RedirectToAction(nameof(this.Details), new { id = input.Id });
         }
 
-        /*// GET: Administration/Books/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var book = await _context.Books
-                .Include(b => b.Author)
-                .Include(b => b.EditionLanguage)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var book = await this.booksService.GetBookByIdAsync<ABooksDeleteViewModel>(id.Value);
+
             if (book == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(book);
+            return this.View(book);
         }
 
-        // POST: Administration/Books/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
+        [ActionName(nameof(Delete))]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }*/
+            var doExist = await this.booksService.DoesBookIdExistAsync(id);
+
+            if (!doExist)
+            {
+                return this.NotFound();
+            }
+
+            await this.booksService.DeleteByIdAsync(id);
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
     }
 }
