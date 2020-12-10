@@ -49,6 +49,9 @@
         // Tag constants
         public const int TagNameMaxLength = 20;
 
+        // Message constants
+        public const int MessageContentMaxLength = 1000;
+
         // Genre Input Model constants
         public const int GenreNameMinLength = 3;
         public const int GenreDescriptionMinLength = 10;

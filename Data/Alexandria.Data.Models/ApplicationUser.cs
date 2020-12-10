@@ -21,6 +21,8 @@ namespace Alexandria.Data.Models
             this.Ratings = new HashSet<StarRating>();
             this.Likes = new HashSet<Like>();
             this.Followers = new HashSet<UserFollower>();
+            this.SentMessages = new HashSet<Message>();
+            this.ReceivedMessages = new HashSet<Message>();
         }
 
         public GenderType Gender { get; set; }
@@ -52,5 +54,9 @@ namespace Alexandria.Data.Models
         public virtual ICollection<UserFollower> Followers { get; set; }
 
         public virtual ICollection<UserFollower> Following { get; set; }
+
+        public virtual ICollection<Message> SentMessages { get; set; }
+
+        public virtual ICollection<Message> ReceivedMessages { get; set; }
     }
 }

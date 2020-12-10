@@ -1,11 +1,11 @@
 ﻿namespace Alexandria.Services.BookTags
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Alexandria.Data;
     using Alexandria.Data.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class BookTagsService : IBookTagsService
     {
@@ -26,7 +26,7 @@
                     TagId = id,
                 };
 
-                if (!this.db.BookTags.Contains(bookTag))
+                if (!await this.db.BookTags.ContainsAsync(bookTag))
                 {
                     await this.db.BookTags.AddAsync(bookTag);
                 }

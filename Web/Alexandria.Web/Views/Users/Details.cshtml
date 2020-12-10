@@ -7,7 +7,7 @@
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="@Model.ProfilePicture" 
+                    <img src="@Model.ProfilePicture"
                          class="rounded-circle d-block mb-2"
                          style="width: 200px; height: 150px;"
                          alt="profilePicture">
@@ -32,16 +32,27 @@
                     <h3>@Model.Username</h3>
                     <hr />
                     <form method="post" id="antiForgeryForm"></form>
-                    <button id="followButton" class="btn mb-4" onclick="followUser()">
-                        @if (Model.UserFollowedUser)
-                        {
-                            @:Following
-                        }
-                        else
-                        {
-                            @:Follow
-                        }
-                    </button>
+                    <div class="form-inline mb-4">
+                        <button id="followButton" class="btn mx-1" onclick="followUser()">
+                            @if (Model.UserFollowedUser)
+                            {
+                                @:Following
+                            }
+                            else
+                            {
+                                @:Follow
+                            }
+                        </button>
+                        <form>
+                            <button class="btn mx-1"
+                                    asp-controller="Chat"
+                                    asp-action="ChatWithUser"
+                                    asp-route-id="@Model.Id">
+                                <i class="far fa-comment"></i>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
                     <dl class="row">
                         <dt class="col-sm-4" style="font-size: 13px">
                             Details
@@ -91,60 +102,74 @@
                 </div>
             </div>
             <div>
-                <p>@Model.Username's ratings</p>
-                <table class="table">
-                    <caption class="text-right">
-                        <a class="text-secondary"
-                           asp-controller="Users"
-                           asp-action="Ratings"
-                           asp-route-id="@Model.Id">
-                            All ratings
-                        </a>
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">Cover</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Rating</th>
-                            <th scope="col">Created</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var rating in Model.TopRatings)
-                        {
-                            <partial name="_RatingsPartial" model="rating" />
-                        }
-                    </tbody>
-                </table>
+                @if (Model.RatingsCount != 0)
+                {
+                    <p>@Model.Username's ratings</p>
+                    <table class="table">
+                        <caption class="text-right">
+                            <a class="text-secondary"
+                               asp-controller="Users"
+                               asp-action="Ratings"
+                               asp-route-id="@Model.Id">
+                                All ratings
+                            </a>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Cover</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Author</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var rating in Model.TopRatings)
+                            {
+                                <partial name="_RatingsPartial" model="rating" />
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>@Model.Username has no ratings</p>
+                }
 
-                <p>@Model.Username's reviews</p>
-                <table class="table">
-                    <caption class="text-right">
-                        <a class="text-secondary"
-                           asp-controller="Users"
-                           asp-action="Reviews"
-                           asp-route-id="@Model.Id">
-                            All reviews
-                        </a>
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">Cover</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Review</th>
-                            <th scope="col">Created</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var review in Model.TopReviews)
-                        {
-                            <partial name="_ReviewsPartial" model="review" />
-                        }
-                    </tbody>
-                </table>
+                @if (Model.ReviewsCount != 0)
+                {
+                    <p>@Model.Username's reviews</p>
+                    <table class="table">
+                        <caption class="text-right">
+                            <a class="text-secondary"
+                               asp-controller="Users"
+                               asp-action="Reviews"
+                               asp-route-id="@Model.Id">
+                                All reviews
+                            </a>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Cover</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Author</th>
+                                <th scope="col">Review</th>
+                                <th scope="col">Created</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var review in Model.TopReviews)
+                            {
+                                <partial name="_ReviewsPartial" model="review" />
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>@Model.Username has no reviews</p>
+                }
             </div>
         </div>
         <div class="col-1"></div>

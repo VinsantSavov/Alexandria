@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/style1.css" asp-append-version="true">
     <link rel="stylesheet" href="/css/buttonsStyles.css" asp-append-version="true">
     <link href="~/lib/select2/dist/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/chat.css" rel="stylesheet" asp-append-version="true" />
 </head>
 
 <body>
@@ -158,15 +159,18 @@
             </div>
         </div>
     </footer>
-    <script src="/js/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
     <script src="/js/popper.min.js" asp-append-version="true"></script>
     <script src="/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
     <script type="text/javascript" src="/js/owl.carousel.min.js" asp-append-version="true"></script>
     <script src="/js/custom.js" asp-append-version="true"></script>
     <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>$("[data-toggle=popover]").popover();</script>
-    <script src="~/lib/select2/dist/js/select2.min.js" asp-append-version="true"></script>>
+    <script src="~/lib/select2/dist/js/select2.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

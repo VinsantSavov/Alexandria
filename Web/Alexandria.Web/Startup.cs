@@ -16,6 +16,7 @@
     using Alexandria.Services.Genres;
     using Alexandria.Services.Likes;
     using Alexandria.Services.Mapping;
+    using Alexandria.Services.Messages;
     using Alexandria.Services.Messaging;
     using Alexandria.Services.Reviews;
     using Alexandria.Services.Scrapers;
@@ -23,6 +24,7 @@
     using Alexandria.Services.Tags;
     using Alexandria.Services.UserFollowers;
     using Alexandria.Services.Users;
+    using Alexandria.Web.Hubs;
     using Alexandria.Web.InputModels.Reviews;
     using Alexandria.Web.ViewModels;
     using AspNetCoreTemplate.Data;
@@ -72,6 +74,8 @@
                 options.HeaderName = "X-CSRF-TOKEN";
             });
 
+            services.AddSignalR();
+
             services.AddAuthentication()
                 .AddFacebook(options =>
                 {
@@ -111,6 +115,7 @@
             services.AddTransient<ILikesService, LikesService>();
             services.AddTransient<IUserFollowersService, UserFollowersService>();
             services.AddTransient<IBookTagsService, BookTagsService>();
+            services.AddTransient<IMessagesService, MessagesService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
@@ -150,6 +155,7 @@
             app.UseEndpoints(
                 endpoints =>
                 {
+                    endpoints.MapHub<ChatHub>("/chat");
                     endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute("search", "{controller=Books}/{action=Search}/{search?}");

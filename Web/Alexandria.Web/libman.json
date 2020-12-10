@@ -91,6 +91,13 @@
         "dist/js/select2.min.js",
         "dist/css/select2.min.css"
       ]
+    },
+    {
+      "library": "@microsoft/signalr@5.0.0",
+      "destination": "wwwroot/lib/signalr/",
+      "files": [
+        "dist/browser/signalr.min.js"
+      ]
     }
   ]
 }
