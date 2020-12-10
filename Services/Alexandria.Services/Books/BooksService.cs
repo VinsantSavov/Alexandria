@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -40,29 +39,44 @@
 
             foreach (var id in genresIds)
             {
-                book.Genres.Add(new BookGenre
+                var bookGenre = new BookGenre
                 {
                     BookId = book.Id,
                     GenreId = id,
-                });
+                };
+
+                if (!await this.db.BookGenres.ContainsAsync(bookGenre))
+                {
+                    book.Genres.Add(bookGenre);
+                }
             }
 
             foreach (var id in tagsIds)
             {
-                book.Tags.Add(new BookTag
+                var bookTag = new BookTag
                 {
                     BookId = book.Id,
                     TagId = id,
-                });
+                };
+
+                if (!await this.db.BookTags.ContainsAsync(bookTag))
+                {
+                    book.Tags.Add(bookTag);
+                }
             }
 
             foreach (var id in awardsIds)
             {
-                book.Awards.Add(new BookAward
+                var bookAward = new BookAward
                 {
                     BookId = book.Id,
                     AwardId = id,
-                });
+                };
+
+                if (!await this.db.BookAwards.ContainsAsync(bookAward))
+                {
+                    book.Awards.Add(bookAward);
+                }
             }
 
             await this.db.SaveChangesAsync();

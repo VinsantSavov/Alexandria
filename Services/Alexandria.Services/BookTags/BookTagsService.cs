@@ -1,6 +1,7 @@
 ﻿namespace Alexandria.Services.BookTags
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Alexandria.Data;
@@ -19,11 +20,16 @@
         {
             foreach (var id in tagsIds)
             {
-                await this.db.BookTags.AddAsync(new BookTag
+                var bookTag = new BookTag
                 {
                     BookId = bookId,
                     TagId = id,
-                });
+                };
+
+                if (!this.db.BookTags.Contains(bookTag))
+                {
+                    await this.db.BookTags.AddAsync(bookTag);
+                }
             }
 
             await this.db.SaveChangesAsync();
