@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -49,6 +50,32 @@
             }
 
             return await queryable.To<TModel>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<Tuple<string, string>>> GetAllDistinctChatsAsync(string currentUserId)
+        {
+            var distinctChats = await this.db.Messages.AsNoTracking()
+                                        .Where(m => !m.IsDeleted
+                                               && (m.ReceiverId == currentUserId
+                                               || m.AuthorId == currentUserId))
+                                        .Select(m => Tuple.Create(m.AuthorId, m.ReceiverId))
+                                        .Distinct()
+                                        .ToListAsync();
+
+            return distinctChats;
+        }
+
+        public async Task<TModel> GetLatestChatMessagesAsync<TModel>(string authorId, string receiverId)
+        {
+            var messages = await this.db.Messages.AsNoTracking()
+                                           .Where(m => !m.IsDeleted
+                                           && m.AuthorId == authorId
+                                           && m.ReceiverId == receiverId)
+                                           .OrderByDescending(m => m.CreatedOn)
+                                           .To<TModel>()
+                                           .FirstOrDefaultAsync();
+
+            return messages;
         }
     }
 }

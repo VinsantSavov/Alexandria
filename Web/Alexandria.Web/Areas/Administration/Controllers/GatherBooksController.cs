@@ -1,12 +1,11 @@
-﻿namespace Alexandria.Web.Controllers
+﻿namespace Alexandria.Web.Areas.Administration.Controllers
 {
     using System.Threading.Tasks;
 
     using Alexandria.Services.Scrapers;
     using Microsoft.AspNetCore.Mvc;
 
-    // TODO: MOVE TO ADMINISTRATION AREA
-    public class GatherBooksController : Controller
+    public class GatherBooksController : AdministrationController
     {
         private readonly IGoodReadsScraperService scraper;
 

@@ -1,0 +1,44 @@
+﻿@using Alexandria.Web.ViewModels.Chat
+@model ChatAllChatsViewModel
+
+<div>
+    <h6>Chats</h6>
+    <hr />
+    @if (Model.Chats.Count() > 0)
+    {
+        @foreach (var chat in Model.Chats)
+        {
+            <div class="media my-3">
+                <a class="pull-left"
+                   asp-controller="Chat"
+                   asp-action="ChatWithUser"
+                   asp-route-id="@chat.Author.Id">
+                    <img class="media-object"
+                         alt="Profile Picture"
+                         style="width: 32px; height: 32px;"
+                         src="@chat.Author.ProfilePicture">
+                </a>
+                <a class="pull-left"
+                   asp-controller="Chat"
+                   asp-action="ChatWithUser"
+                   asp-route-id="@chat.Receiver.Id">
+                    <img class="media-object"
+                         alt="Profile Picture"
+                         style="width: 32px; height: 32px;"
+                         src="@chat.Receiver.ProfilePicture">
+                </a>
+                <div class="media-body">
+                    <small class="pull-right time"><i class="fa fa-clock-o"></i> <time datetime="@chat.CreatedOn.ToString("O")"></time></small>
+
+                    <h6 class="media-heading">@chat.Author.Username</h6>
+                    <small class="col-lg-10">@chat.Content</small>
+                </div>
+            </div>
+            <hr>
+        }
+    }
+    else
+    {
+        <p class="text-secondary">You have no previous chats</p>
+    }
+</div>

@@ -6,66 +6,73 @@
 }
 
 <div class="container">
-    <div class="message-wrap col-lg-12">
-        <div class="msg-wrap">
-            <div class="portlet portlet-default">
-                <div class="portlet-heading">
-                    <div class="media msg">
-                        <i class="fa fa-circle text-green"></i>
-                        <a class="pull-left mx-2" href="#">
-                            <img class="media-object"
-                                 src="@Model.User.ProfilePicture"
-                                 alt="Profile Picture"
-                                 style="width: 32px; height: 32px;" />
-                        </a>
-                        <div class="media-body">
-                            <h6 class="media-heading">
-                                @Model.User.Username
-                            </h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="alert alert-info msg-date">
-                <strong>Latest</strong>
-            </div>
-            @if (Model.LatestMessages.Count() > 0)
-            {
-                @foreach (var message in Model.LatestMessages)
-                {
-                    <div class="media my-3">
-                        <a class="pull-left" href="#">
-                            <img class="media-object"
-                                 alt="Profile Picture"
-                                 style="width: 32px; height: 32px;"
-                                 src="@message.Author.ProfilePicture">
-                        </a>
-                        <div class="media-body">
-                            <small class="pull-right time"><i class="fa fa-clock-o"></i> <time datetime="@message.CreatedOn.ToString("O")"></time></small>
-
-                            <h5 class="media-heading">@message.Author.Username</h5>
-                            <small class="col-lg-10">@message.Content</small>
-                        </div>
-                    </div>
-                    <hr>
-                }
-            }
-            else
-            {
-                <p class="text-center text-secondary">No previous messages</p>
-            }
-
-            <div id="messagesList"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <vc:all-chats></vc:all-chats>
         </div>
+        <div class="col-md-8">
+            <div class="message-wrap col-lg-12">
+                <div class="msg-wrap">
+                    <div class="portlet portlet-default">
+                        <div class="portlet-heading">
+                            <div class="media msg">
+                                <i class="fa fa-circle text-green"></i>
+                                <a class="pull-left mx-2" href="#">
+                                    <img class="media-object"
+                                         src="@Model.User.ProfilePicture"
+                                         alt="Profile Picture"
+                                         style="width: 32px; height: 32px;" />
+                                </a>
+                                <div class="media-body">
+                                    <h6 class="media-heading">
+                                        @Model.User.Username
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info msg-date">
+                        <strong>Latest</strong>
+                    </div>
+                    @if (Model.LatestMessages.Count() > 0)
+                    {
+                        @foreach (var message in Model.LatestMessages)
+                        {
+                            <div class="media my-3">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object"
+                                         alt="Profile Picture"
+                                         style="width: 32px; height: 32px;"
+                                         src="@message.Author.ProfilePicture">
+                                </a>
+                                <div class="media-body">
+                                    <small class="pull-right time"><i class="fa fa-clock-o"></i> <time datetime="@message.CreatedOn.ToString("O")"></time></small>
 
-        <form>
-            <div>
-                <textarea id="messageInput" class="form-control send-message" rows="3" placeholder="Type a message..."></textarea>
+                                    <h5 class="media-heading">@message.Author.Username</h5>
+                                    <small class="col-lg-10">@message.Content</small>
+                                </div>
+                            </div>
+                            <hr>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-center text-secondary">No previous messages</p>
+                    }
+
+                    <div id="messagesList"></div>
+                </div>
+
+                <form>
+                    <div>
+                        <textarea id="messageInput" class="form-control send-message" rows="3" placeholder="Type a message..."></textarea>
+                    </div>
+                    <button id="sendButton" class="btn pull-right my-2">
+                        Send Message
+                    </button>
+                </form>
             </div>
-            <button id="sendButton" class="btn pull-right my-2">
-                Send Message
-            </button>
-        </form>
+        </div>
     </div>
 </div>
 
