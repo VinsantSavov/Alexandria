@@ -15,6 +15,10 @@
 
         Task<IEnumerable<TModel>> GetAllUsersAsync<TModel>();
 
+        Task<IEnumerable<TModel>> GetChatUsersAsync<TModel>(string id);
+
+        Task<bool> DoesUserIdExistAsync(string userId);
+
         Task<bool> IsUsernameUsedAsync(string username);
 
         Task<bool> IsUserDeletedAsync(string username);

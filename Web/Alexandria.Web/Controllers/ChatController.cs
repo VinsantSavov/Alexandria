@@ -12,7 +12,7 @@
     [Authorize]
     public class ChatController : Controller
     {
-        private const int LatestMessagesCount = 20;
+        private const int LatestMessagesCount = 5;
 
         private readonly IUsersService usersService;
         private readonly IMessagesService messagesService;
@@ -38,6 +38,30 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Chat() => this.View();
+        public async Task<IActionResult> SendMessage()
+        {
+            var userId = this.User.GetUserId();
+            var viewModel = new ChatSendMessageInputModel();
+            viewModel.Users = await this.usersService.GetChatUsersAsync<ChatUserViewModel>(userId);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendMessage(ChatSendMessageInputModel input)
+        {
+            var userId = this.User.GetUserId();
+
+            if (!this.ModelState.IsValid)
+            {
+                input.Users = await this.usersService.GetChatUsersAsync<ChatUserViewModel>(userId);
+
+                return this.View(input);
+            }
+
+            await this.messagesService.CreateMessageAsync(userId, input.UserId, input.Content);
+
+            return this.RedirectToAction(nameof(this.ChatWithUser), new { Id = input.UserId });
+        }
     }
 }

@@ -8,6 +8,7 @@
         public const string UserPasswordsNotMatching = "The password and confirmation password do not match.";
         public const string UserInvalidBiography = "Your biography can not be more than {2} characters!";
         public const string UserInvalidGender = "Invalid input!";
+        public const string UserInvalidUser = "Invalid user!";
 
         // Create Genre
         public const string GenreNameLengthErrorMessage = "Genre name must be between {2} and {1} characters long!";
@@ -33,6 +34,9 @@
 
         // Create Tag
         public const string TagNameLengthErrorMessage = "Tag name must be between {2} and {1} characters long!";
+
+        // Create Message
+        public const string MessageContentLengthErrorMessage = "Message can not be more than {1} characters long!";
 
         // Extensions
         public const string InvalidExtension = "File is not valid";

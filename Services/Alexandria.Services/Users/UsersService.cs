@@ -52,6 +52,18 @@
             return users;
         }
 
+        public async Task<IEnumerable<TModel>> GetChatUsersAsync<TModel>(string id)
+        {
+            var users = await this.db.Users.AsNoTracking()
+                                           .Where(u => !u.IsDeleted
+                                           && (u.SentMessages.Any(m => m.ReceiverId == id)
+                                           || u.ReceivedMessages.Any(m => m.AuthorId == id)))
+                                           .To<TModel>()
+                                           .ToListAsync();
+
+            return users;
+        }
+
         public async Task<TModel> GetUserByIdAsync<TModel>(string id)
         {
             var user = await this.db.Users.Where(u => u.Id == id && !u.IsDeleted)
@@ -74,6 +86,9 @@
 
             return isUsed;
         }
+
+        public async Task<bool> DoesUserIdExistAsync(string userId)
+            => await this.db.Users.AnyAsync(u => !u.IsDeleted && u.Id == userId);
 
         private async Task<ApplicationUser> GetByIdAsync(string id)
             => await this.db.Users.FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted);
