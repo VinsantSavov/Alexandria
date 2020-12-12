@@ -1,6 +1,10 @@
 ﻿@using Alexandria.Web.ViewModels.Users
 @model UsersFollowersViewModel
 
+@{
+    ViewData["Title"] = Model.Username;
+}
+
 <div class="container">
     <div class="row">
         <div class="col-md-1"></div>
@@ -12,7 +16,7 @@
                    asp-route-id="@Model.Id">
                     @Model.Username
                 </a>
-                 is following
+                is following
             </h4>
             @if (Model.Following.Count() == 0)
             {

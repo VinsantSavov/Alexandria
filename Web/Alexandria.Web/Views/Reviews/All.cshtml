@@ -3,6 +3,10 @@
 @model ReviewsAllViewModel
 
 @{
+    ViewData["Title"] = "All Reviews";
+}
+
+@{
     async Task DisplayReviews(int? parentId)
     {
         var reviews = Model.AllReviews.Where(r => r.ParentId == parentId);

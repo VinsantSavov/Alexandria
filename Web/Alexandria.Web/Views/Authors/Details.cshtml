@@ -1,6 +1,10 @@
 ﻿@using Alexandria.Web.ViewModels.Authors
 @model AuthorsDetailsViewModel
 
+@{
+    ViewData["Title"] = Model.FullName;
+}
+
 <section class="product-sec">
     <div class="container">
         <div class="row">
