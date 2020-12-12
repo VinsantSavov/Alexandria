@@ -79,11 +79,38 @@
                                            asp-action="SendMessage">
                                             Chats
                                         </a>
+                                        @if (this.User.IsAdministrator())
+                                        {
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item"
+                                               asp-area="Administration"
+                                               asp-controller="Books"
+                                               asp-action="Index">
+                                                All Books
+                                            </a>
+                                            <a class="dropdown-item"
+                                               asp-area="Administration"
+                                               asp-controller="Genres"
+                                               asp-action="Index">
+                                                All Genres
+                                            </a>
+                                            <a class="dropdown-item"
+                                               asp-area="Administration"
+                                               asp-controller="Tags"
+                                               asp-action="Index">
+                                                All Tags
+                                            </a>
+                                        }
                                     </div>
                                 </li>
                             }
                             <li class="navbar-item active">
-                                <a href="about.html" class="nav-link">About</a>
+                                <a class="nav-link"
+                                   asp-controller="Home"
+                                   asp-action="Index"
+                                   asp-fragment="about">
+                                    About
+                                </a>
                             </li>
                             <li class="navbar-item active">
                                 <a href="faq.html" class="nav-link">Privacy</a>

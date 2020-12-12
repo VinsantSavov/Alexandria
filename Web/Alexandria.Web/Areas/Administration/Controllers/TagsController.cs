@@ -1,14 +1,12 @@
 ﻿namespace Alexandria.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Alexandria.Common;
     using Alexandria.Services.Tags;
     using Alexandria.Web.ViewModels.Administration.Tags;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     public class TagsController : AdministrationController
     {
