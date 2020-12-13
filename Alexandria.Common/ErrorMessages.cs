@@ -14,6 +14,7 @@
         public const string GenreNameLengthErrorMessage = "Genre name must be between {2} and {1} characters long!";
         public const string GenreDescriptionErrorMessage = "Genre description must be between {2} and {1} characters long!";
         public const string GenreNotExistingId = "Invalid genre!";
+        public const string GenreNameUnavailable = "Genre already exists!";
 
         // Create Review
         public const string ReviewDescriptionLengthErrorMessage = "Review content must be between {2} and {1} characters long!";
@@ -34,6 +35,7 @@
 
         // Create Tag
         public const string TagNameLengthErrorMessage = "Tag name must be between {2} and {1} characters long!";
+        public const string TagNameUnavailable = "Tag already exists!";
 
         // Create Message
         public const string MessageContentLengthErrorMessage = "Message can not be more than {1} characters long!";

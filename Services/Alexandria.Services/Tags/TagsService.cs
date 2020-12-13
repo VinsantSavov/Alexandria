@@ -50,6 +50,9 @@
         public async Task<bool> DoesTagIdExistAsync(int id)
             => await this.db.Tags.AnyAsync(t => t.Id == id && !t.IsDeleted);
 
+        public async Task<bool> DoesTagNameExistAsync(string name)
+            => await this.db.Tags.AnyAsync(t => t.Name == name && !t.IsDeleted);
+
         public async Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>(int? take = null, int skip = 0)
         {
             var queryable = this.db.Tags.AsNoTracking()

@@ -13,6 +13,8 @@
 
         Task<bool> DoesGenreIdExistAsync(int id);
 
+        Task<bool> DoesGenreNameExistAsync(string name);
+
         Task<TModel> GetGenreByIdAsync<TModel>(int id);
 
         Task<int> GetGenresCount();

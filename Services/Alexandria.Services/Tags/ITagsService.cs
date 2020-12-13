@@ -13,6 +13,8 @@
 
         Task<bool> DoesTagIdExistAsync(int id);
 
+        Task<bool> DoesTagNameExistAsync(string name);
+
         Task<TModel> GetTagByIdAsync<TModel>(int id);
 
         Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>(int? take = null, int skip = 0);
