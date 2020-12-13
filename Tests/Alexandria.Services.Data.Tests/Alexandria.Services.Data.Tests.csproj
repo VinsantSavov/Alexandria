@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Alexandria.Data\Alexandria.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Alexandria.Services\Alexandria.Services.csproj" />
+    <ProjectReference Include="..\..\Web\Alexandria.Web.ViewModels\Alexandria.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

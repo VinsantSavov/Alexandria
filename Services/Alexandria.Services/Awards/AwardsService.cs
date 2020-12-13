@@ -28,6 +28,7 @@
             };
 
             await this.db.Awards.AddAsync(award);
+            await this.db.SaveChangesAsync();
         }
 
         public async Task DeleteAwardByIdAsync(int id)

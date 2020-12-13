@@ -36,11 +36,6 @@
         {
             var tag = await this.GetByIdAsync(id);
 
-            if (tag == null)
-            {
-                throw new NullReferenceException(string.Format(ExceptionMessages.TagNotFound, id));
-            }
-
             tag.IsDeleted = true;
             tag.DeletedOn = DateTime.UtcNow;
 
@@ -51,7 +46,7 @@
             => await this.db.Tags.AnyAsync(t => t.Id == id && !t.IsDeleted);
 
         public async Task<bool> DoesTagNameExistAsync(string name)
-            => await this.db.Tags.AnyAsync(t => t.Name == name && !t.IsDeleted);
+            => await this.db.Tags.AnyAsync(t => t.Name == name);
 
         public async Task<IEnumerable<TModel>> GetAllTagsAsync<TModel>(int? take = null, int skip = 0)
         {

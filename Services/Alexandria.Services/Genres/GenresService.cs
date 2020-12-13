@@ -64,7 +64,7 @@
             => await this.db.Genres.AnyAsync(g => g.Id == id && !g.IsDeleted);
 
         public async Task<bool> DoesGenreNameExistAsync(string name)
-            => await this.db.Genres.AnyAsync(g => g.Name == name && !g.IsDeleted);
+            => await this.db.Genres.AnyAsync(g => g.Name == name);
 
         public async Task<IEnumerable<TModel>> GetAllGenresAsync<TModel>(int? take = null, int skip = 0)
         {

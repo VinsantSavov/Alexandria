@@ -51,12 +51,5 @@
 
             base.OnModelCreating(modelBuilder);
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Alexandria;Integrated Security=True;");
-
-            base.OnConfiguring(optionsBuilder);
-        }
     }
 }
