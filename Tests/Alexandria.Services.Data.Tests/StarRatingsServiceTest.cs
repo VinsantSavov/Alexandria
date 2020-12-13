@@ -10,9 +10,6 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
     using Alexandria.Services.StarRatings;
-    using Alexandria.Web.ViewModels;
-    using Alexandria.Web.ViewModels.Administration.Books;
-    using Alexandria.Web.ViewModels.Users;
     using Microsoft.EntityFrameworkCore;
 
     using Xunit;

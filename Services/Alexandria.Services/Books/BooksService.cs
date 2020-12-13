@@ -39,43 +39,49 @@
 
             foreach (var id in genresIds)
             {
-                var bookGenre = new BookGenre
+                if (!await this.db.BookGenres.AnyAsync(bg => bg.BookId == book.Id
+                                                        && bg.GenreId == id))
                 {
-                    BookId = book.Id,
-                    GenreId = id,
-                };
+                    var bookGenre = new BookGenre
+                    {
+                        BookId = book.Id,
+                        GenreId = id,
+                    };
 
-                if (!await this.db.BookGenres.ContainsAsync(bookGenre))
-                {
                     book.Genres.Add(bookGenre);
+                    await this.db.SaveChangesAsync();
                 }
             }
 
             foreach (var id in tagsIds)
             {
-                var bookTag = new BookTag
+                if (!await this.db.BookTags.AnyAsync(bt => bt.BookId == book.Id
+                                                     && bt.TagId == id))
                 {
-                    BookId = book.Id,
-                    TagId = id,
-                };
+                    var bookTag = new BookTag
+                    {
+                        BookId = book.Id,
+                        TagId = id,
+                    };
 
-                if (!await this.db.BookTags.ContainsAsync(bookTag))
-                {
                     book.Tags.Add(bookTag);
+                    await this.db.SaveChangesAsync();
                 }
             }
 
             foreach (var id in awardsIds)
             {
-                var bookAward = new BookAward
+                if (!await this.db.BookAwards.AnyAsync(ba => ba.BookId == book.Id
+                                                       && ba.AwardId == id))
                 {
-                    BookId = book.Id,
-                    AwardId = id,
-                };
+                    var bookAward = new BookAward
+                    {
+                        BookId = book.Id,
+                        AwardId = id,
+                    };
 
-                if (!await this.db.BookAwards.ContainsAsync(bookAward))
-                {
                     book.Awards.Add(bookAward);
+                    await this.db.SaveChangesAsync();
                 }
             }
 

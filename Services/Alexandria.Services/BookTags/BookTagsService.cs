@@ -16,23 +16,23 @@
             this.db = db;
         }
 
-        public async Task AddTagsToBook(int bookId, IEnumerable<int> tagsIds)
+        public async Task AddTagsToBookAsync(int bookId, IEnumerable<int> tagsIds)
         {
             foreach (var id in tagsIds)
             {
-                var bookTag = new BookTag
+                if (!await this.db.BookTags.AnyAsync(bt => bt.BookId == bookId
+                                                         && bt.TagId == id))
                 {
-                    BookId = bookId,
-                    TagId = id,
-                };
+                    var bookTag = new BookTag
+                    {
+                        BookId = bookId,
+                        TagId = id,
+                    };
 
-                if (!await this.db.BookTags.ContainsAsync(bookTag))
-                {
                     await this.db.BookTags.AddAsync(bookTag);
+                    await this.db.SaveChangesAsync();
                 }
             }
-
-            await this.db.SaveChangesAsync();
         }
     }
 }

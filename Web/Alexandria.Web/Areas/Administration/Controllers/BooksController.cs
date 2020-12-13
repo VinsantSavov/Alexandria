@@ -183,7 +183,7 @@
                 return this.View(input);
             }
 
-            await this.bookTagsService.AddTagsToBook(input.Id, input.TagsIds);
+            await this.bookTagsService.AddTagsToBookAsync(input.Id, input.TagsIds);
 
             return this.RedirectToAction(nameof(this.Details), new { Id = input.Id });
         }

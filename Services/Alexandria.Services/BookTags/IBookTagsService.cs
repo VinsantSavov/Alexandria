@@ -5,6 +5,6 @@
 
     public interface IBookTagsService
     {
-        Task AddTagsToBook(int bookId, IEnumerable<int> tagsIds);
+        Task AddTagsToBookAsync(int bookId, IEnumerable<int> tagsIds);
     }
 }

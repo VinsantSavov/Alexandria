@@ -3,7 +3,6 @@
     using System.Reflection;
 
     using Alexandria.Data;
-    using Alexandria.Data.Common;
     using Alexandria.Data.Models;
     using Alexandria.Data.Seeding;
     using Alexandria.Services.Authors;
@@ -11,7 +10,6 @@
     using Alexandria.Services.Books;
     using Alexandria.Services.BookTags;
     using Alexandria.Services.Cloudinary;
-    using Alexandria.Services.Countries;
     using Alexandria.Services.EditionLanguages;
     using Alexandria.Services.Genres;
     using Alexandria.Services.Likes;
@@ -104,7 +102,6 @@
             services.AddTransient<IAuthorsService, AuthorsService>();
             services.AddTransient<IAwardsService, AwardsService>();
             services.AddTransient<IBooksService, BooksService>();
-            services.AddTransient<ICountriesService, CountriesService>();
             services.AddTransient<IEditionLanguagesService, EditionLanguagesService>();
             services.AddTransient<IGenresService, GenresService>();
             services.AddTransient<IReviewsService, ReviewsService>();
