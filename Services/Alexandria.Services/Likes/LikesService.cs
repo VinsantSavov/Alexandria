@@ -43,16 +43,9 @@
         }
 
         public async Task<bool> DoesUserLikeReviewAsync(string userId, int reviewId)
-        {
-            return await this.db.Likes.AnyAsync(l => l.UserId == userId && l.ReviewId == reviewId && l.IsLiked);
-        }
+            => await this.db.Likes.AnyAsync(l => l.UserId == userId && l.ReviewId == reviewId && l.IsLiked);
 
         public async Task<int> GetLikesCountByReviewIdAsync(int reviewId)
-        {
-            var count = await this.db.Likes.Where(l => l.ReviewId == reviewId && l.IsLiked)
-                                           .CountAsync();
-
-            return count;
-        }
+            => await this.db.Likes.Where(l => l.ReviewId == reviewId && l.IsLiked).CountAsync();
     }
 }
