@@ -28,21 +28,13 @@
 
         Task<IEnumerable<TModel>> GetRandomBooksAsync<TModel>(int count);
 
-        Task<IEnumerable<TModel>> GetAllBooksByGenreIdAsync<TModel>(int genreId);
-
         Task<IEnumerable<TModel>> NewRealesedBooksByGenreIdAsync<TModel>(int genreId, int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> TopRatedBooksByGenreIdAsync<TModel>(int genreId, int? take = null, int skip = 0);
 
-        Task<IEnumerable<TModel>> GetAllBooksByTagIdAsync<TModel>(int tagId);
-
         Task<IEnumerable<TModel>> GetAllBooksAsync<TModel>(int? take = null, int skip = 0);
 
         Task<IEnumerable<TModel>> GetTopRatedBooksAsync<TModel>(int? take = null, int skip = 0);
-
-        Task<IEnumerable<TModel>> GetBooksWithMostAwardsAsync<TModel>(int count = 0);
-
-        Task<IEnumerable<TModel>> GetBooksWithMostReviewsAsync<TModel>(int count = 0);
 
         Task<IEnumerable<TModel>> GetLatestPublishedBooksAsync<TModel>(int? take = null, int skip = 0);
 
