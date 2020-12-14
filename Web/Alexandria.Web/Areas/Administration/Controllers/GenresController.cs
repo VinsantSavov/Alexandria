@@ -29,7 +29,7 @@
         {
             var viewModel = new GenresAllGenresViewModel();
 
-            var genresCount = await this.genresService.GetGenresCount();
+            var genresCount = await this.genresService.GetGenresCountAsync();
 
             viewModel.Genres = await this.genresService.GetAllGenresAsync<GenresSingleGenreViewModel>(GenresPerPage, (page - 1) * GenresPerPage);
             viewModel.PagesCount = (int)Math.Ceiling((double)genresCount / GenresPerPage);

@@ -17,7 +17,7 @@
 
         Task<TModel> GetGenreByIdAsync<TModel>(int id);
 
-        Task<int> GetGenresCount();
+        Task<int> GetGenresCountAsync();
 
         Task<IEnumerable<TModel>> GetRandomGenresAsync<TModel>(int count);
 

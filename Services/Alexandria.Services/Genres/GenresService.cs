@@ -41,6 +41,7 @@
 
             genre.Name = name;
             genre.Description = description;
+            genre.ModifiedOn = DateTime.UtcNow;
 
             await this.db.SaveChangesAsync();
         }
@@ -48,11 +49,6 @@
         public async Task DeleteGenreByIdAsync(int id)
         {
             var genre = await this.GetByIdAsync(id);
-
-            if (genre == null)
-            {
-                throw new NullReferenceException(string.Format(ExceptionMessages.GenreNotFound, id));
-            }
 
             genre.IsDeleted = true;
             genre.DeletedOn = DateTime.UtcNow;
@@ -81,7 +77,7 @@
             return await queryable.To<TModel>().ToListAsync();
         }
 
-        public async Task<int> GetGenresCount()
+        public async Task<int> GetGenresCountAsync()
          => await this.db.Genres.Where(g => !g.IsDeleted).CountAsync();
 
         public async Task<TModel> GetGenreByIdAsync<TModel>(int id)
