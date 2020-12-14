@@ -32,7 +32,7 @@
             var viewModel = new ChatWithUserViewModel
             {
                 User = await this.usersService.GetUserByIdAsync<ChatUserViewModel>(id),
-                LatestMessages = await this.messagesService.GetAllMessagesByUserIdAsync<ChatMessageViewModel>(currentUserId, id, LatestMessagesCount),
+                LatestMessages = await this.messagesService.GetAllMessagesBetweenUsersAsync<ChatMessageViewModel>(currentUserId, id, LatestMessagesCount),
             };
 
             return this.View(viewModel);

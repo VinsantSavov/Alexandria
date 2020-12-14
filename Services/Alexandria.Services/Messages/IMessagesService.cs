@@ -8,7 +8,7 @@
     {
         Task CreateMessageAsync(string authorId, string receiverId, string content);
 
-        Task<IEnumerable<TModel>> GetAllMessagesByUserIdAsync<TModel>(string currentUserId, string userId, int? take = null, int skip = 0);
+        Task<IEnumerable<TModel>> GetAllMessagesBetweenUsersAsync<TModel>(string currentUserId, string userId, int? take = null, int skip = 0);
 
         Task<IEnumerable<Tuple<string, string>>> GetAllDistinctChatsAsync(string currentUserId);
 

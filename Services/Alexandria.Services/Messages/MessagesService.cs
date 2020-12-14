@@ -35,7 +35,7 @@
             await this.db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TModel>> GetAllMessagesByUserIdAsync<TModel>(string currentUserId, string userId, int? take = null, int skip = 0)
+        public async Task<IEnumerable<TModel>> GetAllMessagesBetweenUsersAsync<TModel>(string currentUserId, string userId, int? take = null, int skip = 0)
         {
             var queryable = this.db.Messages.AsNoTracking()
                                             .Where(m => !m.IsDeleted
