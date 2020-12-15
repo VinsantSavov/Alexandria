@@ -8,7 +8,6 @@
     using Alexandria.Data;
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
-    using Alexandria.Services.Common;
     using Alexandria.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
 
@@ -53,11 +52,6 @@
         {
             var review = await this.GetByIdAsync(id);
 
-            if (review == null)
-            {
-                throw new NullReferenceException(string.Format(ExceptionMessages.ReviewNotFound, id));
-            }
-
             review.IsDeleted = true;
             review.DeletedOn = DateTime.UtcNow;
 
@@ -65,51 +59,31 @@
         }
 
         public async Task<int> GetChildrenReviewsCountByReviewIdAsync(int parentId)
-        {
-            var count = await this.db.Reviews.Where(r => r.ParentId == parentId && !r.IsDeleted)
-                                             .CountAsync();
-
-            return count;
-        }
+            => await this.db.Reviews.Where(r => r.ParentId == parentId && !r.IsDeleted).CountAsync();
 
         public async Task<int> GetReviewsCountByBookIdAsync(int bookId)
-        {
-            return await this.db.Reviews.Where(r => r.BookId == bookId
+            => await this.db.Reviews.Where(r => r.BookId == bookId
                                                     && r.ParentId == null
                                                     && !r.IsDeleted)
                                         .CountAsync();
-        }
 
         public async Task<int> GetReviewsCountByUserIdAsync(string userId)
-        {
-            return await this.db.Reviews.Where(r => r.AuthorId == userId
+            => await this.db.Reviews.Where(r => r.AuthorId == userId
                                                     && r.ParentId == null
                                                     && !r.IsDeleted)
                                         .CountAsync();
-        }
 
         public async Task<string> GetAuthorIdByIdAsync(int id)
-        {
-            var authorId = await this.db.Reviews.Where(r => r.Id == id && !r.IsDeleted)
+            => await this.db.Reviews.Where(r => r.Id == id && !r.IsDeleted)
                                           .Select(r => r.AuthorId)
                                           .FirstOrDefaultAsync();
 
-            return authorId;
-        }
-
         public async Task<bool> DoesReviewIdExistAsync(int id)
-        {
-            return await this.db.Reviews.AnyAsync(r => r.Id == id && !r.IsDeleted);
-        }
+            => await this.db.Reviews.AnyAsync(r => r.Id == id && !r.IsDeleted);
 
         public async Task EditReviewAsync(int id, string description, ReadingProgress readingProgress, bool thisEdition)
         {
             var review = await this.GetByIdAsync(id);
-
-            if (review == null)
-            {
-                throw new NullReferenceException(string.Format(ExceptionMessages.ReviewNotFound, id));
-            }
 
             review.Description = description;
             review.ReadingProgress = readingProgress;
@@ -125,8 +99,7 @@
                                            .Where(r => r.AuthorId == authorId
                                                         && !r.IsDeleted
                                                         && r.ParentId == null)
-                                           .OrderBy(r => r.IsBestReview)
-                                           .ThenByDescending(r => r.Likes.Count(l => l.IsLiked))
+                                           .OrderByDescending(r => r.Likes.Count(l => l.IsLiked))
                                            .ThenByDescending(r => r.CreatedOn)
                                            .Skip(skip);
 
@@ -144,8 +117,7 @@
                                          .Where(r => r.BookId == bookId
                                                  && r.ParentId == null
                                                  && !r.IsDeleted)
-                                         .OrderBy(r => r.IsBestReview)
-                                         .ThenByDescending(r => r.Likes.Count(l => l.IsLiked))
+                                         .OrderByDescending(r => r.Likes.Count(l => l.IsLiked))
                                          .ThenByDescending(r => r.CreatedOn)
                                          .Skip(skip);
 
@@ -179,11 +151,6 @@
                                         .To<TModel>()
                                         .FirstOrDefaultAsync();
 
-            if (review == null)
-            {
-                throw new NullReferenceException(string.Format(ExceptionMessages.ReviewNotFound, id));
-            }
-
             return review;
         }
 
@@ -200,22 +167,6 @@
                                          .ToListAsync();
 
             return reviews;
-        }
-
-        public async Task MakeBestReviewAsync(int id)
-        {
-            var review = await this.GetByIdAsync(id);
-
-            review.IsBestReview = true;
-
-            var oldBestReview = await this.db.Reviews.FirstOrDefaultAsync(r => r.IsBestReview && !r.IsDeleted);
-
-            if (oldBestReview != null)
-            {
-                oldBestReview.IsBestReview = false;
-            }
-
-            await this.db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<TModel>> GetChildrenReviewsToReviewsAsync<TModel>(ICollection<int> reviewsIds, int bookId)

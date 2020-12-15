@@ -27,8 +27,6 @@
 
         Task<bool> AreReviewsAboutSameBookAsync(int reviewId, int bookId);
 
-        Task MakeBestReviewAsync(int id);
-
         Task<IEnumerable<TModel>> GetChildrenReviewsToReviewsAsync<TModel>(ICollection<int> reviewsIds, int bookId);
 
         Task<IEnumerable<TModel>> GetChildrenReviewsByReviewIdAsync<TModel>(int reviewId, int? take = null, int skip = 0);
