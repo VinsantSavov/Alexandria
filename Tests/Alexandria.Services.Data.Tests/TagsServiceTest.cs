@@ -10,9 +10,6 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Mapping;
     using Alexandria.Services.Tags;
-    using Alexandria.Web.ViewModels;
-    using Alexandria.Web.ViewModels.Administration.Tags;
-    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 
     using Xunit;
@@ -21,7 +18,7 @@
     {
         public TagsServiceTest()
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(TagTestModel).GetTypeInfo().Assembly);
         }
 
         [Fact]
@@ -344,7 +341,7 @@
 
             var tagsService = new TagsService(db);
 
-            var result = await tagsService.GetTagByIdAsync<ATagsSingleViewModel>(1);
+            var result = await tagsService.GetTagByIdAsync<TagTestModel>(1);
 
             Assert.Equal(expectedTag.Name, result.Name);
             Assert.Equal(expectedTag.CreatedOn, result.CreatedOn);
@@ -384,7 +381,7 @@
 
             var tagsService = new TagsService(db);
 
-            var result = await tagsService.GetTagByIdAsync<ATagsSingleViewModel>(1);
+            var result = await tagsService.GetTagByIdAsync<TagTestModel>(1);
 
             Assert.Null(result);
         }
@@ -423,7 +420,7 @@
 
             var tagsService = new TagsService(db);
 
-            var result = await tagsService.GetTagByIdAsync<ATagsSingleViewModel>(5);
+            var result = await tagsService.GetTagByIdAsync<TagTestModel>(5);
 
             Assert.Null(result);
         }
@@ -451,7 +448,7 @@
             await db.SaveChangesAsync();
 
             var tagsService = new TagsService(db);
-            var resultTags = await tagsService.GetAllTagsAsync<ATagsSingleViewModel>();
+            var resultTags = await tagsService.GetAllTagsAsync<TagTestModel>();
 
             Assert.Equal(tags.Count(), resultTags.ToList().Count());
         }
@@ -481,7 +478,7 @@
             await db.SaveChangesAsync();
 
             var tagsService = new TagsService(db);
-            var resultTags = await tagsService.GetAllTagsAsync<ATagsSingleViewModel>();
+            var resultTags = await tagsService.GetAllTagsAsync<TagTestModel>();
 
             Assert.Empty(resultTags.ToList());
         }
@@ -509,7 +506,7 @@
             await db.SaveChangesAsync();
 
             var tagsService = new TagsService(db);
-            var resultTags = await tagsService.GetAllTagsAsync<ATagsSingleViewModel>(5);
+            var resultTags = await tagsService.GetAllTagsAsync<TagTestModel>(5);
 
             Assert.Equal(5, resultTags.ToList().Count());
         }
@@ -537,7 +534,7 @@
             await db.SaveChangesAsync();
 
             var tagsService = new TagsService(db);
-            var resultTags = await tagsService.GetAllTagsAsync<ATagsSingleViewModel>(null, 5);
+            var resultTags = await tagsService.GetAllTagsAsync<TagTestModel>(null, 5);
 
             Assert.Equal(5, resultTags.ToList().Count());
         }
@@ -565,9 +562,18 @@
             await db.SaveChangesAsync();
 
             var tagsService = new TagsService(db);
-            var resultTags = await tagsService.GetAllTagsAsync<ATagsSingleViewModel>(5, 5);
+            var resultTags = await tagsService.GetAllTagsAsync<TagTestModel>(5, 5);
 
             Assert.Equal(5, resultTags.ToList().Count());
+        }
+
+        public class TagTestModel : IMapFrom<Tag>
+        {
+            public int Id { get; set; }
+
+            public string Name { get; set; }
+
+            public DateTime CreatedOn { get; set; }
         }
     }
 }

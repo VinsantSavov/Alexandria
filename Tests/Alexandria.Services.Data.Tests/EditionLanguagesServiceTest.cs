@@ -10,8 +10,6 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.EditionLanguages;
     using Alexandria.Services.Mapping;
-    using Alexandria.Web.ViewModels;
-    using Alexandria.Web.ViewModels.Administration.Books;
     using Microsoft.EntityFrameworkCore;
 
     using Xunit;
@@ -20,7 +18,7 @@
     {
         public EditionLanguagesServiceTest()
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(LanguageTestModel).GetTypeInfo().Assembly);
         }
 
         [Fact]
@@ -108,9 +106,16 @@
 
             var languagesService = new EditionLanguagesService(db);
 
-            var result = await languagesService.GetAllLanguagesAsync<ABooksEditionLanguageViewModel>();
+            var result = await languagesService.GetAllLanguagesAsync<LanguageTestModel>();
 
             Assert.Equal(10, result.Count());
+        }
+
+        public class LanguageTestModel : IMapFrom<EditionLanguage>
+        {
+            public int Id { get; set; }
+
+            public string Name { get; set; }
         }
     }
 }

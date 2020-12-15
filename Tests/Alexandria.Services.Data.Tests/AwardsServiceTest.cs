@@ -10,8 +10,6 @@
     using Alexandria.Data.Models;
     using Alexandria.Services.Awards;
     using Alexandria.Services.Mapping;
-    using Alexandria.Web.ViewModels;
-    using Alexandria.Web.ViewModels.Administration.Books;
     using Microsoft.EntityFrameworkCore;
 
     using Xunit;
@@ -20,7 +18,7 @@
     {
         public AwardsServiceTest()
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(AwardTestModel).GetTypeInfo().Assembly);
         }
 
         [Fact]
@@ -158,7 +156,7 @@
             await db.SaveChangesAsync();
 
             var awardsService = new AwardsService(db);
-            var result = await awardsService.GetAllAwardsAsync<ABooksAwardViewModel>();
+            var result = await awardsService.GetAllAwardsAsync<AwardTestModel>();
 
             Assert.Equal(10, result.Count());
         }
@@ -175,7 +173,7 @@
             var awards = new List<Award>();
 
             var awardsService = new AwardsService(db);
-            var result = await awardsService.GetAllAwardsAsync<ABooksAwardViewModel>();
+            var result = await awardsService.GetAllAwardsAsync<AwardTestModel>();
 
             Assert.Empty(result);
         }
@@ -207,9 +205,16 @@
             await db.SaveChangesAsync();
 
             var awardsService = new AwardsService(db);
-            var result = await awardsService.GetAllAwardsAsync<ABooksAwardViewModel>();
+            var result = await awardsService.GetAllAwardsAsync<AwardTestModel>();
 
             Assert.Empty(result);
+        }
+
+        public class AwardTestModel : IMapFrom<Award>
+        {
+            public int Id { get; set; }
+
+            public string Name { get; set; }
         }
     }
 }
