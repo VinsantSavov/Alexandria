@@ -92,11 +92,11 @@
         }
 
         public async Task<int> GetFollowersCountByUserIdAsync(string userId)
-            => await this.db.UserFollowers.Where(uf => uf.UserId == userId && !uf.IsDeleted)
+            => await this.db.UserFollowers.Where(uf => uf.UserId == userId && !uf.IsDeleted && !uf.Follower.IsDeleted)
                                           .CountAsync();
 
         public async Task<int> GetFollowingCountByUserIdAsync(string userId)
-            => await this.db.UserFollowers.Where(uf => uf.FollowerId == userId && !uf.IsDeleted)
+            => await this.db.UserFollowers.Where(uf => uf.FollowerId == userId && !uf.IsDeleted && !uf.User.IsDeleted)
                                           .CountAsync();
     }
 }
