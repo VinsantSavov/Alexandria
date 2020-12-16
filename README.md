@@ -21,7 +21,7 @@ ASP.NET Core application for the course C# Web - ASP.NET Core @SoftUni
 * [Select2.js](https://select2.org/)
 * [Moment.js](https://momentjs.com/)
 * [FontAwesome](https://fontawesome.com/)
-* [AJAX real-time Requests]()
+* AJAX real-time Requests
 * [Facebook for developers](https://developers.facebook.com/)
 * [Google for developers](https://developers.google.com/)
 * [TinyMCE](https://www.tiny.cloud/)
