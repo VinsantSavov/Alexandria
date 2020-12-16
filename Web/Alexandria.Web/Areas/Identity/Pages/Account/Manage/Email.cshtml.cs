@@ -46,25 +46,14 @@
             public string NewEmail { get; set; }
         }
 
-        private async Task LoadAsync(ApplicationUser user)
-        {
-            var email = await this.userManager.GetEmailAsync(user);
-            this.Email = email;
-
-            this.Input = new InputModel
-            {
-                NewEmail = email,
-            };
-
-            this.IsEmailConfirmed = await this.userManager.IsEmailConfirmedAsync(user);
-        }
-
+#pragma warning disable SA1201 // Elements should appear in the correct order
         public async Task<IActionResult> OnGetAsync()
+#pragma warning restore SA1201 // Elements should appear in the correct order
         {
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             await this.LoadAsync(user);
@@ -76,7 +65,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             if (!this.ModelState.IsValid)
@@ -89,7 +78,7 @@
             if (this.Input.NewEmail != email)
             {
                 var userId = await this.userManager.GetUserIdAsync(user);
-                var code = await this.userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
+                var code = await this.userManager.GenerateChangeEmailTokenAsync(user, this.Input.NewEmail);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = this.Url.Page(
                     "/Account/ConfirmEmailChange",
@@ -117,7 +106,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
             if (!this.ModelState.IsValid)
@@ -145,6 +134,19 @@
 
             this.StatusMessage = "Verification email sent. Please check your email.";
             return this.RedirectToPage();
+        }
+
+        private async Task LoadAsync(ApplicationUser user)
+        {
+            var email = await this.userManager.GetEmailAsync(user);
+            this.Email = email;
+
+            this.Input = new InputModel
+            {
+                NewEmail = email,
+            };
+
+            this.IsEmailConfirmed = await this.userManager.IsEmailConfirmedAsync(user);
         }
     }
 }

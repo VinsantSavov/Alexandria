@@ -1,40 +1,39 @@
 ﻿namespace Alexandria.Web.Areas.Identity.Pages.Account
 {
-    using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
+
     using Alexandria.Data.Models;
+    using Alexandria.Services.Users;
     using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
-    using System.ComponentModel.DataAnnotations;
-    using Alexandria.Services.Users;
 
     using static Alexandria.Common.GlobalConstants;
 
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IUsersService usersService;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly ILogger<LoginModel> logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager,
+        public LoginModel(
+            SignInManager<ApplicationUser> signInManager,
             IUsersService usersService,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
-            this._userManager = userManager;
-            this._signInManager = signInManager;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
             this.usersService = usersService;
-            this._logger = logger;
+            this.logger = logger;
         }
 
         [BindProperty]
@@ -79,7 +78,7 @@
             // Clear the existing external cookie to ensure a clean login process
             await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             this.ReturnUrl = returnUrl;
         }
@@ -95,35 +94,34 @@
                 returnUrl = returnUrl ?? this.Url.Content("~/");
             }
 
-            this.ExternalLogins = (await this._signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (this.ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-
-                var isDeleted = await this.usersService.IsUserDeletedAsync(Input.Username);
+                var isDeleted = await this.usersService.IsUserDeletedAsync(this.Input.Username);
                 if (isDeleted)
                 {
                     this.ModelState.AddModelError(string.Empty, "The username or password is incorrect.");
                     return this.Page();
                 }
 
-                var result = await this._signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await this.signInManager.PasswordSignInAsync(this.Input.Username, this.Input.Password, this.Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    this._logger.LogInformation("User logged in.");
+                    this.logger.LogInformation("User logged in.");
                     return this.LocalRedirect(returnUrl);
                 }
 
                 if (result.RequiresTwoFactor)
                 {
-                    return this.RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return this.RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = this.Input.RememberMe });
                 }
 
                 if (result.IsLockedOut)
                 {
-                    this._logger.LogWarning("User account locked out.");
+                    this.logger.LogWarning("User account locked out.");
                     return this.RedirectToPage("./Lockout");
                 }
                 else
