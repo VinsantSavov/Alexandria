@@ -19,8 +19,6 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public bool IsBestReview { get; set; }
-
         public int? ParentId { get; set; }
 
         public virtual Review Parent { get; set; }
