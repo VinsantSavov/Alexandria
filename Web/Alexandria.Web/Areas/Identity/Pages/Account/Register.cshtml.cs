@@ -8,13 +8,14 @@
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
+    using Alexandria.Common;
     using Alexandria.Data.Models;
     using Alexandria.Data.Models.Enums;
+    using Alexandria.Services.Messaging;
     using Alexandria.Services.Users;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
@@ -96,7 +97,7 @@
                     return this.Page();
                 }
 
-                var picture = "wwwroot/images/user/icons80.png";
+                var picture = "https://res.cloudinary.com/alexandrialib/image/upload/v1607190349/user-icon_126283-700_pfxixv.jpg";
 
                 var user = new ApplicationUser
                 {
@@ -121,6 +122,8 @@
                         protocol: this.Request.Scheme);
 
                     await this.emailSender.SendEmailAsync(
+                        GlobalConstants.SystemEmail,
+                        GlobalConstants.SystemName,
                         this.Input.Email,
                         "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
