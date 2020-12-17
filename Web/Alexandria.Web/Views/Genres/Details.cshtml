@@ -47,7 +47,7 @@
                         <div class="item mt-3 mb-3 ml-2 mr-2" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="right" data-html="true"
                              data-content="<dl><dt>Title:</dt><dd>@book.Title</dd><dt>Author:</dt><dd>@book.Author</dd><dt>Tags:</dt><dd>@string.Join(", ", book.Tags)</dd></dl>">
                             <div style="width: 150px;">
-                                <a asp-controller="Books" 
+                                <a asp-controller="Books"
                                    asp-action="Details">
                                     <img src="@book.PictureURL" alt="img">
                                 </a>
@@ -58,8 +58,8 @@
             </section>
         </div>
         <div class="col-md-3">
-            <h6>Related Genres</h6><hr />
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>
+            <vc:random-books></vc:random-books>
+            <vc:random-genres></vc:random-genres>
         </div>
     </div>
 </div>
