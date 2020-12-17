@@ -21,7 +21,6 @@
             </time>
         </dd>
     </dl>
-    <p class="text-secondary font-italic mb-1" style="font-size: 13px">Rated it RATING</p>
     <p class="text-secondary font-italic" style="font-size: 13px">Reading Progress: @Model.ReadingProgress</p>
     <p>@Html.Raw(Model.SanitizedDescription)</p>
     <button id="likeReview-@Model.Id" class="btn like" onclick="createLike(@Model.Id)" href="#">

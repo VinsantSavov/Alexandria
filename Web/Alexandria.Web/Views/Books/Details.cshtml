@@ -246,15 +246,13 @@
                         for (var i = 1; i <= rate; i++) {
                             votes.each(function (el) {
                                 if ($(this).attr("data-vote") == i) {
-                                    console.log(rate);
                                     $(this).addClass("filled");
                                 }
                             });
                         }
-                        var count = rate;
-                        for (var i = count + 1; i <= 5; i++) {
+                        for (var j = rate + 1; j <= 5; j++) {
                             votes.each(function (el) {
-                                if ($(this).attr("data-vote") == i) {
+                                if ($(this).attr("data-vote") == j) {
                                     $(this).removeClass("filled");
                                 }
                             });
