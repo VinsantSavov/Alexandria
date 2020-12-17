@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link runat="server" rel="shortcut icon" href="/test/favicon.ico"/>
     <title>@ViewData["Title"]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#03a6f3">
@@ -20,108 +21,110 @@
 
 <body>
     <header>
-        <div class="header-top text-center">
-
-                <img src="/test/concat.jpg" alt="library" />
-
-        </div>
-        <div class="main-menu">
-            <div class="container">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <a class="navbar-brand"
-                       asp-controller="Home"
-                       asp-action="Index">
-                        Alexandria
-                    </a>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="navbar-item active">
-                                <a class="nav-link"
-                                   asp-controller="Home"
-                                   asp-action="Index">
-                                    Home
-                                </a>
-                            </li>
-                            <li class="navbar-item active dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Books
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item"
-                                       asp-controller="Books"
-                                       asp-action="TopRated">
-                                        Top Rated
+        @*class="header-top text-center"*@
+        <div class="main-menu pt-0">
+            <div class="bg-light border-bottom">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <a class="navbar-brand"
+                           asp-controller="Home"
+                           asp-action="Index">
+                            <img src="~/images/logo/logo_transparent.png" style="height:150px;" />
+                        </a>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="navbar-item active">
+                                    <a class="nav-link"
+                                       asp-controller="Home"
+                                       asp-action="Index">
+                                        Home
                                     </a>
-                                    <a class="dropdown-item"
-                                       asp-controller="Books"
-                                       asp-action="NewReleases">
-                                        New Releases
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        Most Awarded
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </li>
-                            @if (this.User.Identity.IsAuthenticated)
-                            {
+                                </li>
                                 <li class="navbar-item active dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        More
+                                        Books
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item"
-                                           asp-controller="Chat"
-                                           asp-action="SendMessage">
-                                            Chats
+                                           asp-controller="Books"
+                                           asp-action="TopRated">
+                                            Top Rated
                                         </a>
-                                        @if (this.User.IsAdministrator())
-                                        {
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item"
-                                               asp-area="Administration"
-                                               asp-controller="Books"
-                                               asp-action="Index">
-                                                All Books
-                                            </a>
-                                            <a class="dropdown-item"
-                                               asp-area="Administration"
-                                               asp-controller="Genres"
-                                               asp-action="Index">
-                                                All Genres
-                                            </a>
-                                            <a class="dropdown-item"
-                                               asp-area="Administration"
-                                               asp-controller="Tags"
-                                               asp-action="Index">
-                                                All Tags
-                                            </a>
-                                        }
+                                        <a class="dropdown-item"
+                                           asp-controller="Books"
+                                           asp-action="NewReleases">
+                                            New Releases
+                                        </a>
+                                        <a class="dropdown-item" href="#">
+                                            Most Awarded
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Something else here</a>
                                     </div>
                                 </li>
-                            }
-                            <li class="navbar-item active">
-                                <a class="nav-link"
-                                   asp-controller="Home"
-                                   asp-action="Index"
-                                   asp-fragment="about">
-                                    About
-                                </a>
-                            </li>
-                            <li class="navbar-item active">
-                                <a href="faq.html" class="nav-link">Privacy</a>
-                            </li>
-                        </ul>
-                        <div>
-                            <partial name="_SearchLayoutPartial" />
+                                @if (this.User.Identity.IsAuthenticated)
+                                {
+                                    <li class="navbar-item active dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            More
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item"
+                                               asp-controller="Chat"
+                                               asp-action="SendMessage">
+                                                Chats
+                                            </a>
+                                            @if (this.User.IsAdministrator())
+                                            {
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item"
+                                                   asp-area="Administration"
+                                                   asp-controller="Books"
+                                                   asp-action="Index">
+                                                    All Books
+                                                </a>
+                                                <a class="dropdown-item"
+                                                   asp-area="Administration"
+                                                   asp-controller="Genres"
+                                                   asp-action="Index">
+                                                    All Genres
+                                                </a>
+                                                <a class="dropdown-item"
+                                                   asp-area="Administration"
+                                                   asp-controller="Tags"
+                                                   asp-action="Index">
+                                                    All Tags
+                                                </a>
+                                            }
+                                        </div>
+                                    </li>
+                                }
+                                <li class="navbar-item active">
+                                    <a class="nav-link"
+                                       asp-controller="Home"
+                                       asp-action="Index"
+                                       asp-fragment="about">
+                                        About
+                                    </a>
+                                </li>
+                                <li class="navbar-item active">
+                                    <a class="nav-link"
+                                       asp-controller="Home"
+                                       asp-action="Privacy">
+                                        Privacy
+                                    </a>
+                                </li>
+                            </ul>
+                            <div>
+                                <partial name="_SearchLayoutPartial" />
+                            </div>
+                            <partial name="_LoginPartial" />
                         </div>
-                        <partial name="_LoginPartial" />
-                    </div>
-                </nav>
+                    </nav>
+                </div>
             </div>
         </div>
     </header>
