@@ -153,7 +153,7 @@
                 return this.NotFound();
             }
 
-            if (review.AuthorId != this.User.GetUserId() || !this.User.IsAdministrator())
+            if (review.AuthorId != this.User.GetUserId() && !this.User.IsAdministrator())
             {
                 return this.Unauthorized();
             }
@@ -171,7 +171,7 @@
             }
 
             var authorId = await this.reviewsService.GetAuthorIdByIdAsync(input.Id);
-            if (authorId != this.User.GetUserId() || !this.User.IsAdministrator())
+            if (authorId != this.User.GetUserId() && !this.User.IsAdministrator())
             {
                 return this.Unauthorized();
             }
@@ -190,7 +190,7 @@
                 return this.NotFound();
             }
 
-            if (review.Author.Id != this.User.GetUserId() || !this.User.IsAdministrator())
+            if (review.Author.Id != this.User.GetUserId() && !this.User.IsAdministrator())
             {
                 return this.Unauthorized();
             }
@@ -209,7 +209,7 @@
                 return this.NotFound();
             }
 
-            if (review.AuthorId != this.User.GetUserId() || !this.User.IsAdministrator())
+            if (review.AuthorId != this.User.GetUserId() && !this.User.IsAdministrator())
             {
                 return this.Unauthorized();
             }

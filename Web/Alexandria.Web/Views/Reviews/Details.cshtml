@@ -29,7 +29,10 @@
         </div>
         <div class="col-md-4">
             <h4 class="font-weight-bold text-capitalize text-left">
-                <a class="text-dark" asp-controller="Books" asp-action="Details" asp-route-id="@Model.Book.Id">
+                <a class="text-dark" 
+                   asp-controller="Books" 
+                   asp-action="Details" 
+                   asp-route-id="@Model.Book.Id">
                     @Model.Book.Title
                 </a>
                 <span class="text-secondary font-weight-normal">(@Model.Book.PublishedOn.Year)</span>
@@ -104,8 +107,9 @@
             <div class="btn-sec form-inline">
                 @if (Model.Author.Id == this.User.GetUserId() || this.User.IsAdministrator())
                 {
-                    <form>
+                    <form method="get">
                         <button class="btn mb-5 mx-2"
+                                asp-area=""
                                 asp-controller="Reviews"
                                 asp-action="Edit"
                                 asp-route-id="@Model.Id">
@@ -118,7 +122,7 @@
                 </button>
                 @if (Model.Author.Id == this.User.GetUserId() || this.User.IsAdministrator())
                 {
-                    <form>
+                    <form method="get">
                         <button class="btn bg-danger border-danger mb-5 mx-2"
                                 asp-controller="Reviews"
                                 asp-action="Delete"

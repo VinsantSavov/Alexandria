@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-md-6">
                         <p class="text-left">@Model.FullName</p>
-                        <p class="font-italic">Average rating - @Model.AverageRating</p>
+                        <p class="font-italic">Average rating - @Model.AverageRating.ToString("0.0")</p>
                         <p class="font-italic">Ratings - @Model.RatingsCount</p>
                         <p class="font-italic">Reviews - @Model.ReviewsCount</p>
                     </div>
@@ -50,7 +50,7 @@
                                         <p>Tags: @string.Join(", ", book.Tags.Select(t => t.TagName))</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>Avg.Rating: @book.AverageRating</p>
+                                        <p>Avg.Rating: @book.AverageRating.ToString("0.0")</p>
                                         <p>Reviews: @book.ReviewsCount</p>
                                     </div>
                                 </div>
