@@ -28,10 +28,9 @@
         public async Task<IActionResult> Details(int id)
         {
             var genre = await this.genresService.GetGenreByIdAsync<GenresDetailsViewModel>(id);
-
             if (genre == null)
             {
-                // throw Exception
+                return this.NotFound();
             }
 
             genre.NewReleasedBooks = await this.booksService.NewRealesedBooksByGenreIdAsync<GenresBookDetailsViewModel>(id, GenreBooks);
@@ -42,12 +41,10 @@
 
         public async Task<IActionResult> NewReleases(int id, int page = 1)
         {
-            this.ViewData["Subtitle"] = "New Releases";
             var genre = await this.genresService.GetGenreByIdAsync<GenresAllBooksViewModel>(id);
-
             if (genre == null)
             {
-                // throw Exception
+                return this.NotFound();
             }
 
             int booksCount = await this.booksService.GetBooksCountByGenreIdAsync(id);
@@ -63,13 +60,10 @@
 
         public async Task<IActionResult> TopRated(int id, int page = 1)
         {
-            this.ViewData["Subtitle"] = "Top Rated";
-
             var genre = await this.genresService.GetGenreByIdAsync<GenresAllBooksViewModel>(id);
-
             if (genre == null)
             {
-                // throw exception
+                return this.NotFound();
             }
 
             int booksCount = await this.booksService.GetBooksCountByGenreIdAsync(id);

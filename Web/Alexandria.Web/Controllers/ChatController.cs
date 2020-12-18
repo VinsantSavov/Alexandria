@@ -28,10 +28,15 @@
         public async Task<IActionResult> ChatWithUser(string id)
         {
             var currentUserId = this.User.GetUserId();
+            var user = await this.usersService.GetUserByIdAsync<ChatUserViewModel>(id);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
 
             var viewModel = new ChatWithUserViewModel
             {
-                User = await this.usersService.GetUserByIdAsync<ChatUserViewModel>(id),
+                User = user,
                 LatestMessages = await this.messagesService.GetAllMessagesBetweenUsersAsync<ChatMessageViewModel>(currentUserId, id, LatestMessagesCount),
             };
 

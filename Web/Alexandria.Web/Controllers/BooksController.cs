@@ -35,6 +35,11 @@
         public async Task<IActionResult> Details(int id)
         {
             var book = await this.booksService.GetBookByIdAsync<BooksDetailsViewModel>(id);
+            if (book == null)
+            {
+                return this.NotFound();
+            }
+
             book.CommunityReviews = await this.reviewsService.GetTopReviewsByBookIdAsync<ReviewListingViewModel>(id, ReviewsCount);
             var userId = this.User.GetUserId();
 

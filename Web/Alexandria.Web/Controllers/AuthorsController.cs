@@ -28,6 +28,10 @@
         public async Task<IActionResult> Details(int id)
         {
             var author = await this.authorsService.GetAuthorByIdAsync<AuthorsDetailsViewModel>(id);
+            if (author == null)
+            {
+                return this.NotFound();
+            }
 
             author.AllBooks = await this.booksService.GetTopRatedBooksByAuthorIdAsync<AuthorsBookDetailsViewModel>(id, BooksCount);
 
@@ -37,6 +41,10 @@
         public async Task<IActionResult> AllBooks(int id, int page = 1)
         {
             var author = await this.authorsService.GetAuthorByIdAsync<AuthorsAllBooksDetailsViewModel>(id);
+            if (author == null)
+            {
+                return this.NotFound();
+            }
 
             var booksCount = await this.booksService.GetBooksCountByAuthorIdAsync(id);
 

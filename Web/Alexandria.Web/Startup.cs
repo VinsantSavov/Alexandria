@@ -23,11 +23,9 @@
     using Alexandria.Services.UserFollowers;
     using Alexandria.Services.Users;
     using Alexandria.Web.Hubs;
-    using Alexandria.Web.InputModels.Reviews;
     using Alexandria.Web.ViewModels;
     using AspNetCoreTemplate.Data;
     using CloudinaryDotNet;
-    using Microsoft.AspNetCore.Authentication.OAuth;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;

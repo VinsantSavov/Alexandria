@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link runat="server" rel="shortcut icon" href="/test/favicon.ico"/>
+    <link runat="server" rel="shortcut icon" href="/favicon.ico"/>
     <title>@ViewData["Title"]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#03a6f3">
@@ -30,6 +30,7 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <a class="navbar-brand"
+                           asp-area=""
                            asp-controller="Home"
                            asp-action="Index">
                             <img src="~/images/logo/logo_transparent.png" style="height:150px;" />
@@ -38,6 +39,7 @@
                             <ul class="navbar-nav ml-auto">
                                 <li class="navbar-item active">
                                     <a class="nav-link"
+                                       asp-area=""
                                        asp-controller="Home"
                                        asp-action="Index">
                                         Home
@@ -49,11 +51,13 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item"
+                                           asp-area=""
                                            asp-controller="Books"
                                            asp-action="TopRated">
                                             Top Rated
                                         </a>
                                         <a class="dropdown-item"
+                                           asp-area=""
                                            asp-controller="Books"
                                            asp-action="NewReleases">
                                             New Releases
@@ -68,6 +72,7 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item"
+                                               asp-area=""
                                                asp-controller="Chat"
                                                asp-action="SendMessage">
                                                 Chats
@@ -99,6 +104,7 @@
                                 }
                                 <li class="navbar-item active">
                                     <a class="nav-link"
+                                       asp-area=""
                                        asp-controller="Home"
                                        asp-action="Index"
                                        asp-fragment="about">
@@ -107,6 +113,7 @@
                                 </li>
                                 <li class="navbar-item active">
                                     <a class="nav-link"
+                                       asp-area=""
                                        asp-controller="Home"
                                        asp-action="Privacy">
                                         Privacy
@@ -133,27 +140,31 @@
                         <h4>Navigation</h4>
                         <ul>
                             <li>
-                                <a asp-controller="Home"
+                                <a asp-area=""
+                                   asp-controller="Home"
                                    asp-action="Index">
                                     Home
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="Home"
+                                <a asp-area=""
+                                   asp-controller="Home"
                                    asp-action="Index"
                                    asp-fragment="about">
                                     About Us
                                 </a>
                             </li>
                             <li>
-                                <a asp-controller="Home"
+                                <a asp-area=""
+                                   asp-controller="Home"
                                    asp-action="Privacy">
                                     Privacy Policy
                                 </a>
                             </li>
                             <li><a href="terms-conditions.html">Terms</a></li>
                             <li>
-                                <a asp-controller="Books"
+                                <a asp-area=""
+                                   asp-controller="Books"
                                    asp-action="TopRated">
                                     Books
                                 </a>

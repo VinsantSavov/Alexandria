@@ -4,7 +4,6 @@
 
     using Alexandria.Services.UserFollowers;
     using Alexandria.Web.Infrastructure.Extensions;
-    using Alexandria.Web.InputModels.UserFollowers;
     using Alexandria.Web.ViewModels.UserFollowers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

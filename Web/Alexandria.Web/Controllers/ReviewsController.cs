@@ -40,6 +40,11 @@
         public async Task<IActionResult> Details(int id, int page = 1)
         {
             var review = await this.reviewsService.GetReviewByIdAsync<ReviewsDetailsViewModel>(id);
+            if (review == null)
+            {
+                return this.NotFound();
+            }
+
             var userId = this.User.GetUserId();
 
             var reviewsCount = await this.reviewsService.GetChildrenReviewsCountByReviewIdAsync(id);
@@ -64,6 +69,11 @@
         public async Task<IActionResult> All(int id, int page = 1)
         {
             var viewModel = await this.booksService.GetBookByIdAsync<ReviewsAllViewModel>(id);
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
             var userId = this.User.GetUserId();
 
             var reviewsCount = await this.reviewsService.GetReviewsCountByBookIdAsync(id);
@@ -92,6 +102,10 @@
         public async Task<IActionResult> Create(int id)
         {
             var viewModel = await this.booksService.GetBookByIdAsync<ReviewsCreateInputModel>(id);
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(viewModel);
         }
