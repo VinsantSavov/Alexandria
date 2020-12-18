@@ -27,7 +27,7 @@
                                 <a asp-controller="Books"
                                    asp-action="Details"
                                    asp-route-id="@book.Id">
-                                    <img src="@book.PictureURL" alt="img">
+                                    <img class="bookCoverPicture" src="@book.PictureURL" alt="img">
                                 </a>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             <div style="width: 150px;">
                                 <a asp-controller="Books"
                                    asp-action="Details">
-                                    <img src="@book.PictureURL" alt="img">
+                                    <img class="bookCoverPicture" src="@book.PictureURL" alt="img">
                                 </a>
                             </div>
                         </div>

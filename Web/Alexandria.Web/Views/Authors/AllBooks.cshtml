@@ -27,7 +27,10 @@
                     @foreach (var book in Model.AllBooks)
                     {
                         <li class="media my-5">
-                            <img class="mr-3 w-25" src="@book.PictureURL" alt="Generic placeholder image">
+                            <img class="mr-3"
+                                 src="@book.PictureURL"
+                                 style="height: 265px; width: 180px;"
+                                 alt="Book Cover">
                             <div class="media-body">
                                 <h5 class="mt-0 mb-1">@book.Title</h5>
                                 <div class="row">
@@ -36,7 +39,12 @@
                                             Genres:
                                             @foreach (var genre in book.Genres)
                                             {
-                                                <a asp-controller="Genres" asp-action="Details" asp-route-id="@genre.GenreId" class="text-dark font-italic">@genre.GenreName</a>
+                                                <a asp-controller="Genres"
+                                                   asp-action="Details"
+                                                   asp-route-id="@genre.GenreId"
+                                                   class="text-dark font-italic">
+                                                    @genre.GenreName
+                                                </a>
                                             }
                                         </p>
                                         <p>Tags: @string.Join(", ", book.Tags.Select(t => t.TagName))</p>
@@ -48,7 +56,12 @@
                                 </div>
                                 <p>
                                     @book.ShortSummary
-                                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="text-warning font-italic">Read More</a>
+                                    <a asp-controller="Books"
+                                       asp-action="Details"
+                                       asp-route-id="@book.Id"
+                                       class="text-warning font-italic">
+                                        Read More
+                                    </a>
                                 </p>
                             </div>
                         </li>

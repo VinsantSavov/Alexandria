@@ -21,7 +21,7 @@
                              data-content="<dl><dt>Title:</dt><dd>@book.Title</dd><dt>Author:</dt><dd>@book.Author</dd><dt>Tags:</dt><dd>@string.Join(", ", book.Tags)</dd></dl>">
                             <div style="width: 150px;">
                                 <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">
-                                    <img src="@book.PictureURL" alt="img">
+                                    <img class="bookCoverPicture" src="@book.PictureURL" alt="img">
                                 </a>
                             </div>
                         </div>

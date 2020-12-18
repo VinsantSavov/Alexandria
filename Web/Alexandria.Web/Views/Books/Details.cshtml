@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-1"></div>
             <div class="col-md-2">
-                <img src="@Model.PictureURL" class="d-block w-100" alt="Cover">
+                <img src="@Model.PictureURL" class="d-block" style="height: 250px; width: 180px;"  alt="Cover">
                 <div class="align-center">
                     <div class="rating">
                         <span class="star" data-vote="5" vote="5"></span>
@@ -166,7 +166,7 @@
                     </dd>
                 </dl><hr>
                 <form>
-                    <button class="btn "
+                    <button class="btn mb-4"
                             asp-controller="Reviews"
                             asp-action="Create"
                             asp-route-id="@Model.Id">
