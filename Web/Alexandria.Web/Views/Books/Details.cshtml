@@ -11,7 +11,10 @@
         <div class="row">
             <div class="col-1"></div>
             <div class="col-md-2">
-                <img src="@Model.PictureURL" class="d-block" style="height: 250px; width: 180px;"  alt="Cover">
+                <img src="@Model.PictureURL" 
+                     class="d-block" 
+                     style="height: 250px; width: 180px;"  
+                     alt="Cover">
                 <div class="align-center">
                     <div class="rating">
                         <span class="star" data-vote="5" vote="5"></span>
@@ -250,7 +253,8 @@
                                 }
                             });
                         }
-                        for (var j = rate + 1; j <= 5; j++) {
+                        var count = parseInt(rate);
+                        for (var j = count + 1; j <= 5; j++) {
                             votes.each(function (el) {
                                 if ($(this).attr("data-vote") == j) {
                                     $(this).removeClass("filled");
