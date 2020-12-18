@@ -29,9 +29,13 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Book, BooksSingleViewModel>().ForMember(
-                bm => bm.AverageRating,
-                src => src.MapFrom(b => b.Ratings.Count == 0 ? 0 : b.Ratings.Average(r => r.Rate)));
+            configuration.CreateMap<Book, BooksSingleViewModel>()
+                .ForMember(
+                         bm => bm.AverageRating,
+                         src => src.MapFrom(b => b.Ratings.Count == 0 ? 0 : b.Ratings.Average(r => r.Rate)))
+                .ForMember(
+                         dest => dest.ReviewsCount,
+                         a => a.MapFrom(src => src.Reviews.Count(r => !r.IsDeleted)));
         }
     }
 }

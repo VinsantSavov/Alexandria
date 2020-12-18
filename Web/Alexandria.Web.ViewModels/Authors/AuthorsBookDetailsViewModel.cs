@@ -25,7 +25,10 @@
             configuration.CreateMap<Book, AuthorsBookDetailsViewModel>()
                         .ForMember(
                          dest => dest.AverageRating,
-                         a => a.MapFrom(src => src.Ratings.Count == 0 ? 0 : src.Ratings.Average(r => r.Rate)));
+                         a => a.MapFrom(src => src.Ratings.Count == 0 ? 0 : src.Ratings.Average(r => r.Rate)))
+                        .ForMember(
+                         dest => dest.ReviewsCount,
+                         a => a.MapFrom(src => src.Reviews.Count(r => !r.IsDeleted)));
         }
     }
 }
