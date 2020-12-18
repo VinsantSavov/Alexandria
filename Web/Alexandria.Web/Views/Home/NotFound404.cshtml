@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "ERROR 404";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h6>@ViewData["Title"]</h6>
+            <p>Aha! You see! You can be wrong!</p>
+            <p class="text-secondary">(or it could be us)...</p>
+            <p>... either way, you should probably</p>
+            <p>
+                <a class="text-info"
+                   asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index">
+                    go back to the home page
+                </a>
+            </p>
+        </div>
+        <div class="col-md-6 mb-2">
+            <img style="height: 400px;" src="https://res.cloudinary.com/alexandrialib/image/upload/v1608308086/930-9306658_404-not-found_al3f5d.jpg" />
+        </div>
+    </div>
+</div>

@@ -10,6 +10,7 @@
         {
             <div class="media my-3">
                 <a class="pull-left"
+                   asp-area=""
                    asp-controller="Chat"
                    asp-action="ChatWithUser"
                    asp-route-id="@chat.Author.Id">
@@ -19,6 +20,7 @@
                          src="@chat.Author.ProfilePicture">
                 </a>
                 <a class="pull-left"
+                   asp-area=""
                    asp-controller="Chat"
                    asp-action="ChatWithUser"
                    asp-route-id="@chat.Receiver.Id">
